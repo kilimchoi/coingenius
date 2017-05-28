@@ -1,0 +1,27 @@
+nav.navbar.navbar-inverse.bg-inverse.fixed-top.navbar-toggleable-md
+  .container
+    div class="d-flex justify-content-between hidden-lg-up"
+      a class="navbar-brand" href=root_path CoinGenius
+      button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#senzuNavbar" aria-controls="bd-main-nav" aria-expanded="false" aria-label="Toggle navigation"
+        span class="navbar-toggler-icon"
+    div class="collapse navbar-collapse" id="senzuNavbar"
+      ul.navbar-nav.mr-auto.mt-2.mt-md-0
+        li.hidden-sm-down
+          a class="navbar-brand" href=root_path CoinGenius
+        = nav_link 'Coins', root_path
+      
+      ul.nav.navbar-nav.float-xs-left.float-md-right
+        //- if user_signed_in?
+        /   li.nav-item.dropdown
+        /     a href="#" class="dropdown-toggle nav-link" role="button" data-toggle="dropdown"
+        /       = gravatar_for current_user, size: 40
+        /       => current_user.name
+        /       b.caret
+        /     .dropdown-menu role="menu"
+        /       = link_to "Settings", edit_user_registration_path, class: 'dropdown-item'
+        /       - if current_user.is_admin?
+        /         = link_to "Admin", '/admin', class: 'dropdown-item'
+        /       = link_to "Sign Out", destroy_user_session_path, :method => :delete, class: 'dropdown-item'
+        / - else
+        /   = nav_link "Sign up", new_user_registration_path
+        /   = nav_link "Sign in", new_user_session_path

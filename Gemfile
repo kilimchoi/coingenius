@@ -23,6 +23,21 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
+gem 'slim'
+gem 'rails_12factor'
+gem 'activeadmin', github: 'activeadmin'
+gem "bugsnag"
+gem 'friendly_id', '~> 5.1.0'
+gem 'dotenv-rails', :groups => [:development, :test]
+gem 'awesome_print'
+gem 'redis', '~>3.2'
+gem 'puma'
+gem 'meta-tags'
+gem 'rinku'
+gem 'sidekiq'
+gem 'bootstrap', '~> 4.0.0.alpha6'
+gem 'devise'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
