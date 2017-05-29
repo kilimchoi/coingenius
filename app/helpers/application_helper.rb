@@ -26,4 +26,12 @@ module ApplicationHelper
       "#{page_title} | #{base_title}"
     end
   end
+
+  # Returns the Gravatar for the given user.
+  def gravatar_for(user, options = { size: 100 })
+    size = options[:size]
+    gravatar_id = Digest::MD5::hexdigest(user.email.downcase)
+    img_url = "https://secure.gravatar.com/avatar/#{gravatar_id}?s=#{size}&d=identicon"
+    image_tag(img_url, class: "gravatar", :size => "#{size/2}x#{size/2}")
+  end
 end
