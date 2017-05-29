@@ -4,7 +4,6 @@ class CoinsController < ApplicationController
   expose :coins, -> { Coin.all }
 
   def index
-    puts 'coins are ', coins.count
     respond_with coins
   end
 end
