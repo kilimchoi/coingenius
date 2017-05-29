@@ -1,5 +1,44 @@
 - provide(:title, "Coins")
 .row
-  .col-lg-12
+  .col-lg-12.investment-options: .block
+.row.investment-tag.investment-option: .col-lg-12: .block
+  .tab-content
+  
+    div id="misc" role="tabpanel"
+      .table-responsive
+        table.table.comparison-table
+          thead
+            tr
+              th Name
+              th Description
+              th Website
+              th Characteristics
+              th Where to buy?
+              th Consensus Mechanism
+              th Price 
+              th Category 
+          - coins.each do |coin|
+            tbody
+              tr 
+                td 
+                  = coin.name 
+                  = "(#{coin.symbol})"
+                td 
+                  = coin.description
+                td 
+                  = coin.website
+                td 
+                  - coin.what_is_special_about_it.split("#").each do |special|
+                    li
+                      = special
+                td
+                  = coin.exchanges.map { |ex| ex.name }.join(',').html_safe
+                td 
+                  = coin.consensus_mechanism
+                td 
+                  #price 
+                td 
+                  = coin.category
+
 
   

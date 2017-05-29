@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170528233408) do
+ActiveRecord::Schema.define(version: 20170529034247) do
 
   create_table "coins", force: :cascade do |t|
     t.datetime "created_at",               null: false
@@ -23,6 +23,19 @@ ActiveRecord::Schema.define(version: 20170528233408) do
     t.string   "where_to_buy"
     t.string   "consensus_mechanism"
     t.string   "category"
+    t.string   "name"
+  end
+
+  create_table "coins_exchanges", id: false, force: :cascade do |t|
+    t.integer "coin_id"
+    t.integer "exchange_id"
+  end
+
+  create_table "exchanges", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "name"
+    t.string   "website"
   end
 
   create_table "users", force: :cascade do |t|
