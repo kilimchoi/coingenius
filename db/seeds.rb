@@ -115,9 +115,9 @@ bcn = Coin.new(
   name: "Bytecoin", 
   symbol: "BCN", 
   description: "Bytecoin allows safe and secure transactions around the globe and offers the convenience of instant fee-free money transactions.", 
+  website: "https://bytecoin.org/",
   pros: "Free instant international payments.#Unntraceable payment.#Cryptonote-based.",
   cons: "80%+ were premined prior to public release.",
-  website: "https://bytecoin.org/", 
   consensus_mechanism: "CryptoNight Proof of work", 
   category: "Payment Network")
 bcn.exchanges << bitt 
@@ -150,10 +150,10 @@ doge.exchanges << polo
 gnt = Coin.new(
   name: "Golem", 
   symbol: "GNT",
-  escription: "Golem is a global, open sourced, decentralized supercomputer that anyone can access. It's made up of the combined power of user's machines, from personal laptops to entire datacenters.", 
+  description: "Golem is a global, open sourced, decentralized supercomputer that anyone can access. It's made up of the combined power of user's machines, from personal laptops to entire datacenters.", 
+  website: "https://golem.network/", 
   pros: "It rewards you for renting out computing power.",
   cons: "No Mining available.",
-  website: "https://golem.network/", 
   consensus_mechanism: "Unknown", 
   category: "Computing Power Network")
 gnt.exchanges << bitt 
@@ -163,9 +163,9 @@ rep = Coin.new(
   name: "Augur", 
   symbol: "REP", 
   description: "Augur is a fully open-source and decentralized prediction market platform built on Ethereum, a blockchain technology that allows for the execution of smart contracts.", 
+  website: "https://augur.net/",
   pros: "It allows you to forecast events and be rewarded for predicting the outcome correctly.",
   cons: "Not much activity in the prediction market.",
-  website: "https://augur.net/", 
   consensus_mechanism: "Proof of work", 
   category: "Prediction Market")
 rep.exchanges << bitt
@@ -175,9 +175,9 @@ zec = Coin.new(
   name: "Zcash", 
   symbol: "ZEC", 
   description: "Zcash is the first open, permissionless cryptocurrency that can fully protect the privacy of transactions using zero-knowledge cryptography.", 
+  website: "https://z.cash/",
   pros: "Unttraceable payments & Unlinkable transactions.", 
   cons: "20% of block reward goes to the developers.",
-  website: "https://z.cash/", 
   consensus_mechanism: "Proof of work", 
   category: "Currency")
 zec.exchanges << bitt 
@@ -187,9 +187,9 @@ strat = Coin.new(
   name: "Stratis", 
   symbol: "STRAT", 
   description: "Stratis offers full service capabilities for the development, deployment and management of blockchain applications and solutions utilizing C# on the .Net framework.", 
+  website: "https://stratisplatform.com/",
   pros: "Block chain as a service.(Private & public blockchains for corps)#Segwit-ready.#Master nodes provide extra services like making the network transactions more private, enabling instant transactions, etc.", 
   cons: "No customers as May 29th 2017.",
-  website: "https://stratisplatform.com/", 
   consensus_mechanism: "Proof of stake", 
   category: "Platform")
 strat.exchanges << bitt 
@@ -199,9 +199,9 @@ steem = Coin.new(
   name: "Steem", 
   symbol: "STEEM", 
   description: "Steem is a blockchain-based social media platform where anyone can earn rewards.",
+  website: "https://steem.io/",
   pros: "Content creators on steemit.io get rewarded when their posts get upvoted.",
   cons: "Vulnerable to voting manipulation via sybil attack.",
-  website: "https://steem.io/", 
   consensus_mechanism: "Proof of work", 
   category: "Currency")
 steem.exchanges << bitt 
@@ -211,9 +211,9 @@ gno = Coin.new(
   name: "Gnosis", 
   symbol: "GNO", 
   description: "Based on Ethereum — The next generation blockchain network. Speculate on anything with an easy-to-use prediction market.", 
+  website: "https://gnosis.pm/", 
   pros: "Can create customised prediction market app,",
   cons: "No known Gnosis-powered apps,",
-  website: "https://gnosis.pm/", 
   consensus_mechanism: "Unknown", 
   category: "Prediction Market")
 gno.exchanges << bitt
@@ -223,9 +223,9 @@ waves = Coin.new(
   name: "Waves", 
   symbol: "WAVES", 
   description: "Crypto-platform for asset/custom token issuance, transfer and trading on blockchain",
+  website: "https://wavesplatform.com/", 
   pros: "Allows for trading on its decentralized exchange.#Straightforward custom token creation process.#Fast transactions and future-proof scaling.#Friendly community.",
   cons: "Many fake coins created as a result of easy creation process",
-  website: "https://wavesplatform.com/", 
   consensus_mechanism: "Unknown", 
   category: "Platform")
 waves.exchanges << bitt 
@@ -234,9 +234,9 @@ bts = Coin.new(
   name: "Bitshares", 
   symbol: "BTS", 
   description: "BitShares is a distributed multi-user database with update permissions managed by a defined set of rules and public key cryptography.",
+  website: "https://bitshares.org/",
   pros: "Allows for trading on its decentralized exchange.#Extremely fast transaction time - handles tens of thousands/sec.#Allows for creation of smartcoins and user-issued assets akin to Waves' custom tokens.", 
   cons: "Declining developer interest.#Main developer left for Steem.",
-  website: "https://bitshares.org/", 
   consensus_mechanism: "Delegated proof of stake", 
   category: "Platform")
 bts.exchanges << polo 
@@ -245,9 +245,9 @@ sia = Coin.new(
   name: "Siacoin", 
   symbol: "SC", 
   description: "Sia is a decentralized network of datacenters that, taken together, comprise the world's fastest, cheapest, and most secure cloud storage platform.",
+  website: "http://sia.tech/",
   pros: "You get rewarded for renting out your computer storage.#Files are split across the network & encrypted so no need to worry about privacy.", 
-  cons: "Low adoption due to people feeling uncomfortable renting out storage for storing illegal content",
-  website: "http://sia.tech/", 
+  cons: "Low adoption due to people feeling uncomfortable renting out storage for storing illegal content", 
   category: "Storage Network", 
   consensus_mechanism: "Proof of work")
 sia.exchanges << polo
@@ -257,9 +257,9 @@ lykke = Coin.new(
   name: "Lykke", 
   symbol: "LKK", 
   description: "Next-generation trading platform with zero commission.", 
+  website: "https://www.lykke.com/",
   pros: "You can trade colored coins that are associated with physical assets.#0 trading fees.#Each Lykke coin represents a share in the company.", 
   cons: "No mining available.#Coin is available only via their mobile app.#Not available in the US.",
-  website: "https://www.lykke.com/", 
   category: "Exchange", 
   consensus_mechanism: "N/A")
 
