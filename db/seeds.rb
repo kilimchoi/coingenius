@@ -80,7 +80,7 @@ etc = Coin.new(
   symbol: "ETC", 
   description: "Ethereum Classic is a decentralized platform that runs smart contracts: applications that run exactly as programmed without any possibility of downtime, censorship, fraud or third party interference.", website: "https://ethereumclassic.github.io/",
   website: "https://ethereumclassic.github.io/",
-  pros: "Continuation of the original Ethereum blockchain - the classic version preserving untampered history.#Cryptonote-based", 
+  pros: "Continuation of the original Ethereum blockchain - the classic version preserving untampered history.#Cryptonote-based.", 
   cons: "Toxic community of developers who are against Ethereum.",
   consensus_mechanism: "CryptoNight proof of work", 
   category: "Currency")
