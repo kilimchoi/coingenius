@@ -28,7 +28,7 @@ eth = Coin.new(
   description: "Ethereum is a decentralized platform that runs smart contracts: applications that run exactly as programmed without any possibility of downtime, censorship, fraud or third party interference.", 
   website: "https://www.ethereum.org/", 
   pros: "Programmable money.#Smart contracts.#Huge community - Ethereum Enterprise Alliance consists of companies like Microsoft, Intel, and more.", 
-  cons: "Higher inflation than bitcoin.#Faster TPS than bitcoin but slower than NEM.", 
+  cons: "Higher inflation than bitcoin.#More transactions per second than bitcoin but less than NEM.", 
   consensus_mechanism: "Proof of work", 
   category: "Currency")
 eth.exchanges << polo
@@ -40,7 +40,7 @@ xrp = Coin.new(
   symbol: "xrp", 
   description: "Ripple is a real-time gross settlement system (RTGS), currency exchange and remittance network operated by Ripple.", 
   website: "https://ripple.com/", 
-  pros: "Open payment network with real-time gross settlement system.#Math-based currency.#Free from DoS attacks.#Its settlement infrastructure is used by banks.",
+  pros: "Open payment network with real-time gross settlement system.#Math-based currency.#Free from DoS attacks.#Its settlement infrastructure is used by the banks.",
   cons:"Founders of Ripple control over 99% of XRP.", 
   consensus_mechanism: "Ripple Protocol consensus algorithm", 
   category: "Platform")
@@ -80,7 +80,7 @@ etc = Coin.new(
   symbol: "ETC", 
   description: "Ethereum Classic is a decentralized platform that runs smart contracts: applications that run exactly as programmed without any possibility of downtime, censorship, fraud or third party interference.", website: "https://ethereumclassic.github.io/",
   website: "https://ethereumclassic.github.io/",
-  pros: "Continuation of the original Ethereum blockchain - the classic version preserving untampered history.", 
+  pros: "Continuation of the original Ethereum blockchain - the classic version preserving untampered history.#Cryptonote-based", 
   cons: "Toxic community of developers who are against Ethereum.",
   consensus_mechanism: "CryptoNight proof of work", 
   category: "Currency")
@@ -93,7 +93,7 @@ dash = Coin.new(
   description: "Dash (formerly known as Darkcoin and XCoin) is an open source peer-to-peer cryptocurrency that offers instant transactions (InstantSend), private transactions (PrivateSend) and token fungibility.", 
   website: "https://www.dash.org/", 
   pros: "Instantaneous transaction time about 1.2 seconds.#Private transaction possible with privatesend.#Low transaction fee.", 
-  cons: "Core team is secretive about their roadmaps.#Decentralized governance is immature - few masternode owners make the decision ",
+  cons: "Core team is secretive about their roadmaps.#Decentralized governance is immature - few masternode owners make the decision.",
   consensus_mechanism: "Proof of work", 
   category: "Payment Network")
 dash.exchanges << bitt 
@@ -225,7 +225,7 @@ waves = Coin.new(
   description: "Crypto-platform for asset/custom token issuance, transfer and trading on blockchain",
   website: "https://wavesplatform.com/", 
   pros: "Allows for trading on its decentralized exchange.#Straightforward custom token creation process.#Fast transactions and future-proof scaling.#Friendly community.",
-  cons: "Many fake coins created as a result of easy creation process",
+  cons: "Many fake coins created as a result of easy creation process.",
   consensus_mechanism: "Unknown", 
   category: "Platform")
 waves.exchanges << bitt 
@@ -247,7 +247,7 @@ sia = Coin.new(
   description: "Sia is a decentralized network of datacenters that, taken together, comprise the world's fastest, cheapest, and most secure cloud storage platform.",
   website: "http://sia.tech/",
   pros: "You get rewarded for renting out your computer storage.#Files are split across the network & encrypted so no need to worry about privacy.", 
-  cons: "Low adoption due to people feeling uncomfortable renting out storage for storing illegal content", 
+  cons: "Low adoption due to people feeling uncomfortable renting out storage for storing illegal content.", 
   category: "Storage Network", 
   consensus_mechanism: "Proof of work")
 sia.exchanges << polo
