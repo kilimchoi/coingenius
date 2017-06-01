@@ -6,15 +6,16 @@ class Portfolio::TransactionsController < ApplicationController
 
   def create
     @transaction = current_user.transactions.new(transaction_params)
-    if @transaction.save
-      flash[:success] = 'Your transaction has been created!'
-    else
-      flash[:error] = @transaction.errors.full_messages.join(', ')
-    end
-
+    status = @transaction.save
+  
     respond_to do |format|
       format.html {
-          redirect_to '/portfolio'
+        if status
+          flash[:success] = 'Your transaction has been created!'
+        else
+          flash[:error] = @transaction.errors.full_messages.join(', ')
+        end
+        redirect_to '/portfolio'
       }
       format.js
     end  

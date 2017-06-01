@@ -7296,8 +7296,8 @@ textarea {
 
 @font-face {
   font-family: "toolkit-entypo";
-  src: url("/assets/toolkit-entypo.eot");
-  src: url("/assets/toolkit-entypo.eot?#iefix") format("eot"), url("/assets/toolkit-entypo.woff2") format("woff2"), url("/assets/toolkit-entypo.woff") format("woff"), url("/assets/toolkit-entypo.ttf") format("truetype");
+  src: url(font-path('toolkit-entypo.eot'));
+  src: url(font-path('toolkit-entypo.eot') + "?#iefix") format("eot"), url(font-path('toolkit-entypo.woff2')) format("woff2"), url(font-path("toolkit-entypo.woff")) format("woff"), url(font-path("toolkit-entypo.ttf")) format("truetype");
   font-weight: normal;
   font-style: normal; }
 

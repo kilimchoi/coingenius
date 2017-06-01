@@ -1,0 +1,8 @@
+.list-group-item.list-group-item-action.justify-content-between
+  span
+    => transaction.description
+    .text-muted
+      => time_ago_in_words(transaction.created_at)
+      | ago
+  span.mr-a.text-muted
+    = transaction.amount

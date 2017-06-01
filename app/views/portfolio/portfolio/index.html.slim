@@ -39,13 +39,22 @@
     h2.dashead-title My Portfolio
     hr.mt-3
     = form_for @transaction, url: portfolio_transactions_path, remote: true, html: {class: 'form-inline'} do |f|
-      = f.select :transaction_type, Transaction.transaction_types.keys.map {|type| [type.titleize, type]}, {}, class: 'form-control mr-sm-2'
-      = f.select :coin_id, options_from_collection_for_select(@coins, "id", "name"), {}, class: 'coin-select mr-sm-2'
-      = f.number_field :amount, placeholder: '# of coins', class: 'form-control'
-      = f.submit "Add", class: "btn btn-primary ml-sm-2", data: {disable_with: "Adding..."}
-    br
+      .form-group
+        = f.select :transaction_type, Transaction.transaction_types.keys.map {|type| [type.titleize, type]}, {}, class: 'form-control mr-sm-2'
+      .form-group
+        = f.number_field :amount, placeholder: '# of coins', class: 'form-control mr-sm-2', step: :any
+      .form-group
+        = f.select :coin_id, options_from_collection_for_select(@coins, "id", "name"), {}, class: 'form-control coin-s mr-sm-2'
+      = f.submit "Add", class: "btn btn-primary", data: {disable_with: "Adding..."}
+    hr.mt-5
     .row
-      .col-lg-6
-        h3 Portfolio
-      .col-lg-6
-        h3 Transactions
+      .col-md-6.mb-5
+        canvas class="ex-graph" width="200" height="200" data-chart="doughnut" data-dataset="[230, 130]" data-dataset-options="{ borderColor: '#252830', backgroundColor: ['#1ca8dd', '#1bc98e'] }" data-labels="['Returning', 'New']"
+      .col-md-6.mb-5
+        .list-group.mb-3
+          h6.list-group-header
+            | Transactions
+          .transactions
+            = render @transactions
+            
+         
