@@ -6,6 +6,11 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'coins#index'
 
+  namespace :portfolio do
+    get '/' => 'portfolio#index'
+    resources :transactions
+  end
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

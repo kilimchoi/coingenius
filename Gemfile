@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+ruby "2.2.2"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'
@@ -38,6 +39,8 @@ gem 'sidekiq'
 gem 'bootstrap', '~> 4.0.0.alpha6'
 gem 'devise'
 gem "decent_exposure", "3.0.0"
+gem "select2-rails"
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

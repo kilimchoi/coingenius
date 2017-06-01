@@ -10,7 +10,7 @@ nav.navbar.navbar-inverse.bg-inverse.fixed-top.navbar-toggleable-md
           a class="navbar-brand" href=root_path CoinGenius
         = nav_link 'Coins', root_path
         - if current_user
-          = nav_link 'My Portfolio', root_path
+          = nav_link 'My Portfolio', '/portfolio'
       
       ul.nav.navbar-nav.float-xs-left.float-md-right
         - if user_signed_in?

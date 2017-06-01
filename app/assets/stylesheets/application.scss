@@ -12,6 +12,13 @@
  *
  */
 
- @import "bootstrap";
- @import "coingenius";
- @import 'https://fonts.googleapis.com/css?family=Cabin:700|Lato:400,400i,700,700i|Montserrat';
+@import "bootstrap";
+@import "select2";
+@import "coingenius";
+$caret-width:            .3rem;
+@import "select2-bootstrap4.vars";
+@import "select2-bs";
+@import "select2-bootstrap4.after";
+@import "toolkit-inverse.min";
+
+@import 'https://fonts.googleapis.com/css?family=Cabin:700|Lato:400,400i,700,700i|Montserrat';

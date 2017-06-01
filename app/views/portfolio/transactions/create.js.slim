@@ -1,0 +1,16 @@
+- if @transaction.errors.blank?
+  | 
+    $("#{escape_javascript(render @transaction)}").hide().appendTo($("ul.comments.commentable-#{@comment.commentable.id}").last()).fadeIn(1000)
+    $('#new_comment textarea').val('')
+    $('#new_comment .new_rating').rateYo('rating', 0)
+    $('#new_comment #comment_rating').val(0)
+    $("#new_comment #comment_content").parent().removeClass("has-danger")
+    $('ul.comments .no-comments').remove()
+    renderRatings()
+- elsif @transaction.errors.blank?
+  | 
+    $("#{escape_javascript(render @comment)}").hide().insertBefore($("ul.comments.comment-#{@comment.commentable.id} li").last()).fadeIn(1000)
+    $('ul.comments.comment-#{@comment.commentable.id} #new_comment textarea').val('')
+- else
+  |
+    $("#new_comment #comment_content").parent().addClass("has-danger")

@@ -1,0 +1,51 @@
+.row
+  .col-md-3.sidebar
+    nav.sidebar-nav
+      .sidebar-header
+        button.nav-toggler.nav-toggler-md.sidebar-toggler data-target="#nav-toggleable-md" data-toggle="collapse" type="button" 
+          span.sr-only Toggle nav
+        a.sidebar-brand.img-responsive href="index.html" 
+          span.icon.icon-leaf.sidebar-brand-icon
+      #nav-toggleable-md.collapse.nav-toggleable-md
+        form.sidebar-form
+          input.form-control placeholder="Search..." type="text" /
+          button.btn-link type="submit" 
+            span.icon.icon-magnifying-glass
+        ul.nav.nav-pills.nav-stacked.flex-column
+          li.nav-header Dashboards
+          li.nav-item
+            a.nav-link.active href="index.html"  Overview
+          li.nav-item
+            a.nav-link href="order-history/index.html"  Order history
+          li.nav-item
+            a.nav-link href="fluid/index.html"  Fluid layout
+          li.nav-item
+            a.nav-link href="icon-nav/index.html"  Icon nav
+          li.nav-header More
+          li.nav-item
+            a.nav-link href="docs/index.html" 
+              | Toolkit docs
+          li.nav-item
+            a.nav-link href="http://getbootstrap.com" target="blank" 
+              | Bootstrap docs
+          li.nav-item
+            a.nav-link href="index-light/index.html"  Light UI
+          li.nav-item
+            a.nav-link data-toggle="modal" href="#docsModal" 
+              | Example modal
+        hr.visible-xs.mt-3/
+
+  .col-md-9.content
+    h2.dashead-title My Portfolio
+    hr.mt-3
+    = form_for @transaction, url: portfolio_transactions_path, remote: true, html: {class: 'form-inline'} do |f|
+      = f.select :transaction_type, Transaction.transaction_types.keys.map {|type| [type.titleize, type]}, {}, class: 'form-control mr-sm-2'
+      = f.select :coin_id, options_from_collection_for_select(@coins, "id", "name"), {}, class: 'coin-select mr-sm-2'
+      = f.number_field :amount, placeholder: '# of coins', class: 'form-control'
+      = f.submit "Add", class: "btn btn-primary ml-sm-2", data: {disable_with: "Adding..."}
+    br
+    .row
+      .col-lg-6
+        h3 Portfolio
+      .col-lg-6
+        h3 Transactions

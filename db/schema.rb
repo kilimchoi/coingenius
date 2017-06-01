@@ -39,6 +39,20 @@ ActiveRecord::Schema.define(version: 20170531042012) do
     t.string   "website"
   end
 
+  create_table "transactions", force: :cascade do |t|
+    t.integer  "transaction_type"
+    t.decimal  "price"
+    t.decimal  "amount"
+    t.integer  "coin_id"
+    t.integer  "user_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "transactions", ["coin_id"], name: "index_transactions_on_coin_id"
+  add_index "transactions", ["transaction_type"], name: "index_transactions_on_transaction_type"
+  add_index "transactions", ["user_id"], name: "index_transactions_on_user_id"
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "username",               default: "", null: false
