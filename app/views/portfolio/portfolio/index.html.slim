@@ -38,6 +38,47 @@
   .col-md-9.content
     h2.dashead-title My Portfolio
     hr.mt-3
+    .hr-divider.mt-5.mb-3
+      h3.hr-divider-content.hr-divider-heading Movers
+    .row.statcards
+      .col-md-6.col-xl-3.mb-3.mb-md-4.mb-xl-0
+        .statcard.statcard-success
+          .p-3
+            span.statcard-desc Page views
+            h2.statcard-number
+              | 1,293
+              small.delta-indicator.delta-positive 5%
+            hr.statcard-hr.mb-0/
+          canvas#sparkline1.sparkline data-chart="spark-line" data-dataset="[[28,68,41,43,96,45,100]]" data-labels="['a','b','c','d','e','f','g']" height="94" style=("width: 189px; height: 47px;") width="378" 
+      .col-md-6.col-xl-3.mb-3.mb-md-4.mb-xl-0
+        .statcard.statcard-danger
+          .p-3
+            span.statcard-desc Downloads
+            h2.statcard-number
+              | 758
+              small.delta-indicator.delta-negative 1.3%
+            hr.statcard-hr.mb-0/
+          canvas#sparkline1.sparkline data-chart="spark-line" data-dataset="[[4,34,64,27,96,50,80]]" data-labels="['a', 'b','c','d','e','f','g']" height="94" style=("width: 189px; height: 47px;") width="378" 
+      .col-md-6.col-xl-3.mb-3.mb-md-4.mb-xl-0
+        .statcard.statcard-info
+          .p-3
+            span.statcard-desc Sign-ups
+            h2.statcard-number
+              | 1,293
+              small.delta-indicator.delta-positive 6.75%
+            hr.statcard-hr.mb-0/
+          canvas#sparkline1.sparkline data-chart="spark-line" data-dataset="[[12,38,32,60,36,54,68]]" data-labels="['a', 'b','c','d','e','f','g']" height="94" style=("width: 189px; height: 47px;") width="378" 
+      .col-md-6.col-xl-3.mb-3.mb-md-4.mb-xl-0
+        .statcard.statcard-warning
+          .p-3
+            span.statcard-desc Downloads
+            h2.statcard-number
+              | 758
+              small.delta-indicator.delta-negative 1.3%
+            hr.statcard-hr.mb-0/
+          canvas#sparkline1.sparkline data-chart="spark-line" data-dataset="[[43,48,52,58,50,95,100]]" data-labels="['a', 'b','c','d','e','f','g']" height="94" style=("width: 189px; height: 47px;") width="378" 
+    hr.mt-5/
+
     = form_for @transaction, url: portfolio_transactions_path, remote: true, html: {class: 'form-inline'} do |f|
       .form-group
         = f.select :transaction_type, Transaction.transaction_types.keys.map {|type| [type.titleize, type]}, {}, class: 'form-control mr-sm-2'
@@ -49,7 +90,7 @@
     hr.mt-5
     .row
       .col-md-6.mb-5
-        canvas class="ex-graph" width="200" height="200" data-chart="doughnut" data-dataset="[230, 130]" data-dataset-options="{ borderColor: '#252830', backgroundColor: ['#1ca8dd', '#1bc98e'] }" data-labels="['Returning', 'New']"
+        canvas id="portfolioChart" width="200" height="200" data-chart="doughnut" data-dataset="[230, 130]" data-dataset-options="{ borderColor: '#252830', backgroundColor: ['#1ca8dd', '#1bc98e'] }" data-labels="['Returning', 'New']"
       .col-md-6.mb-5
         .list-group.mb-3
           h6.list-group-header
