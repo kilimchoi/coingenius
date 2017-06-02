@@ -1,9 +1,8 @@
 - provide(:title, "Coins")
 .row
-  .col-lg-12.investment-options: .block
-.row.investment-tag.investment-option: .col-lg-12: .block
+  .col-lg-12.investment-options: .block.black-background
+.row.investment-tag.investment-option: .col-lg-12: .block.black-background
   .tab-content
-  
     div id="misc" role="tabpanel"
       .table-responsive
         table.table.comparison-table
@@ -11,32 +10,33 @@
             tr
               th Name
               th Description
-              th Website
-              th Characteristics
+              th Pros
+              th Cons
               th Where to buy?
-              th Consensus Mechanism
               th Price 
               th Category 
           - coins.each do |coin|
             tbody
               tr 
-                td 
-                  = coin.name 
-                  = "(#{coin.symbol})"
-                td 
-                  = coin.description
-                td 
-                  = coin.website
-                td 
-                  - coin.what_is_special_about_it.split("#").each do |special|
+                td.col-name 
+                  span
+                    = image_tag coin.image_url, class: "logo-image"
+                    = link_to("#{coin.name} (#{coin.symbol})", coin.website)
+                td.col-description 
+                  p
+                    = coin.description
+                td.col-pros 
+                  - coin.pros.split("#").each do |pro|
                     li
-                      = special
+                      = pro
+                td.col-pros 
+                  - coin.cons.split("#").each do |con|
+                    li
+                      = con
                 td
-                  = coin.exchanges.map { |ex| ex.name }.join(',').html_safe
+                  = coin.exchanges.map { |ex| ex.name }.join(', ').html_safe
                 td 
-                  = coin.consensus_mechanism
-                td 
-                  #price 
+                  |$30
                 td 
                   = coin.category
 
