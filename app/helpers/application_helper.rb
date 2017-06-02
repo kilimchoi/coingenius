@@ -34,9 +34,4 @@ module ApplicationHelper
     img_url = "https://secure.gravatar.com/avatar/#{gravatar_id}?s=#{size}&d=identicon"
     image_tag(img_url, class: "gravatar", :size => "#{size/2}x#{size/2}")
   end
-
-  def logo_image(url)
-    "//logo.clearbit.com/#{url}"
-  end
-
 end
