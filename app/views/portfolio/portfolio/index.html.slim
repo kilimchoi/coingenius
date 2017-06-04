@@ -1,7 +1,11 @@
-h2.dashead-title My Portfolio
+.dashhead.mt-4
+  .dashhead-titles
+    h2.dashhead-title My Portfolio
+.hr-divider.mt-3.mb-3
+  h3.hr-divider-content.hr-divider-heading
 .row
-  .col-lg-6
-    .row.statcards
+  .col-lg-7
+    .row.statcards.movers
       - @movers.each do |holding|
         - if holding[:percent_change].to_f > 0
           .col-md-6.col-xl-4.mb-3.mb-md-4.mb-xl-0
@@ -12,27 +16,33 @@ h2.dashead-title My Portfolio
                   = number_to_currency(holding[:price])
                   small.delta-indicator.delta-positive= number_to_percentage(holding[:percent_change], precision: 2)
                 hr.statcard-hr.mb-0/
-              canvas#sparkline1.sparkline data-chart="spark-line" data-dataset="[[28,68,41,43,96,45,100]]" data-labels="['a','b','c','d','e','f','g']" height="94" style=("width: 189px; height: 47px;") width="378" 
+              canvas#sparkline1.sparkline data-chart="spark-line" data-dataset="[#{holding[:price_history]}]" data-labels="['a','b','c','d','e','f','g']" height="94" style=("width: 189px; height: 47px;") width="378" 
         - else
           .col-md-6.col-xl-4.mb-3.mb-md-4.mb-xl-0
             .statcard.statcard-danger
               .p-3
-                span.statcard-desc Downloads
+                span.statcard-desc #{holding[:coin].name} (#{holding[:coin].symbol})
                 h2.statcard-number
-                  | 758
+                  = number_to_currency(holding[:price])
                   small.delta-indicator.delta-negative= number_to_percentage(holding[:percent_change], precision: 2)
                 hr.statcard-hr.mb-0/
-              canvas#sparkline1.sparkline data-chart="spark-line" data-dataset="[[4,34,64,27,96,50,80]]" data-labels="['a', 'b','c','d','e','f','g']" height="94" style=("width: 189px; height: 47px;") width="378" 
-  .col-lg-6 
+              canvas#sparkline1.sparkline data-chart="spark-line" data-dataset="[#{holding[:price_history]}]" data-labels="['a', 'b','c','d','e','f','g']" height="94" style=("width: 189px; height: 47px;") width="378" 
+  .col-lg-5
     list-group.mb-3
-      h6.list-group-header
-        | Holdings
+      .list-group-header.text-center
+        h4= number_to_currency(@total, precision: 2)
+        span.mr-a.text-muted Total Balance
       - @holdings.each do |holding|
         .list-group-item.list-group-item-action.justify-content-between
           span
             = "#{holding[:coin].name} (#{holding[:coin].symbol})"
-          span.mr-a.text-muted
-            = number_to_percentage(holding[:percent] * 100, precision: 2)
+          span.text-right
+            = "#{holding[:amount]} #{holding[:coin].symbol}"
+            br
+            span.mr-a.text-muted
+              = number_to_currency(holding[:total])
+
+            //= number_to_percentage(holding[:percent] * 100, precision: 2)
   
 hr.mt-5/
 .row: .col-lg-12

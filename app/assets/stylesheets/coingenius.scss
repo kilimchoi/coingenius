@@ -2,6 +2,10 @@
   margin-top: 80px;
 }
 
+.movers .statcard {
+  margin-bottom: 20px;
+}
+
 .block {
   padding: 20px;
   background: white;
@@ -24,7 +28,6 @@ body {
   }
 }
 
-
 /* global spacing overrides */
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
@@ -39,7 +42,6 @@ hr {
 .navbar-static-top {
   border-bottom: 0;
 }
-
 
 .select2 {
   margin-right: 8px;

@@ -51,7 +51,7 @@ class User < ActiveRecord::Base
           amount: amount_change,
           total: total_change,
           price: coin_data[:price].to_f.round(2),
-          price_history: data[:Data]
+          price_history: data[:Data].map{|history| history[:close]}
         }
       end 
     end
@@ -60,6 +60,6 @@ class User < ActiveRecord::Base
       puts holding
       holding[:percent] = holding[:total]/total
     end
-    holdings.values
+    [holdings.values, total]
   end
 end

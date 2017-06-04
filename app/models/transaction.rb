@@ -11,7 +11,7 @@ class Transaction < ActiveRecord::Base
     desc = ""
     desc += transaction_type.titleize
     desc += " "
-    desc += " #{coin.name} (#{coin.symbol})"  
+    desc += " #{coin.name}"  
   end
   
 end

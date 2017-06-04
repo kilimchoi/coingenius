@@ -5,4 +5,5 @@
       => time_ago_in_words(transaction.created_at)
       | ago
   span.mr-a.text-muted
-    = transaction.amount
+    = "#{transaction.bought? ? '+' : '-'}"
+    = "#{transaction.amount} #{transaction.coin.symbol}"

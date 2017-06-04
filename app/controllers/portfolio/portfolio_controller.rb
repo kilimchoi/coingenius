@@ -5,7 +5,9 @@ class Portfolio::PortfolioController < ApplicationController
     @transaction = Transaction.new
     @transactions = current_user.transactions.order(created_at: :desc)
 
-    @holdings = current_user.holdings.sort_by{|holding| holding[:percentage]}
-    @movers = current_user.holdings.sort_by{|holding| holding[:percent_change].to_f}
+    @holdings, @total = current_user.holdings
+
+    @holdings = @holdings.sort_by{|holding| holding[:percentage]}
+    @movers = @holdings.sort_by{|holding| holding[:percent_change].to_f}.reverse
   end
 end
