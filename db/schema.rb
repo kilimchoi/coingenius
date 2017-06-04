@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170602064204) do
+ActiveRecord::Schema.define(version: 20170603224706) do
 
   create_table "coins", force: :cascade do |t|
     t.datetime "created_at",          null: false
@@ -27,6 +27,8 @@ ActiveRecord::Schema.define(version: 20170602064204) do
     t.text     "cons"
     t.string   "image_url"
   end
+
+  add_index "coins", ["symbol"], name: "index_coins_on_symbol", unique: true
 
   create_table "coins_exchanges", id: false, force: :cascade do |t|
     t.integer "coin_id"

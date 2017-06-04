@@ -39,7 +39,7 @@ coins << eth
 
 xrp = Coin.new(
   name: "Ripple", 
-  symbol: "xrp", 
+  symbol: "XRP", 
   description: "Ripple is a real-time gross settlement system (RTGS), currency exchange and remittance network operated by Ripple.", 
   website: "https://ripple.com/", 
   pros: "Open payment network with real-time gross settlement system.#Math-based currency.#Free from DoS attacks.#Its settlement infrastructure is used by the banks.",
@@ -53,7 +53,7 @@ coins << xrp
 
 xem = Coin.new(
   name: "NEM", 
-  symbol: "xem", 
+  symbol: "XEM", 
   description: "NEM has a stated goal of a wide distribution model and has introduced new features to blockchain technology such as its proof-of-importance (POI) algorithm, multisignature accounts, encrypted messaging, and an Eigentrust++ reputation system.",
   website: "https://www.nem.io/", 
   pros: "P2P platform that provides payment, messaging and more.#Can send payments and messages securely globally.#Incredibly scalable - 3000 transactions/sec/.#Low transaction fee - 0.01% fee.", 

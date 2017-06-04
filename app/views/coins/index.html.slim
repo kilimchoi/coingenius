@@ -1,44 +1,47 @@
 - provide(:title, "Coins")
-.row
-  .col-lg-12.investment-options: .block.black-background
-.row.investment-tag.investment-option: .col-lg-12: .block.black-background
-  .tab-content
-    div id="misc" role="tabpanel"
-      .table-responsive
-        table.table.comparison-table
-          thead
-            tr
-              th Name
-              th Description
-              th Pros
-              th Cons
-              th Where to buy?
-              th Price 
-              th Category 
-          - coins.each do |coin|
-            tbody
-              tr 
-                td.col-name 
-                  span
-                    = image_tag coin.image_url, class: "logo-image"
+.row: .col-lg-12
+  .table-responsive
+    table.table
+      thead
+        tr
+          th Coin
+          th Pros
+          th Cons
+          th Where to buy?
+          th Market Cap
+          th Price 
+          th %24hr
+          th Category 
+      - @coins.each do |coin|
+        tbody
+          tr 
+            td.col-description
+              .media
+                = image_tag coin.image_url, class: "d-flex mr-3", width: '40'
+                .media-body
+                  h5.mt-0
                     = link_to("#{coin.name} (#{coin.symbol})", coin.website)
-                td.col-description 
-                  p
-                    = coin.description
-                td.col-pros 
-                  - coin.pros.split("#").each do |pro|
-                    li
-                      = pro
-                td.col-pros 
-                  - coin.cons.split("#").each do |con|
-                    li
-                      = con
-                td
-                  = coin.exchanges.map { |ex| ex.name }.join(', ').html_safe
-                td 
-                  |$30
-                td 
-                  = coin.category
+                  = coin.description
+            td.col-pros 
+              - if coin.pros
+                - coin.pros.split("#").each do |pro|
+                  li
+                    = pro
+            td.col-pros 
+              - if coin.cons
+                - coin.cons.split("#").each do |con|
+                  li
+                    = con
+            td
+              = coin.exchanges.map { |ex| ex.name }.join(', ').html_safe
+            td 
+              = number_to_human coin.market_cap
+            td 
+              = number_to_currency coin.price
+            td 
+              = "#{coin.percent_change.to_f.round(2)}%"
+            td 
+              = coin.category
 
 
   
