@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
         responses[coin.symbol]
       else
         response = HTTParty.get("https://min-api.cryptocompare.com/data/histoday?fsym=#{coin.symbol}&tsym=USD&limit=7&aggregate=1&e=CCCAGG")
-        JSON.parse(response.body).with_indifferent_access
+        responses[coin.symbol] = JSON.parse(response.body).with_indifferent_access
       end
 
       #coin.update_attributes(website: data[:homeUrl]) unless coin.website.present?
