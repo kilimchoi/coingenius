@@ -16,7 +16,7 @@ nav.navbar.navbar-inverse.bg-inverse.fixed-top.navbar-toggleable-md
       ul.nav.navbar-nav.float-xs-left.float-md-right
         - if user_signed_in?
           li.nav-item.dropdown
-            a href="#" class="dropdown-toggle nav-link" role="button" data-toggle="dropdown"
+            a href="#" class="dropdown-toggle nav-link" role="button" data-toggle="dropdown" 
               => gravatar_for current_user, size: 40
               => current_user.username
               b.caret
