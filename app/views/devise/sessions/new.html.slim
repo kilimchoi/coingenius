@@ -1,16 +1,14 @@
 - provide(:title, "Sign in".html_safe)
-.row
-  .col-lg-12: .block
-    .row: .col-lg-5
+.row.session
+  .col-lg-12: .block.account-form
+    .row: .col-lg-5.mx-auto
       h2 Sign in
       = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
         .form-group
-          = f.label :email
-          = f.email_field :email, autofocus: true, class: 'form-control'
+          = f.email_field :email, autofocus: true, class: 'form-control', placeholder: "Email"
 
         .form-group
-          = f.label :password
-          = f.password_field :password, autocomplete: "off", class: 'form-control'
+          = f.password_field :password, autocomplete: "off", class: 'form-control', placeholder: "Password"
 
         - if devise_mapping.rememberable?
           .checkbox
