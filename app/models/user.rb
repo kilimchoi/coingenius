@@ -11,7 +11,6 @@ class User < ActiveRecord::Base
   def holdings
     holdings = {}
     total = 0
-    responses = {}
 
     response = HTTParty.get('http://www.coincap.io/front')
 
@@ -22,13 +21,7 @@ class User < ActiveRecord::Base
       coin_data = coins.select{|api_coin| api_coin['short'] == coin.symbol}.first.with_indifferent_access
       puts coin_data
 
-      data = if responses[coin.symbol]
-        responses[coin.symbol]
-      else
-        response = HTTParty.get("https://min-api.cryptocompare.com/data/histoday?fsym=#{coin.symbol}&tsym=USD&limit=7&aggregate=1&e=CCCAGG")
-        responses[coin.symbol] = JSON.parse(response.body).with_indifferent_access
-      end
-
+      price_history = coin.price_history
       #coin.update_attributes(website: data[:homeUrl]) unless coin.website.present?
 
       if transaction.bought?
@@ -51,7 +44,7 @@ class User < ActiveRecord::Base
           amount: amount_change,
           total: total_change,
           price: coin_data[:price].to_f.round(2),
-          price_history: data[:Data].map{|history| history[:close]}
+          price_history: price_history[:Data].map{|history| history[:close]}
         }
       end 
     end

@@ -63,6 +63,6 @@ hr.mt-5/
   .col-lg-5.text-center
     h4.mb-4.mt-2 Distribution
     .w-3.mx-auto
-      canvas class="ex-graph" width="200" height="200" data-chart="doughnut" data-dataset="#{@holdings.map{|holding| (holding[:percent] * 100).to_f.round}}" data-dataset-options="{ borderColor: '#252830', backgroundColor: ['#1ca8dd', '#1bc98e', '#1ca8dd', '#1bc98e'] }" data-labels="#{@holdings.map{|holding| holding[:coin].label}}"
+      canvas class="ex-graph" width="200" height="200" data-chart="doughnut" data-dataset="#{@holdings.map{|holding| (holding[:percent] * 100).to_f.round}}" data-dataset-options="{ borderColor: '#252830', backgroundColor: #{Coin.colors.sample(@holdings.count)} }" data-labels="#{@holdings.map{|holding| holding[:coin].label}}"
             
          
