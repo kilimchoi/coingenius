@@ -47,7 +47,7 @@ class User < ActiveRecord::Base
       else
         holdings[coin.symbol] = {
           coin: coin,
-          percent_change: coin_data[:perc],
+          percent_change: coin_data[:cap24hrChange],
           amount: amount_change,
           total: total_change,
           price: coin_data[:price].to_f.round(2),

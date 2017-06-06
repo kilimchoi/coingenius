@@ -45,22 +45,24 @@
             //= number_to_percentage(holding[:percent] * 100, precision: 2)
   
 hr.mt-5/
-.row: .col-lg-12
-  = form_for @transaction, url: portfolio_transactions_path, remote: true, html: {class: 'form-inline'} do |f|
-    .form-group
-      = f.select :transaction_type, Transaction.transaction_types.keys.map {|type| [type.titleize, type]}, {}, class: 'form-control mr-sm-2'
-    .form-group
-      = f.number_field :amount, placeholder: '# of coins', class: 'form-control mr-sm-2', step: :any
-    .form-group
-      = f.select :coin_id, options_from_collection_for_select(@coins, "id", "name"), {}, class: 'form-control coin-s mr-sm-2'
-    = f.submit "Add", class: "btn btn-primary", data: {disable_with: "Adding..."}
-hr.mt-5
 .row
-  .col-lg-12
+  .col-lg-7
+    = form_for @transaction, url: portfolio_transactions_path, remote: true, html: {class: 'form-inline mb-4'} do |f|
+      .form-group
+        = f.select :transaction_type, Transaction.transaction_types.keys.map {|type| [type.titleize, type]}, {}, class: 'form-control mr-sm-2'
+      .form-group
+        = f.number_field :amount, placeholder: '# of coins', class: 'form-control mr-sm-2', step: :any
+      .form-group
+        = f.select :coin_id, options_from_collection_for_select(@coins, "id", "name"), {}, class: 'form-control coin-s mr-sm-2'
+      = f.submit "Add", class: "btn btn-primary", data: {disable_with: "Adding..."}
     .list-group.mb-3
       h6.list-group-header
         | Transactions
       .transactions
         = render @transactions
+  .col-lg-5.text-center
+    h4.mb-4.mt-2 Distribution
+    .w-3.mx-auto
+      canvas class="ex-graph" width="200" height="200" data-chart="doughnut" data-dataset="#{@holdings.map{|holding| (holding[:percent] * 100).to_f.round}}" data-dataset-options="{ borderColor: '#252830', backgroundColor: ['#1ca8dd', '#1bc98e', '#1ca8dd', '#1bc98e'] }" data-labels="#{@holdings.map{|holding| holding[:coin].label}}"
             
          

@@ -3,4 +3,8 @@ class Coin < ActiveRecord::Base
   has_many :transactions
 
   attr_accessor :price, :percent_change, :market_cap
+
+  def label
+    "#{name} (#{symbol})"
+  end
 end
