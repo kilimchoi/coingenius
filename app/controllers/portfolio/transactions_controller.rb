@@ -1,7 +1,13 @@
 class Portfolio::TransactionsController < ApplicationController
+  before_action :authenticate_user!
 
   def index
 
+  end
+
+  def new
+    @transaction = current_user.transactions.new
+    @coins = Coin.all
   end
 
   def create

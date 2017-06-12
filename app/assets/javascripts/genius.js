@@ -86,6 +86,7 @@ $(document).on('turbolinks:load', function() {
         var datasetOptions = attrData.datasetOptions ? eval(attrData.datasetOptions) : []
         var labels         = attrData.labels         ? eval(attrData.labels) : {}
         var options     = attrData.options        ? eval('(' + attrData.options + ')') : {}
+        var isDark         = !!attrData.dark
 
         var data = {
           labels   : labels,
@@ -97,7 +98,9 @@ $(document).on('turbolinks:load', function() {
               borderColor: '#fff',
               pointBorderColor: '#fff',
               lineTension : 0.25,
-              pointRadius: 0
+              pointRadius: 0,
+              pointHoverRadius: 0,
+              pointHitRadius: 20
             }, datasetOptions[i])
           })
         }
@@ -112,15 +115,41 @@ $(document).on('turbolinks:load', function() {
             display: false
           },
           scales: {
-            xAxes: [{
-              display: false
-            }],
             yAxes: [{
-              display: false
+              gridLines: {
+                color: isDark ? 'rgba(255,255,255,.05)' : 'rgba(0,0,0,.05)',
+                zeroLineColor: isDark ? 'rgba(255,255,255,.05)' : 'rgba(0,0,0,.05)',
+                drawBorder: false
+              },
+              ticks: {
+                beginAtZero: false,
+                fixedStepSize: 1000,
+                fontColor: isDark ? '#a2a2a2' : 'rgba(0,0,0,.4)',
+                fontSize: 14
+              }
+            }],
+            xAxes: [{
+              gridLines: {
+                display: false
+              },
+              ticks: {
+                fontColor: isDark ? '#a2a2a2' : 'rgba(0,0,0,.4)',
+                fontSize: 14
+              }
             }]
           },
           tooltips: {
-            enabled: false
+            enabled: true,
+            bodyFontSize: 14,
+            callbacks: {
+              title: function () { return "" },
+              labelColor: function () {
+                return {
+                  backgroundColor: '#42a5f5',
+                  borderColor: '#42a5f5'
+                }
+              }
+            }
           }
         }, options)
 

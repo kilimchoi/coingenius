@@ -1,66 +1,54 @@
-.dashhead.mt-4
-  .dashhead-titles
-    h2.dashhead-title My Portfolio
-.hr-divider.mt-3.mb-3
-  h3.hr-divider-content.hr-divider-heading
-.row
-  .col-lg-7
-    .row.statcards.movers
-      - @movers.each do |holding|
-        - if holding[:percent_change].to_f > 0
-          .col-md-6.col-xl-4.mb-3.mb-md-4.mb-xl-0
-            .statcard.statcard-success
-              .p-3
-                span.statcard-desc #{holding[:coin].name} (#{holding[:coin].symbol})
-                h2.statcard-number
-                  = number_to_currency(holding[:price])
-                  small.delta-indicator.delta-positive= number_to_percentage(holding[:percent_change], precision: 2)
-                hr.statcard-hr.mb-0/
-              canvas#sparkline1.sparkline data-chart="spark-line" data-dataset="[#{holding[:price_history]}]" data-labels="['a','b','c','d','e','f','g']" height="94" style=("width: 189px; height: 47px;") width="378" 
-        - else
-          .col-md-6.col-xl-4.mb-3.mb-md-4.mb-xl-0
-            .statcard.statcard-danger
-              .p-3
-                span.statcard-desc #{holding[:coin].name} (#{holding[:coin].symbol})
-                h2.statcard-number
-                  = number_to_currency(holding[:price])
-                  small.delta-indicator.delta-negative= number_to_percentage(holding[:percent_change], precision: 2)
-                hr.statcard-hr.mb-0/
-              canvas#sparkline1.sparkline data-chart="spark-line" data-dataset="[#{holding[:price_history]}]" data-labels="['a', 'b','c','d','e','f','g']" height="94" style=("width: 189px; height: 47px;") width="378" 
-  .col-lg-5
-    list-group.mb-3
-      .list-group-header.text-center
-        h4= number_to_currency(@total, precision: 2)
-        span.mr-a.text-muted Total Balance
-      - @holdings.each do |holding|
-        .list-group-item.list-group-item-action.justify-content-between
-          span
-            = "#{holding[:coin].name} (#{holding[:coin].symbol})"
-          span.text-right
-            = "#{holding[:amount]} #{holding[:coin].symbol}"
-            br
-            span.mr-a.text-muted
-              = number_to_currency(holding[:total])
+h2.dashhead-title.mt-5 My Portfolio
+= link_to "+ Add a new transaction", new_portfolio_transaction_path, class: "new-transaction" 
 
-            //= number_to_percentage(holding[:percent] * 100, precision: 2)
-  
-hr.mt-5/
-.row: .col-lg-12
-  = form_for @transaction, url: portfolio_transactions_path, remote: true, html: {class: 'form-inline'} do |f|
-    .form-group
-      = f.select :transaction_type, Transaction.transaction_types.keys.map {|type| [type.titleize, type]}, {}, class: 'form-control mr-sm-2'
-    .form-group
-      = f.number_field :amount, placeholder: '# of coins', class: 'form-control mr-sm-2', step: :any
-    .form-group
-      = f.select :coin_id, options_from_collection_for_select(@coins, "id", "name"), {}, class: 'form-control coin-s mr-sm-2'
-    = f.submit "Add", class: "btn btn-primary", data: {disable_with: "Adding..."}
-hr.mt-5
-.row
-  .col-lg-12
-    .list-group.mb-3
-      h6.list-group-header
-        | Transactions
-      .transactions
-        = render @transactions
-            
-         
+- if @total && @total > 0
+  .hr-divider.mt-5.mb-3
+    ul.nav.nav-pills.hr-divider-content.hr-divider-nav
+      li.nav-item
+        a.nav-link.active href="#"  Daily
+      li.nav-item
+        a.nav-link href="#"  Weekly
+      li.nav-item
+        a.nav-link href="#"  Monthly
+      li.nav-item
+        a.nav-link href="#"  Yearly
+
+
+  canvas#sparkline1.sparkline data-chart="spark-line" data-dataset="[#{@history}]" data-labels="['June 4','June 5','June 6','June 7','June 8','June 9','June 10','June 11']" data-dark="true" height="94" style=("width: 189px; height: 247px;") width="378" 
+.row.mt-5
+  - if @total && @total > 0
+    .table-responsive
+      table.table
+        thead
+          tr
+            th Name
+            th Price
+            th Change
+            th Amount
+            th Value
+        - @holdings.each do |holding| 
+          tbody
+            tr 
+              td
+                = "#{holding[:coin].name} (#{holding[:coin].symbol})"
+              td
+                = number_to_currency(holding[:price])
+              td 
+                - if holding[:percent_change].to_i > 0
+                  .positive-change 
+                    = number_to_percentage(holding[:percent_change], precision: 2)
+                - else
+                  .negative-change
+                    = number_to_percentage(holding[:percent_change], precision: 2)  
+              td
+                = "#{holding[:amount]} #{holding[:coin].symbol}" 
+              td
+                = "$#{holding[:total]}"
+
+  - else 
+    .mt-4.w-20.mx-auto
+      = image_tag "empty_portfolio.png", class: "empty-portfolio rounded mx-auto img-fluid"
+      br
+      .mx-auto
+        p Please add coins to your portfolio 
+        = link_to "Add Coins", new_portfolio_transaction_path, class: "btn btn-primary btn-lg coin-button", data: {disable_with: "Redirecting..."}

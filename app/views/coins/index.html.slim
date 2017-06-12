@@ -13,8 +13,6 @@ p.github-link
           th Cons
           th Where to buy?
           th Market Cap
-          th Price 
-          th %24hr
           th Category 
       - @coins.each do |coin|
         tbody
@@ -36,14 +34,14 @@ p.github-link
                 - coin.cons.split("#").each do |con|
                   li
                     = con
-            td
-              = coin.exchanges.map { |ex| ex.name }.join(', ').html_safe
+            td 
+              - if coin.exchanges.empty? 
+                | N/A
+              - else
+                = raw(coin.exchanges.map{ |ex| raw(link_to(ex.name, ex.website)) }.join(', '))
+              
             td 
               = number_to_human coin.market_cap
-            td 
-              = number_to_currency coin.price
-            td 
-              = "#{coin.percent_change.to_f.round(2)}%"
             td 
               = coin.category
 
