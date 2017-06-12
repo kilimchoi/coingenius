@@ -6,7 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 coins = []
-coinbase = Exchange.create(name: "Coinbase", website: "https://www.coinbase.com/")
+coinbase = Exchange.create(name: "Coinbase", website: "https://www.coinbase.com/join/52893754c1edbc9eee000481")
 polo = Exchange.create(name: "Poloniex", website: "https://poloniex.com/")
 bitt = Exchange.create(name: "Bittrex", website: "https://bittrex.com/")
 
@@ -33,8 +33,7 @@ eth = Coin.new(
   consensus_mechanism: "Proof of work", 
   category: "Currency", 
   image_url: "https://www.cryptocompare.com/media/20646/eth.png")
-eth.exchanges << polo
-eth.exchanges << bitt
+eth.exchanges << coinbase
 coins << eth 
 
 xrp = Coin.new(
@@ -76,8 +75,6 @@ ltc = Coin.new(
   category: "currency", 
   image_url: "https://www.cryptocompare.com/media/19782/litecoin-logo.png")
 ltc.exchanges << coinbase
-ltc.exchanges << polo 
-ltc.exchanges << bitt
 coins << ltc 
 
 etc = Coin.new(

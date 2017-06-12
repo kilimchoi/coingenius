@@ -2,9 +2,7 @@ class CoinsController < ApplicationController
   respond_to :html
 
   def index
-    
     response = HTTParty.get('http://www.coincap.io/front')
-
     @coins = []
     api_coins = JSON.parse(response.body).sort_by{ |hash| hash['mktcap'].to_f }.reverse.first(100)
     api_coins.each do |api_coin|
