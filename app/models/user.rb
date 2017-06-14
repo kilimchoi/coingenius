@@ -21,21 +21,18 @@ class User < ActiveRecord::Base
       coin = transaction.coin
       coin_data = coins.select{|api_coin| api_coin['short'] == coin.symbol}.first.with_indifferent_access
       
-      response = HTTParty.get("http://www.coincap.io/history/1day/#{coin.symbol.upcase}")
+      response = HTTParty.get("https://min-api.cryptocompare.com/data/histohour?fsym=#{coin.symbol}&tsym=USD&limit=23&aggregate=3&e=CCCAGG")
       daily_data = JSON.parse(response.body).with_indifferent_access
 
       data = if responses[coin.symbol]
         responses[coin.symbol]
       else
-        response = HTTParty.get("https://min-api.cryptocompare.com/data/histoday?fsym=#{coin.symbol}&tsym=USD&limit=7&aggregate=1&e=CCCAGG")
+        response = HTTParty.get("https://min-api.cryptocompare.com/data/histoday?fsym=#{coin.symbol}&tsym=USD&limit=6&aggregate=1&e=CCCAGG")
         responses[coin.symbol] = JSON.parse(response.body).with_indifferent_access
       end
 
-      response = HTTParty.get("http://www.coincap.io/history/30day/#{coin.symbol.upcase}")
+      response = HTTParty.get("https://min-api.cryptocompare.com/data/histoday?fsym=#{coin.symbol}&tsym=USD&limit=29&aggregate=3&e=CCCAGG")
       monthly_data = JSON.parse(response.body).with_indifferent_access
-      
-      response = HTTParty.get("http://www.coincap.io/history/365day/#{coin.symbol.upcase}")
-      yearly_data = JSON.parse(response.body).with_indifferent_access
       
       #coin.update_attributes(website: data[:homeUrl]) unless coin.website.present?
 
@@ -59,10 +56,9 @@ class User < ActiveRecord::Base
           amount: amount_change,
           total: total_change,
           price: coin_data[:price].to_f.round(2),
-          price_history: data[:Data].map{|history| history[:close]},
-          monthly_price_history: monthly_data["price"].map{ |cap, price| price},
-          yearly_price_history: yearly_data["price"].map{ |cap, price| price},
-          daily_price_history: daily_data["price"].map{ |cap, price|  price}
+          weekly_price_history: data[:Data].map{|history| history[:close]},
+          monthly_price_history: monthly_data[:Data].map{|history| history[:close]},
+          daily_price_history: daily_data[:Data].map{|history| history[:close]},
         }
       end 
     end
