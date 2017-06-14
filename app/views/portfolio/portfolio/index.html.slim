@@ -5,16 +5,15 @@ h2.dashhead-title.mt-5 My Portfolio
   .hr-divider.mt-5.mb-3
     ul.nav.nav-pills.hr-divider-content.hr-divider-nav
       li.nav-item
-        a.nav-link.active href="#"  Daily
+        a.nav-link.active#daily href="javascript:void(0)" Hourly
       li.nav-item
-        a.nav-link href="#"  Weekly
+        a.nav-link#weekly href="javascript:void(0)"  Day
       li.nav-item
-        a.nav-link href="#"  Monthly
-      li.nav-item
-        a.nav-link href="#"  Yearly
+        a.nav-link#monthly href="javascript:void(0)"  Week
+      
 
+  canvas#sparkline1.sparkline data-chart="spark-line" data-dataset="[#{@daily_history}]" data-weeklyDataset="[#{@weekly_history}]" data-monthlyDataset="[#{@monthly_history}]" data-dailylabels="#{@last_twenty_four_hours}" data-weeklylabels="#{@last_seven_days}" data-monthlylabels="#{@last_thirty_days}" data-dark="true" height="94" style=("width: 189px; height: 247px;") width="378"
 
-  canvas#sparkline1.sparkline data-chart="spark-line" data-dataset="[#{@history}]" data-labels="['June 4','June 5','June 6','June 7','June 8','June 9','June 10','June 11']" data-dark="true" height="94" style=("width: 189px; height: 247px;") width="378" 
 .row.mt-5
   - if @total && @total > 0
     .table-responsive
