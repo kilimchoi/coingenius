@@ -1,18 +1,18 @@
 h2.dashhead-title.mt-5 My Portfolio
-= link_to "+ Add a new transaction", new_portfolio_transaction_path, class: "new-transaction" 
 
 - if @total && @total > 0
+  = link_to "+ Add a new transaction", new_portfolio_transaction_path, class: "new-transaction" 
   .hr-divider.mt-5.mb-3
     ul.nav.nav-pills.hr-divider-content.hr-divider-nav
       li.nav-item
-        a.nav-link.active#daily href="javascript:void(0)" Hourly
+        a.nav-link.active#daily href="javascript:void(0)" 1D
       li.nav-item
-        a.nav-link#weekly href="javascript:void(0)"  Day
+        a.nav-link#weekly href="javascript:void(0)"  1W
       li.nav-item
-        a.nav-link#monthly href="javascript:void(0)"  Week
-      
-
-  canvas#sparkline1.sparkline data-chart="spark-line" data-dataset="[#{@daily_history}]" data-weeklyDataset="[#{@weekly_history}]" data-monthlyDataset="[#{@monthly_history}]" data-dailylabels="#{@last_twenty_four_hours}" data-weeklylabels="#{@last_seven_days}" data-monthlylabels="#{@last_thirty_days}" data-dark="true" height="94" style=("width: 189px; height: 247px;") width="378"
+        a.nav-link#monthly href="javascript:void(0)"  1M
+      li.nav-item
+        a.nav-link#yearly href="javascript:void(0)"  1Y
+  canvas#sparkline1.sparkline data-chart="spark-line" data-dataset="[#{@daily_history}]" data-weeklyDataset="[#{@weekly_history}]" data-monthlyDataset="[#{@monthly_history}]" data-yearlyDataset="[#{@yearly_history}]" data-dailylabels="#{@last_twenty_four_hours}" data-weeklylabels="#{@last_seven_days}" data-monthlylabels="#{@last_thirty_days}" data-yearlylabels="#{@last_three_six_five_days}" data-dark="true" height="94" style=("width: 189px; height: 247px;") width="378"
 
 .row.mt-5
   - if @total && @total > 0
@@ -25,24 +25,25 @@ h2.dashhead-title.mt-5 My Portfolio
             th Change
             th Amount
             th Value
-        - @holdings.each do |holding| 
-          tbody
-            tr 
-              td
-                = "#{holding[:coin].name} (#{holding[:coin].symbol})"
-              td
-                = number_to_currency(holding[:price])
-              td 
-                - if holding[:percent_change].to_i > 0
-                  .positive-change 
-                    = number_to_percentage(holding[:percent_change], precision: 2)
-                - else
-                  .negative-change
-                    = number_to_percentage(holding[:percent_change], precision: 2)  
-              td
-                = "#{holding[:amount]} #{holding[:coin].symbol}" 
-              td
-                = "$#{holding[:total]}"
+        - @holdings.each do |holding|
+          -if holding[:total] > 0 
+            tbody
+              tr 
+                td
+                  = "#{holding[:coin].name} (#{holding[:coin].symbol})"
+                td
+                  = number_to_currency(holding[:price])
+                td 
+                  - if holding[:percent_change].to_i > 0
+                    .positive-change 
+                      = number_to_percentage(holding[:percent_change], precision: 2)
+                  - else
+                    .negative-change
+                      = number_to_percentage(holding[:percent_change], precision: 2)  
+                td
+                  = "#{holding[:amount]} #{holding[:coin].symbol}" 
+                td
+                  = "$#{holding[:total]}"
 
   - else 
     .mt-4.w-20.mx-auto
