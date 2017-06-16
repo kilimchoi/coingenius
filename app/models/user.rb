@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   def holdings
     holdings = {}
     total = 0
-    responses = {}
+    responses = Hash.new(Hash.new())
 
     response = HTTParty.get('http://www.coincap.io/front')
 
@@ -21,19 +21,33 @@ class User < ActiveRecord::Base
       coin = transaction.coin
       coin_data = coins.select{|api_coin| api_coin['short'] == coin.symbol}.first.with_indifferent_access
       
-      response = HTTParty.get("https://min-api.cryptocompare.com/data/histohour?fsym=#{coin.symbol}&tsym=USD&limit=23&aggregate=3&e=CCCAGG")
-      daily_data = JSON.parse(response.body).with_indifferent_access
-
-      data = if responses[coin.symbol]
-        responses[coin.symbol]
+      daily_data = if responses[coin.symbol]["daily"]
+        responses[coin.symbol]["daily"]
       else
-        response = HTTParty.get("https://min-api.cryptocompare.com/data/histoday?fsym=#{coin.symbol}&tsym=USD&limit=6&aggregate=1&e=CCCAGG")
-        responses[coin.symbol] = JSON.parse(response.body).with_indifferent_access
+        response = HTTParty.get("http://www.coincap.io/history/1day/#{coin.symbol.upcase}")
+        responses[coin.symbol]["daily"] = JSON.parse(response.body).with_indifferent_access
       end
 
-      response = HTTParty.get("https://min-api.cryptocompare.com/data/histoday?fsym=#{coin.symbol}&tsym=USD&limit=29&aggregate=3&e=CCCAGG")
-      monthly_data = JSON.parse(response.body).with_indifferent_access
+      weekly_data = if responses[coin.symbol]["weekly"]
+        responses[coin.symbol]["weekly"]
+      else
+        response = HTTParty.get("http://www.coincap.io/history/7day/#{coin.symbol.upcase}")
+        responses[coin.symbol]["weekly"] = JSON.parse(response.body).with_indifferent_access
+      end
+
+      monthly_data = if responses[coin.symbol]["monthly"]
+        responses[coin.symbol]["monthly"]
+      else
+        response = HTTParty.get("http://www.coincap.io/history/30day/#{coin.symbol.upcase}")
+        responses[coin.symbol]["monthly"] = JSON.parse(response.body).with_indifferent_access
+      end
       
+      yearly_data = if responses[coin.symbol]["yearly"]
+        responses[coin.symbol]["yearly"]
+      else
+        response = HTTParty.get("http://www.coincap.io/history/365day/#{coin.symbol.upcase}")
+        responses[coin.symbol]["yearly"] = JSON.parse(response.body).with_indifferent_access
+      end
       #coin.update_attributes(website: data[:homeUrl]) unless coin.website.present?
 
       if transaction.bought?
@@ -45,7 +59,6 @@ class User < ActiveRecord::Base
       end
 
       total += total_change
-
       if holding = holdings[coin.symbol]
         holding[:amount] += amount_change
         holding[:total] += total_change
@@ -56,15 +69,16 @@ class User < ActiveRecord::Base
           amount: amount_change,
           total: total_change,
           price: coin_data[:price].to_f.round(2),
-          weekly_price_history: data[:Data].map{|history| history[:close]},
-          monthly_price_history: monthly_data[:Data].map{|history| history[:close]},
-          daily_price_history: daily_data[:Data].map{|history| history[:close]},
+          daily_price_history: daily_data[:price].map{|history| history},
+          weekly_price_history: weekly_data[:price].map{|history| history},
+          monthly_price_history: monthly_data[:price].map{|history| history},
+          yearly_price_history: yearly_data[:price].map{|history| history},
         }
-      end 
+      end
+      responses = Hash.new(Hash.new())
     end
 
     holdings.each do |key, holding|
-      puts 'holding is ', holding
       holding[:percent] = holding[:total]/total
     end
     [holdings.values, total]

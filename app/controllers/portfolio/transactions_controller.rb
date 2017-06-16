@@ -11,20 +11,29 @@ class Portfolio::TransactionsController < ApplicationController
   end
 
   def create
-    @transaction = current_user.transactions.new(transaction_params)
-    status = @transaction.save
-  
-    respond_to do |format|
-      format.html {
-        if status
+    if params["transaction"]["transaction_type"] == "sold"
+      booleans = current_user.holdings[0].map {|h| h[:coin].id == params["transaction"]["coin_id"] }
+      if !booleans.include? true
+        flash[:error] = "You do not have that coin"
+        redirect_to '/portfolio'
+      else
+        @transaction = current_user.transactions.new(transaction_params)
+        if @transaction.save
           flash[:success] = 'Your transaction has been created!'
         else
           flash[:error] = @transaction.errors.full_messages.join(', ')
         end
         redirect_to '/portfolio'
-      }
-      format.js
-    end  
+      end
+    else
+      @transaction = current_user.transactions.new(transaction_params)
+      if @transaction.save
+        flash[:success] = 'Your transaction has been created!'
+      else
+        flash[:error] = @transaction.errors.full_messages.join(', ')
+      end
+      redirect_to '/portfolio'
+    end
   end
 
   def update
