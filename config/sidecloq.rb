@@ -1,3 +1,3 @@
 Sidecloq.configure do |config|
-  config[:schedule_file] = "path/to/myschedule.yml"
+  config[:schedule_file] = "sidecloq.yml"
 end
