@@ -35,7 +35,7 @@ $(document).on('turbolinks:load', function() {
         if($(this).attr('id') == "daily") {
           $('[data-chart]').each(function () {
             var labels = $(this).data().dailylabels;
-            window.lineChart.data.labels = convertFromTimeStampToDate(labels);
+            window.lineChart.data.labels = labels;
             window.lineChart.data.datasets[0].data = $(this).data().dataset[0]
             window.lineChart.update();
           });
@@ -43,7 +43,7 @@ $(document).on('turbolinks:load', function() {
         if($(this).attr('id') == "weekly") {
           $('[data-chart]').each(function () {
             var labels = $(this).data().weeklylabels;
-            window.lineChart.data.labels = convertFromTimeStampToDate(labels);
+            window.lineChart.data.labels = labels;
             window.lineChart.data.datasets[0].data = $(this).data().weeklydataset[0]
             window.lineChart.update();
           });
@@ -51,7 +51,7 @@ $(document).on('turbolinks:load', function() {
         if($(this).attr('id') == "monthly") {
           $('[data-chart]').each(function () {
             var labels = $(this).data().monthlylabels;
-            window.lineChart.data.labels = convertFromTimeStampToDate(labels);
+            window.lineChart.data.labels = labels;
             window.lineChart.data.datasets[0].data = $(this).data().monthlydataset[0]
             window.lineChart.update();
           });
@@ -59,7 +59,7 @@ $(document).on('turbolinks:load', function() {
         if($(this).attr('id') == "yearly") {
           $('[data-chart]').each(function () {
             var labels = $(this).data().yearlylabels;
-            window.lineChart.data.labels = convertFromTimeStampToDate(labels);
+            window.lineChart.data.labels = labels;
             window.lineChart.data.datasets[0].data = $(this).data().yearlydataset[0]
             window.lineChart.update();
           });
@@ -72,13 +72,11 @@ $(document).on('turbolinks:load', function() {
           if ($(this).is(':visible') && !$(this).hasClass('js-chart-drawn')) {
             var element = $(this);
             var attrData = $.extend({}, element.data())
-            var data           = attrData.dataset ? eval(attrData.dataset) : []
+            var data           = attrData.dataset ? eval(attrData.weeklydataset) : []
             var datasetOptions = attrData.datasetOptions ? eval(attrData.datasetOptions) : []
-            var labels         = attrData.dailylabels ? eval(attrData.dailylabels) : {}
+            var labels         = attrData.weeklylabels ? eval(attrData.weeklylabels) : {}
             var options     = attrData.options        ? eval('(' + attrData.options + ')') : {}
             var isDark         = !!attrData.dark
-
-            labels = convertFromTimeStampToDate(labels);
             
             var data = {
               labels   : labels,

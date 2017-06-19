@@ -27,7 +27,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'slim'
 gem 'rails_12factor'
 gem 'activeadmin', github: 'activeadmin'
-gem "bugsnag"
+gem 'bugsnag'
 gem 'friendly_id', '~> 5.1.0'
 gem 'dotenv-rails', :groups => [:development, :test]
 gem 'awesome_print'
@@ -35,13 +35,14 @@ gem 'redis', '~>3.2'
 gem 'puma'
 gem 'meta-tags'
 gem 'rinku'
-gem 'sidekiq'
+gem 'sidekiq', '~>4.0.1'
 gem 'bootstrap', '~> 4.0.0.alpha6'
 gem 'devise'
-gem "decent_exposure", "3.0.0"
-gem "select2-rails"
+gem 'decent_exposure', '3.0.0'
+gem 'select2-rails'
 gem 'httparty'
-
+gem 'sidecloq'
+gem 'sinatra'
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
 end

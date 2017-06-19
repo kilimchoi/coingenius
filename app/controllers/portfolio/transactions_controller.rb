@@ -12,7 +12,7 @@ class Portfolio::TransactionsController < ApplicationController
 
   def create
     if params["transaction"]["transaction_type"] == "sold"
-      booleans = current_user.holdings[0].map {|h| h[:coin].id == params["transaction"]["coin_id"] }
+      booleans = current_user.holdings[0].map {|h| h[:coin].id == params["transaction"]["coin_id"].to_i }
       if !booleans.include? true
         flash[:error] = "You do not have that coin"
         redirect_to '/portfolio'

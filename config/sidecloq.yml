@@ -1,0 +1,5 @@
+my_scheduled_job: # a unique name for this schedule
+  class: FetchPriceDataForCoinsWorker # the job class
+  args: [100]       # (optional) set of arguments
+  cron: "0 0 * * * *" # cron formatted schedule
+  queue: "coin_price" # Sidekiq queue for job
