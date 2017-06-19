@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   root 'coins#index'
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
 
   namespace :portfolio do
     get '/' => 'portfolio#index'
