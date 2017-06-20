@@ -1,5 +1,7 @@
 h2.dashhead-title.mt-5 My Portfolio
 
+h3.text-center=number_to_currency(@total)
+
 - if @total && @total > 0
   = link_to "+ Add a new transaction", new_portfolio_transaction_path, class: "new-transaction" 
   .hr-divider.mt-5.mb-3
@@ -41,7 +43,7 @@ h2.dashhead-title.mt-5 My Portfolio
                 td
                   = "#{holding[:amount]} #{holding[:coin].symbol}" 
                 td
-                  = "$#{holding[:total]}"
+                  = "#{number_to_currency(holding[:total])}"
 
   - else 
     .mt-4.w-20.mx-auto

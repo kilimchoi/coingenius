@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
     response = HTTParty.get('http://www.coincap.io/front')
 
     coins = JSON.parse(response.body).sort_by{ |hash| hash['mktcap'].to_f }.reverse
-    self.transactions.each do |transaction|
+    self.transactions.includes(:coin).each do |transaction|
       coin = transaction.coin
       coin_data = coins.select{|api_coin| api_coin['short'] == coin.symbol}.first.with_indifferent_access
       
@@ -35,9 +35,11 @@ class User < ActiveRecord::Base
         holding[:total] += total_change
       else
         next if transaction.transaction_type == "sold"
-        weekly_data = coin.weekly_price_history
-        monthly_data = coin.monthly_price_history
-        yearly_data = coin.yearly_price_history
+
+        yearly_data = coin.price_history(365)
+        monthly_data = coin.price_history(30)
+        weekly_data = coin.price_history(7)
+        
         holdings[coin.symbol] = {
           coin: coin,
           percent_change: coin_data[:perc],
