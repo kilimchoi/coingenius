@@ -1,30 +1,3 @@
-var isDate = function(value) {
-  var dateFormat;
-  if (toString.call(value) === '[object Date]') {
-    return true;
-  }
-  if (typeof value.replace === 'function') {
-    value.replace(/^\s+|\s+$/gm, '');
-  }
-  dateFormat = /(^\d{1,4}[\.|\\/|-]\d{1,2}[\.|\\/|-]\d{1,4})(\s*(?:0?[1-9]:[0-5]|1(?=[012])\d:[0-5])\d\s*[ap]m)?$/;
-  return dateFormat.test(value);
-}
-
-var convertFromTimeStampToDate = function(labels) { 
-  for (var i = 0; i < labels.length; i++) {
-    if (!isDate(labels[i])) {
-      var date = new Date(labels[i])
-      var hours = date.getHours();
-      var mins = date.getMinutes();
-      mins = mins < 10 ? "0" + mins : mins
-      var ampm = hours >= 12 ? 'pm' : 'am';
-      hours = hours % 12;
-      hours = hours ? hours : 12; 
-      labels[i] = date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear().toString().substr(-2) + " " + hours + ":" + mins + ampm;
-    }
-  }
-  return labels;
-}
 $(document).on('turbolinks:load', function() {
   $(function () {
     var linechart;
