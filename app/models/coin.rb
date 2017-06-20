@@ -4,97 +4,36 @@ class Coin < ActiveRecord::Base
 
   attr_accessor :price, :percent_change, :market_cap
 
-  def yearly_price_history
+  def price_history(days=7)
     a = []
-    last_365_days = get_365_days
-    key = price_history_key
-    
-    last_365_days.map do |ts| 
-      key.concat(ts.to_s)
-      val = $redis.get(key)
-      if val
-        a << val
-      else
-        response = HTTParty.get("https://min-api.cryptocompare.com/data/pricehistorical?fsym=#{symbol.upcase}&tsyms=USD&ts=#{ts}")
-        response = JSON.parse(response.body).with_indifferent_access["#{symbol.upcase}"]["USD"]
-        $redis.set(key, response)
-        $redis.expire(key, 1.day.to_i)
-        a << response
+    day_array = Coin.days_ago(days)
+    if $redis.get(price_history_key(day_array.last)) && $redis.get(price_history_key(day_array.first))
+      day_array.each do |day_timestamp|
+        a << $redis.get(price_history_key(day_timestamp)).to_f
       end
-      key = price_history_key
+    else
+      response = HTTParty.get("https://min-api.cryptocompare.com/data/histoday?fsym=#{symbol.upcase}&tsym=USD&limit=#{days-1}&e=CCCAGG")
+      prices = JSON.parse(response.body).with_indifferent_access["Data"]
+      prices.each do |price|
+        timestamp = Time.at(price[:time])
+        key = price_history_key(timestamp.beginning_of_day.to_i)
+        $redis.set(key, price[:close])
+        $redis.expire(key, 1.day.to_i)
+        a << price[:close]
+      end
     end
     a
   end
 
-  def monthly_price_history
-    a = []
-    last_30_days = get_30_days
-    key = price_history_key
-    
-    last_30_days.map do |ts| 
-      key.concat(ts.to_s)
-      val = $redis.get(key)
-      if val
-        a << val
-      else
-        response = HTTParty.get("https://min-api.cryptocompare.com/data/pricehistorical?fsym=#{symbol.upcase}&tsyms=USD&ts=#{ts}")
-        response = JSON.parse(response.body).with_indifferent_access["#{symbol.upcase}"]["USD"]
-        $redis.set(key, response)
-        $redis.expire(key, 1.day.to_i)
-        a << response
-      end
-      key = price_history_key
-    end
-    a
+  def price_history_key(timestamp)
+    "#{symbol}_price_history_#{timestamp}"
   end
 
-  def weekly_price_history
-    a = []
-    last_7_days = get_7_days
-    key = price_history_key
-    
-    last_7_days.map do |ts| 
-      key.concat(ts.to_s)
-      val = $redis.get(key)
-      if val
-        a << val
-      else
-        response = HTTParty.get("https://min-api.cryptocompare.com/data/pricehistorical?fsym=#{symbol.upcase}&tsyms=USD&ts=#{ts}")
-        response = JSON.parse(response.body).with_indifferent_access["#{symbol.upcase}"]["USD"]
-        $redis.set(key, response)
-        $redis.expire(key, 1.day.to_i)
-        a << response
-      end
-      key = price_history_key
-    end
-    a
-  end
-
-  def price_history_key
-    "#{symbol}_price_history"
-  end
-
-  def get_7_days
-    a = []
-    7.downto(1) do |i|
-      a << (Time.now - i.day).strftime("%Y-%m-%d")
-    end
-    a.map {|t| t.to_time.to_i}
-  end
-
-  def get_30_days
-    a = []
-    30.downto(1) do |i|
-      a << (Time.now - i.day).strftime("%Y-%m-%d")
-    end
-    a.map {|t| t.to_time.to_i}
-  end
-
-  def get_365_days
-    a = []
-    365.downto(1) do |i|
-      a << (Time.now - i.day).strftime("%Y-%m-%d")
-    end
-    a.map {|t| t.to_time.to_i}
-  end
+  def self.days_ago(days=7)
+     a = []
+     (days-1).downto(0) do |i|
+       a << (Date.today - i.days).to_time.to_i
+     end
+     a
+   end
 end

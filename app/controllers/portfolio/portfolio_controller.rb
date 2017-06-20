@@ -10,27 +10,29 @@ class Portfolio::PortfolioController < ApplicationController
       @weekly_history = [0] * 7
       @monthly_history = [0] * 30
       @yearly_history = [0] * 365
+
+      days_ago = Coin.days_ago(365).map{|timestamp| Time.at(timestamp).strftime("%Y-%m-%d")}
       
       @last_twenty_four_hours = get_24_hours
-      @last_seven_days = get_7_days
-      @last_thirty_days = get_30_days
-      @last_three_six_five_days = get_365_days
+      @last_seven_days = days_ago.last(7)
+      @last_thirty_days = days_ago.last(30)
+      @last_three_six_five_days = days_ago
 
       @holdings.map do |h|
         amount = h[:amount]
         h[:weekly_price_history].each_with_index do |price, index|
           if !amount.nil?
-            @weekly_history[index] += (price.to_f * amount.to_i).to_s.to_f.round(2)
+            @weekly_history[index] += (price.to_f * amount.to_f).round(2)
           end
         end
         h[:monthly_price_history].each_with_index do |price, index|
           if !amount.nil?
-            @monthly_history[index] += (price.to_f * amount.to_i).to_s.to_f.round(2)
+            @monthly_history[index] += (price.to_f * amount.to_f).round(2)
           end
         end
         h[:yearly_price_history].each_with_index do |price, index|
           if !amount.nil?
-            @yearly_history[index] += (price.to_f * amount.to_i).to_s.to_f.round(2)
+            @yearly_history[index] += (price.to_f * amount.to_f).round(2)
           end
         end
       end
@@ -43,30 +45,6 @@ class Portfolio::PortfolioController < ApplicationController
     a = []
     1.upto(24) do |i|
       a << (Time.now - i.hour).strftime("%Y-%m-%d %H:%M%p")
-    end
-    a
-  end
-
-  def get_7_days
-    a = []
-    7.downto(1) do |i|
-      a << (Time.now - i.day).strftime("%Y-%m-%d")
-    end
-    a
-  end
-
-  def get_30_days
-    a = []
-    30.downto(1) do |i|
-      a << (Time.now - i.day).strftime("%Y-%m-%d")
-    end
-    a
-  end
-
-  def get_365_days
-    a = []
-    365.downto(1) do |i|
-      a << (Time.now - i.day).strftime("%Y-%m-%d")
     end
     a
   end
