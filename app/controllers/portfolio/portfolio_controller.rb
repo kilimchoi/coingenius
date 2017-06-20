@@ -10,11 +10,13 @@ class Portfolio::PortfolioController < ApplicationController
       @weekly_history = [0] * 7
       @monthly_history = [0] * 30
       @yearly_history = [0] * 365
+
+      days_ago = Coin.days_ago(365).map{|timestamp| Time.at(timestamp).strftime("%Y-%m-%d")}
       
       @last_twenty_four_hours = get_24_hours
-      @last_seven_days = days_ago(7)
-      @last_thirty_days = days_ago(30)
-      @last_three_six_five_days = days_ago(365)
+      @last_seven_days = days_ago.last(7)
+      @last_thirty_days = days_ago.last(30)
+      @last_three_six_five_days = days_ago
 
       @holdings.map do |h|
         amount = h[:amount]
@@ -43,14 +45,6 @@ class Portfolio::PortfolioController < ApplicationController
     a = []
     1.upto(24) do |i|
       a << (Time.now - i.hour).strftime("%Y-%m-%d %H:%M%p")
-    end
-    a
-  end
-
-  def days_ago(days=7)
-    a = []
-    (days-1).downto(0) do |i|
-      a << (Time.now - i.days).strftime("%Y-%m-%d")
     end
     a
   end

@@ -6,7 +6,7 @@ class Coin < ActiveRecord::Base
 
   def price_history(days=7)
     a = []
-    day_array = days_ago(days)
+    day_array = Coin.days_ago(days)
     if $redis.get(price_history_key(day_array.last)) && $redis.get(price_history_key(day_array.first))
       day_array.each do |day_timestamp|
         a << $redis.get(price_history_key(day_timestamp)).to_f
@@ -29,7 +29,7 @@ class Coin < ActiveRecord::Base
     "#{symbol}_price_history_#{timestamp}"
   end
 
-  def days_ago(days=7)
+  def self.days_ago(days=7)
      a = []
      (days-1).downto(0) do |i|
        a << (Date.today - i.days).to_time.to_i
