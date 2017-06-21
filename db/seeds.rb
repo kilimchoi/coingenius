@@ -170,7 +170,7 @@ gnt = Coin.new(
   cons: "No Mining available.",
   consensus_mechanism: "Unknown", 
   category: "Computing Power Network", 
-  image_url: "https://www.cryptocompare.com/media/351995/gnt.png")
+  image_url: "https://coincap.io/images/coins/Golem.png")
 gnt.exchanges << bitt 
 gnt.exchanges << polo 
 coins << gnt
