@@ -13,7 +13,6 @@ html
 
     - if Rails.env.production?
       = render 'layouts/ga'
-      = render 'layouts/amplitude'
   
   body data-user-id=current_user.try(:id) data-page="#{controller_name}/#{action_name}"
     = render 'layouts/header'
