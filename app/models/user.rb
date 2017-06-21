@@ -19,22 +19,28 @@ class User < ActiveRecord::Base
     self.transactions.includes(:coin).each do |transaction|
       coin = transaction.coin
       coin_data = coins.select{|api_coin| api_coin['short'] == coin.symbol}.first.with_indifferent_access
-      
+      holding = holdings[coin.symbol]
+
       if transaction.bought?
         amount_change = transaction.amount
         total_change = (transaction.amount * coin_data[:price].to_f)
-      else 
-        amount_change = -transaction.amount
-        total_change = -(transaction.amount * coin_data[:price].to_f)
-      end
-
+      elsif transaction.sold?
+        if transaction.amount <= holding[:amount]
+          amount_change = -transaction.amount 
+          total_change = -(transaction.amount * coin_data[:price].to_f)
+        else
+          amount_change = 0
+          total_change = 0
+        end
+      end 
+      
       total += total_change
 
-      if holding = holdings[coin.symbol]
+      if holding
         holding[:amount] += amount_change
         holding[:total] += total_change
       else
-        next if transaction.transaction_type == "sold"
+        next if transaction.sold?
 
         yearly_data = coin.price_history(365)
         monthly_data = coin.price_history(30)

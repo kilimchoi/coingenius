@@ -11,15 +11,17 @@ class Portfolio::TransactionsController < ApplicationController
   end
 
   def create
-    if params["transaction"]["transaction_type"] == "sold"
-      booleans = current_user.holdings[0].map {|h| h[:coin].id == params["transaction"]["coin_id"].to_i }
-      if !booleans.include? true
+    if is_user_selling?
+      if !user_has_coin?
         flash[:error] = "You do not have that coin"
         redirect_to '/portfolio'
+      elsif !user_has_sufficient_amount? 
+          flash[:error] = "You do not own enough coins"
+          redirect_to '/portfolio'
       else
         @transaction = current_user.transactions.new(transaction_params)
         if @transaction.save
-          flash[:success] = 'Your transaction has been created!'
+          flash[:success] = 'You successfully removed the coin'
         else
           flash[:error] = @transaction.errors.full_messages.join(', ')
         end
@@ -49,4 +51,27 @@ class Portfolio::TransactionsController < ApplicationController
     params.require(:transaction).permit(:price, :amount, :coin_id, :transaction_type)
   end
 
+  def is_user_selling? 
+    params["transaction"]["transaction_type"] == "sold"
+  end
+
+  def user_has_coin? 
+    current_user.holdings.first.select do |h| 
+      if h[:coin].id == params["transaction"]["coin_id"].to_i
+        return true
+      end
+    end
+    return false
+  end
+
+  def user_has_sufficient_amount? 
+    coin_amount = 0
+    current_user.holdings.first.select do |h| 
+      if h[:coin].id == params["transaction"]["coin_id"].to_i
+        coin_amount = h[:amount].to_s.to_f
+        break
+      end
+    end
+    coin_amount >= params["transaction"]["amount"].to_f
+  end
 end
