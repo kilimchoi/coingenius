@@ -20,14 +20,24 @@ class User < ActiveRecord::Base
       coin = transaction.coin
       coin_data = coins.select{|api_coin| api_coin['short'] == coin.symbol}.first.with_indifferent_access
       holding = holdings[coin.symbol]
+      
+      if holding
+        yearly_data = holding[:yearly_price_history]
+        monthly_data = holding[:monthly_price_history]
+        weekly_data = holding[:weekly_price_history]
+      else
+        yearly_data = coin.price_history(365)
+        monthly_data = yearly_data.last(30)
+        weekly_data = yearly_data.last(7)
+      end
 
       if transaction.bought?
         amount_change = transaction.amount
-        total_change = (transaction.amount * coin_data[:price].to_f)
+        total_change = (transaction.amount * weekly_data.last)
       elsif transaction.sold?
         if transaction.amount <= holding[:amount]
           amount_change = -transaction.amount 
-          total_change = -(transaction.amount * coin_data[:price].to_f)
+          total_change = -(transaction.amount * weekly_data.last)
         else
           amount_change = 0
           total_change = 0
@@ -40,18 +50,12 @@ class User < ActiveRecord::Base
         holding[:amount] += amount_change
         holding[:total] += total_change
       else
-        next if transaction.sold?
-
-        yearly_data = coin.price_history(365)
-        monthly_data = coin.price_history(30)
-        weekly_data = coin.price_history(7)
-        
         holdings[coin.symbol] = {
           coin: coin,
           percent_change: coin_data[:perc],
           amount: amount_change,
           total: total_change,
-          price: coin_data[:price].to_f.round(2),
+          price: weekly_data.last,
           weekly_price_history: weekly_data,
           monthly_price_history: monthly_data,
           yearly_price_history: yearly_data,
