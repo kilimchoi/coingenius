@@ -9,7 +9,7 @@ class CoinsController < ApplicationController
     set_meta_tags :og => {
         :title    => :title,
         :description => description,
-        :image => root_url[0..-2] + ActionController::Base.helpers.image_url('coingenius_favicon.png')
+        :image => root_url[0..-2] + ActionController::Base.helpers.image_url('coingenius.png')
     }
 
     response = HTTParty.get('http://www.coincap.io/front')
