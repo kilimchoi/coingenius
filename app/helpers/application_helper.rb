@@ -34,4 +34,19 @@ module ApplicationHelper
     img_url = "https://secure.gravatar.com/avatar/#{gravatar_id}?s=#{size}&d=identicon"
     image_tag(img_url, class: "gravatar", :size => "#{size/2}x#{size/2}")
   end
+
+  def clearbit_image(website)
+    require 'net/http'
+    url = "https://logo.clearbit.com/#{base_url(website)}"
+    res = Net::HTTP.get(URI.parse(url))
+    if res.eql? "\n"
+      "https://#{base_url(website)}/favicon.ico"
+    else
+      url
+    end
+  end
+
+  def base_url(url)
+    URI.parse(url).host
+  end
 end

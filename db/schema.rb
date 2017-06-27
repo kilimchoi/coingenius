@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170603224706) do
+ActiveRecord::Schema.define(version: 20170626204220) do
 
   create_table "coins", force: :cascade do |t|
     t.datetime "created_at",          null: false
@@ -36,10 +36,17 @@ ActiveRecord::Schema.define(version: 20170603224706) do
   end
 
   create_table "exchanges", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.string   "name"
     t.string   "website"
+    t.text     "pros"
+    t.text     "cons"
+    t.boolean  "cc_supported"
+    t.boolean  "verification_required"
+    t.text     "deposit_withdrawal_limit"
+    t.text     "fees"
+    t.text     "description"
   end
 
   create_table "transactions", force: :cascade do |t|

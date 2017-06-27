@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     resources :transactions
   end
 
+  resources :exchanges
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

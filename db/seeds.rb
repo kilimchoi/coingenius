@@ -9,7 +9,190 @@ coins = []
 coinbase = Exchange.create(name: "Coinbase", website: "https://www.coinbase.com/join/52893754c1edbc9eee000481")
 polo = Exchange.create(name: "Poloniex", website: "https://poloniex.com/")
 bitt = Exchange.create(name: "Bittrex", website: "https://bittrex.com/")
+exchanges = []
 
+gemini = Exchange.new(
+    name: "Gemini",
+    website: "https://gemini.com/?ref=coingenius.io",
+    description: "The next generation digital asset platform built for businesses and investors. Buy, sell, and store both bitcoin and ether with superior trading features, security, and regulatory oversight.",
+    pros: "Extremely quick response from customer support.#ACH deposits (up to $500/day) are immediately available for trading.#Reimburses $20 for wire transfer fee.",
+    cons: "Limited currencies.", 
+    deposit_withdrawal_limit: "ACH transfer have daily deposit limit of $500 & $10000 withdrawal limit. No limit for wire, BTC, ETH transfer.",
+    fees: "0.25% base taker fee + 0.1% discount depending on 30 day trading volume. 0.25% base maker fee + discount schedule based on user's 30 day trading volume and buy/sell ratio.",
+    cc_supported: false, 
+    verification_required: true,
+  )
+
+
+exchanges << gemini
+
+cex = Exchange.new(
+    name: "Cex",
+    website: "https://cex.io/r/0/up105560109/0/",
+    description: "CEX.IO offers cross-platform trading via website, mobile app, WebSocket and REST API, providing access to high liquidity orderbook for top currency pairs on the market. Instant Bitcoin buying and selling is available via simplified bundle interface.",
+    pros: "0% maker fee.#Much cleaner UI compared to others.#Has generous refund policy.#Supports credit card purchase with the lowest fees.",
+    cons: "Absence of insurance for hacked accounts.#No mention of what % of digital assets are in cold storage.#Does not support many US states.#Limited currencies.",
+    deposit_withdrawal_limit: "$10,000 daily deposit & withdrawal limit for verified users",
+    fees: "0% maker fee & 0.2% taker fee that goes down depending on the 30 day trade volume",
+    cc_supported: true, 
+    verification_required: false,
+)
+
+exchanges << cex
+
+shapeshift = Exchange.new(
+    name: "Shapeshift",
+    website: "https://shapeshift.io/?ref=coingenius.io",
+    description: "The Safest, Fastest Asset Exchange on Earth. Trade any leading blockchain asset for any other. Protection by Design. No Account Needed",
+    pros: "Instant currency exchange.#Intuitive UI.#Does not hold your money.",
+    cons: "Unable to deposit using ACH transfer/bank wire",
+    deposit_withdrawal_limit: "No limit",
+    fees: "No exchange/service fees. Only miner fees", 
+    cc_supported: false, 
+    verification_required: false
+  )
+
+exchanges << shapeshift
+
+bitt.update(
+  description: "At Bittrex.com, we take pride in supporting both new and established cryptocurrencies, providing you with an ever-growing selection of trading and investing opportunities. We conduct compliance audits on all new coin launches, ensuring that our users have the information they need to make informed trades.",
+  pros: "Has 190+ coins in the market.#Moderately timely response from customer support.#Quick turnaround for identity verification",
+  cons: "Absence of insurance for hacked accounts.#Confusing UX.#Unable to deposit using ACH transfer/bank wire",
+  deposit_withdrawal_limit: "100 BTC withdrawal limit for enhanced accounts",
+  fees: "0.25% for each trade", 
+  cc_supported: false, 
+  verification_required: true
+)
+
+exchanges << bitt
+polo.update({
+  description: "US-based digital asset exchange offering maximum security and advanced trading features.",
+  pros: "Has majority of altcoins in the market.#Majority of coins are in cold-storage.",
+  cons: "Does not support some US states.#Known for terrible customer support.#Withdrawing is getting increasingly difficult.#Unable to deposit using ACH transfer/bank wire.",
+  deposit_withdrawal_limit: "$25,000 limit after verification",
+  fees: "Starts at 0.15% taker fee & 0.25% maker fee and the rates go down depending on the trading volume",
+  cc_supported: false, 
+  verification_required: false
+})
+
+exchanges << polo
+kraken = Exchange.new(
+    name: "Kraken",
+    website: "https://www.kraken.com/?ref=coingenius.io",
+    description: "Kraken is the largest Bitcoin exchange in euro volume and liquidity and also trading Canadian dollars, US dollars, British pounds and Japanese yen.",
+    pros: "Moderately timely response from customer support.#Large Euro trading volume.#Good reputation approved by the German bank.",
+    cons: "Too many steps to place an order.#Absence of insurance for hacked accounts",
+    deposit_withdrawal_limit: "$25,000 daily deposit & withdrawal limit after verifying",
+    fees: "Depends on the currency pairs, but generally starts at 0.16% maker fee & 0.26% taker fee",
+    cc_supported: false,
+    verification_required: true
+  )
+
+exchanges << kraken
+
+liqui = Exchange.new(
+    name: "Liqui",
+    website: "https://liqui.io/?ref=coingenius.io",
+    description: "Digital Asset Exchange",
+    pros: "No withdrawl & deposit limit.#Has many altcoins in the market.#Offers IOU trading for ico tokens.#Quick response from Customer Support.",
+    cons: "Some customer have complained about the difficulty with withdrawing#Absence of insurance for hacked accounts.#Instructions on the site is lacking.",
+    deposit_withdrawal_limit: "No limit",
+    fees: "0.1% maker fee & 0.25% taker fee",
+    cc_supported: false, 
+    verification_required: false
+)
+
+exchanges << liqui
+
+bitfinex = Exchange.new(
+    name: "Bitfinex",
+    website: "https://www.bitfinex.com/?ref=coingenius.io",
+    description: "Bitfinex offers the most liquid exchange in the world, allowing users to easily exchange Bitcoin, Ethereum, Ethereum Classic, Zcash, Monero, Litecoin, Dash, Iota, and Ripple against USD or BTC with minimal slippage.",
+    pros: "Only exchange that doesn't require verification to make deposit & withdrawal.#Decent alternative to gdax&coinbase for eth btc purchase.#99.5% of coins are stored in cold storage#.Decent FAQ site.",
+    cons: "Limited tradeable currencies.#User accounts have been hacked in the past.#Absence of insurance for hacked accounts.",
+    deposit_withdrawal_limit: "No limit",
+    fees: "Depends on the trade volume, starts at 0.1% taker fee & 0.2% maker fee",
+    cc_supported: false,
+    verification_required: false,
+  )
+
+exchanges << bitfinex
+
+hitbtc = Exchange.new(
+    name: "Hitbtc",
+    website: "https://hitbtc.com/?ref=coingenius.io",
+    description: "HitBTC is aimed to become a global platform for companies dealing with virtual currencies, providing most advance exchange and clearing technologies.",
+    pros: "Has many IOUs for recent icos",
+    cons: "Absence of insurance for hacked accounts.#Unable to deposit using ACH transfer/bank wire.",
+    deposit_withdrawal_limit: "$10,000 limit for both daily deposit & withdrawal for qualified accounts",
+    fees: "0.1% maker fee & 0.01% rebate",
+    cc_supported: false,
+    verification_required: true,
+  )
+
+exchanges << hitbtc
+
+korbit = Exchange.new(
+    name: "Korbit",
+    website: "https://www.korbit.co.kr/?ref=coingenius.io",
+    description: "The world's first Bitcoin-Korean Won exchange, built with cutting-edge technology and a customer-centric approach.",
+    pros: "Korea's largest crypto exchange.#Good remittance program",
+    cons: "Only people who have korean cellphones can verify.#Absence of insurance for hacked accounts.",
+    deposit_withdrawal_limit: "Unlimited deposit & max of 40BTC withdrawal limit",
+    fees: "Depends on the trade volume, starts at 0.100% taker fee & 0.200% maker fee",
+    cc_supported: false,
+    verification_required: true,
+  )
+exchanges << korbit
+
+wavesDEX = Exchange.new(
+    name: "Waves DEX",
+    website: "https://wavesplatform.com/?ref=coingenius.io",
+    description: "DEX allows users to trade their tokens — including WAVES, BTC and any other assets issued on the Waves platform — completely trustlessly and without having to move their funds to a centralised exchange",
+    pros: "Decentralized Exchange",
+    cons: "Limited currencies.#Unable to deposit using ACH transfer/bank wire.",
+    deposit_withdrawal_limit: "No limit",
+    fees: "Standard Network fees much lower than 0.2%",
+    cc_supported: false,
+    verification_required: false
+  )
+exchanges << wavesDEX
+bitsharesDEX = Exchange.new(
+    name: "Bitshares DEX",
+    website: "https://bitshares.org/?ref=coingenius.io",
+    description: "BitShares provides a high-performance decentralized exchange, with all the features you would expect in a trading platform. It can handle the trading volume of the NASDAQ, while settling orders the second you submit them. ",
+    pros: "Cheapest fees.#Decentralized exchange.#No Limits.#IOUs & fiat currencies are tradeable.#Reserves are available for emergencies.",
+    cons: "Unable to deposit using ACH transfer/bank wire",
+    deposit_withdrawal_limit: "No limit",
+    fees: "Few cents per trade",
+    cc_supported: false,
+    verification_required: false
+  )
+exchanges << bitsharesDEX
+supernetDEX = Exchange.new(
+    name: "Supernet EasyDEX",
+    website: "https://supernet.org/?ref=coingenius.io",
+    description: "A decentralized exchange that not only allows users to exchange cryptocurrencies among themselves without entrusting their funds to a third party but also a system that provides speed and liquidity",
+    pros: "Decentralized Exchange",
+    cons: "Limited currencies.#Still in beta.#Unable to deposit using ACH transfer/bank wire.",
+    deposit_withdrawal_limit: "No limit",
+    fees: "approximately 0.001%",
+    cc_supported: false,
+    verification_required: false 
+  )
+exchanges << supernetDEX
+gdax = Exchange.new(
+    name: "Gdax",
+    website: "https://www.gdax.com/?ref=coingenius.io",
+    description: "GDAX offers institutions and professionals the ability to trade a variety of digital currencies like Bitcoin, Ethereum, and more on a regulated U.S. based exchange.",
+    pros: "0% maker fee.#FDIC-insured.#98% of digital assets are stored in cold storage.#Easy to use interface.",
+    cons: "Unresponsive Customer Support. (Avg response time varies highly).#Verification process has been taking weeks lately.#Limited currencies.",
+    deposit_withdrawal_limit: "$10,000 daily deposit & withdrawal limit for verified users",
+    fees: "0% maker fee & taker fee starts at 0.3% and goes down depending on the 30 day trade volume",
+    cc_supported: false,
+    verification_required: true
+  )
+exchanges << gdax
 btc = Coin.new(
   name: "Bitcoin", 
   symbol: "BTC", 
@@ -297,5 +480,17 @@ lykke = Coin.new(
 coins << lykke
 
 coins.each do |coin| 
-  coin.save!
+  if Coin.find_by_name(coin.name).nil?
+    coin.save!
+  else
+    next 
+  end
+end
+
+exchanges.each do |ex|
+  if Exchange.find_by_name(ex.name).nil?
+    ex.save!
+  else
+    next 
+  end
 end

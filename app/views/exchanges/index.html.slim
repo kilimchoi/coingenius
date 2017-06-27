@@ -1,0 +1,49 @@
+- provide(:title, "Coins")
+
+.row: .col-lg-12
+  .table-responsive
+    table.table
+      thead
+        tr
+          th Exchange
+          th Pros
+          th Cons
+          th Fees
+          th Deposit & Withdrawal Limit
+          th Available for credit card purchase
+          th ID verification required for trading
+      - exchanges.each do |ex|
+        tbody
+          tr 
+            td.col-25-length
+              .media
+                = image_tag clearbit_image(ex.website), class: "d-flex mr-3",
+                width: '40'
+                .media-body
+                  h5.mt-0
+                    = link_to("#{ex.name}", "#{ex.website}")
+                  = ex.description
+            td.col-20-length 
+              - if ex.pros
+                - ex.pros.split("#").each do |pro|
+                  li
+                    = pro
+            td.col-20-length 
+              - if ex.cons
+                - ex.cons.split("#").each do |con|
+                  li
+                    = con
+            td.col-20-length 
+              = ex.fees
+            td.col-20-length 
+              = ex.deposit_withdrawal_limit
+            td
+              - if ex.cc_supported
+                | Yes
+              - else
+                | No
+            td 
+              - if ex.verification_required
+                | Yes
+              - else
+                | No
