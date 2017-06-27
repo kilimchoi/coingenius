@@ -3,8 +3,9 @@ class CoinsController < ApplicationController
 
   def index
     description = "Learn about pros and cons of some of the top cryptocurrencies to help you make a better investment decision."
-    set_meta_tags :description => description
     keywords = %w[bitcoin ethereum ripple litecoin]
+    set_meta_tags :description => description
+    set_meta_tags keywords: keywords
     set_meta_tags :og => {
         :title    => :title,
         :description => description,
