@@ -2,6 +2,14 @@ class CoinsController < ApplicationController
   respond_to :html
 
   def index
+    description = "Learn about pros and cons of some of the top cryptocurrencies to help you make a better investment decision."
+    set_meta_tags :description => description
+    set_meta_tags :og => {
+        :title    => :title,
+        :description => description,
+        :image => root_url[0..-2] + ActionController::Base.helpers.image_url('coingenius_favicon.png')
+    }
+
     response = HTTParty.get('http://www.coincap.io/front')
     @coins = []
     api_coins = JSON.parse(response.body).sort_by{ |hash| hash['mktcap'].to_f }.reverse.first(100)

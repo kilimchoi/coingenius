@@ -1,6 +1,14 @@
 class Portfolio::PortfolioController < ApplicationController
   
   def index
+    description = "Create your cryptocurrency portfolio to track your investment returns."
+    set_meta_tags :description => description
+    set_meta_tags :og => {
+        :title    => :title,
+        :description => description,
+        :image => root_url[0..-2] + ActionController::Base.helpers.image_url('coingenius_favicon.png')
+    }
+
     @coins = Coin.all
     @transaction = Transaction.new
     if current_user
