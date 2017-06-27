@@ -9,7 +9,7 @@ class ExchangesController < ApplicationController
     set_meta_tags :og => {
         :title    => :title,
         :description => description,
-        :image => root_url[0..-2] + ActionController::Base.helpers.image_url('coingenius.png')
+        :image => root_url[0..-2] + ActionController::Base.helpers.image_url('coingeniusx256.png')
     }
     respond_with exchanges 
   end
