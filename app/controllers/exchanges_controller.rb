@@ -2,7 +2,7 @@ class ExchangesController < ApplicationController
   respond_to :html
   expose :exchanges, -> { Exchange.where.not(pros: nil).order(rank: :asc) }
   def index
-    description = "Compare some of the well known cryptocurrency exchanges in the market including their rates, deposit and withdrawl limits, pros and cons."
+    description = "Compare some of the well known cryptocurrency exchanges including their rates, deposit and withdrawl limits, and more."
     keywords = %w[gemini coinbase shapeshift bittrex]
     set_meta_tags :description => description
     set_meta_tags keywords: keywords
