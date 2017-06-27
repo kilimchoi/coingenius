@@ -7,8 +7,8 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 coins = []
 coinbase = Exchange.create(name: "Coinbase", website: "https://www.coinbase.com/join/52893754c1edbc9eee000481")
-polo = Exchange.create(name: "Poloniex", website: "https://poloniex.com/")
-bitt = Exchange.create(name: "Bittrex", website: "https://bittrex.com/")
+polo = Exchange.create(name: "Poloniex", website: "https://poloniex.com/?ref=coingenius.io")
+bitt = Exchange.create(name: "Bittrex", website: "https://bittrex.com/?ref=coingenius.io")
 exchanges = []
 
 gemini = Exchange.new(
@@ -21,6 +21,7 @@ gemini = Exchange.new(
     fees: "0.25% base taker fee + 0.1% discount depending on 30 day trading volume. 0.25% base maker fee + discount schedule based on user's 30 day trading volume and buy/sell ratio.",
     cc_supported: false, 
     verification_required: true,
+    rank: 1
   )
 
 
@@ -36,6 +37,7 @@ cex = Exchange.new(
     fees: "0% maker fee & 0.2% taker fee that goes down depending on the 30 day trade volume",
     cc_supported: true, 
     verification_required: false,
+    rank: 3
 )
 
 exchanges << cex
@@ -49,7 +51,8 @@ shapeshift = Exchange.new(
     deposit_withdrawal_limit: "No limit",
     fees: "No exchange/service fees. Only miner fees", 
     cc_supported: false, 
-    verification_required: false
+    verification_required: false, 
+    rank: 5
   )
 
 exchanges << shapeshift
@@ -61,7 +64,8 @@ bitt.update(
   deposit_withdrawal_limit: "100 BTC withdrawal limit for enhanced accounts",
   fees: "0.25% for each trade", 
   cc_supported: false, 
-  verification_required: true
+  verification_required: true, 
+  rank: 4
 )
 
 exchanges << bitt
@@ -72,7 +76,8 @@ polo.update({
   deposit_withdrawal_limit: "$25,000 limit after verification",
   fees: "Starts at 0.15% taker fee & 0.25% maker fee and the rates go down depending on the trading volume",
   cc_supported: false, 
-  verification_required: false
+  verification_required: false, 
+  rank: 8
 })
 
 exchanges << polo
@@ -85,7 +90,8 @@ kraken = Exchange.new(
     deposit_withdrawal_limit: "$25,000 daily deposit & withdrawal limit after verifying",
     fees: "Depends on the currency pairs, but generally starts at 0.16% maker fee & 0.26% taker fee",
     cc_supported: false,
-    verification_required: true
+    verification_required: true, 
+    rank: 6
   )
 
 exchanges << kraken
@@ -99,7 +105,8 @@ liqui = Exchange.new(
     deposit_withdrawal_limit: "No limit",
     fees: "0.1% maker fee & 0.25% taker fee",
     cc_supported: false, 
-    verification_required: false
+    verification_required: false, 
+    rank: 10
 )
 
 exchanges << liqui
@@ -114,6 +121,7 @@ bitfinex = Exchange.new(
     fees: "Depends on the trade volume, starts at 0.1% taker fee & 0.2% maker fee",
     cc_supported: false,
     verification_required: false,
+    rank: 12
   )
 
 exchanges << bitfinex
@@ -128,6 +136,7 @@ hitbtc = Exchange.new(
     fees: "0.1% maker fee & 0.01% rebate",
     cc_supported: false,
     verification_required: true,
+    rank: 7
   )
 
 exchanges << hitbtc
@@ -142,6 +151,7 @@ korbit = Exchange.new(
     fees: "Depends on the trade volume, starts at 0.100% taker fee & 0.200% maker fee",
     cc_supported: false,
     verification_required: true,
+    rank: 11
   )
 exchanges << korbit
 
@@ -154,7 +164,8 @@ wavesDEX = Exchange.new(
     deposit_withdrawal_limit: "No limit",
     fees: "Standard Network fees much lower than 0.2%",
     cc_supported: false,
-    verification_required: false
+    verification_required: false, 
+    rank: 9
   )
 exchanges << wavesDEX
 bitsharesDEX = Exchange.new(
@@ -166,7 +177,8 @@ bitsharesDEX = Exchange.new(
     deposit_withdrawal_limit: "No limit",
     fees: "Few cents per trade",
     cc_supported: false,
-    verification_required: false
+    verification_required: false,
+    rank: 2
   )
 exchanges << bitsharesDEX
 supernetDEX = Exchange.new(
@@ -178,7 +190,8 @@ supernetDEX = Exchange.new(
     deposit_withdrawal_limit: "No limit",
     fees: "approximately 0.001%",
     cc_supported: false,
-    verification_required: false 
+    verification_required: false, 
+    rank: 10
   )
 exchanges << supernetDEX
 gdax = Exchange.new(
@@ -190,7 +203,8 @@ gdax = Exchange.new(
     deposit_withdrawal_limit: "$10,000 daily deposit & withdrawal limit for verified users",
     fees: "0% maker fee & taker fee starts at 0.3% and goes down depending on the 30 day trade volume",
     cc_supported: false,
-    verification_required: true
+    verification_required: true, 
+    rank: 4
   )
 exchanges << gdax
 btc = Coin.new(
@@ -488,9 +502,7 @@ coins.each do |coin|
 end
 
 exchanges.each do |ex|
-  if Exchange.find_by_name(ex.name).nil?
-    ex.save!
-  else
-    next 
-  end
+  
+  ex.save!
+  
 end
