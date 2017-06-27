@@ -502,7 +502,9 @@ coins.each do |coin|
 end
 
 exchanges.each do |ex|
-  
-  ex.save!
-  
+  if Exchange.find_by_name(ex.name).nil?
+    ex.save!
+  else
+    next 
+  end
 end
