@@ -6,10 +6,10 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'coins#index'
+  root to: redirect('/coins')
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
-
+  resources :coins
   namespace :portfolio do
     get '/' => 'portfolio#index'
     resources :transactions
