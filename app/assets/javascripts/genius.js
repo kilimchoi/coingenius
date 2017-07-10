@@ -1,7 +1,5 @@
 $(document).on('turbolinks:load', function() {
-  $(function () {
     var linechart;
-
     $('.nav-link').on('click', function() {
         $('.nav-link').removeClass('active');
         $(this).addClass('active');
@@ -42,7 +40,7 @@ $(document).on('turbolinks:load', function() {
     $(document)
       .on('redraw.bs.charts', function () {
         $('[data-chart]').each(function () {
-          if ($(this).is(':visible') && !$(this).hasClass('js-chart-drawn')) {
+          if ($(this).is(':visible')) {
             var element = $(this);
             var attrData = $.extend({}, element.data())
             var data           = attrData.dataset ? eval(attrData.weeklydataset) : []
@@ -119,7 +117,6 @@ $(document).on('turbolinks:load', function() {
         })
       })
       .trigger('redraw.bs.charts')
-  });
 
   
 });
