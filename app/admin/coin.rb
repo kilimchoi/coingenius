@@ -17,7 +17,7 @@ ActiveAdmin.register Coin do
     f.actions
     f.inputs 
     f.inputs 'Exchanges' do 
-      f.input :exchanges, as: :select, :input_html => {:multiple => true}
+      f.input :exchanges, as: :check_boxes, :input_html => {:multiple => true}
     end
     f.actions
   end
