@@ -12,4 +12,13 @@ ActiveAdmin.register Exchange do
 #   permitted
 # end
   permit_params :name, :website, :pros, :cons, :cc_supported, :verification_required, :deposit_withdrawal_limit, :fees, :description, :rank
+  controller do
+    # clear blank attr on save
+    def save_resource(object)
+      if object.pros == ''
+        object.pros = nil
+      end
+      super
+    end
+  end
 end
