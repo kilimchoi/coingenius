@@ -1,6 +1,11 @@
+function removeChartData(chart) { 
+  chart.data.labels.pop();
+  chart.data.datasets.forEach((dataset) => {
+      dataset.data.pop();
+  });
+}
 
-
-$(document).on('turbolinks:load', function() {
+$(document).ready(function() {
     var linechart;
     $('.nav-link').on('click', function() {
         $('.nav-link').removeClass('active');
@@ -16,6 +21,7 @@ $(document).on('turbolinks:load', function() {
         if($(this).attr('id') == "weekly") {
           $('[data-chart]').each(function () {
             var labels = $(this).data().weeklylabels;
+            removeChartData(window.lineChart);
             window.lineChart.data.labels = labels;
             window.lineChart.data.datasets[0].data = $(this).data().weeklydataset[0]
             window.lineChart.update();
@@ -24,6 +30,7 @@ $(document).on('turbolinks:load', function() {
         if($(this).attr('id') == "monthly") {
           $('[data-chart]').each(function () {
             var labels = $(this).data().monthlylabels;
+            removeChartData(window.lineChart);
             window.lineChart.data.labels = labels;
             window.lineChart.data.datasets[0].data = $(this).data().monthlydataset[0]
             window.lineChart.update();
@@ -32,6 +39,7 @@ $(document).on('turbolinks:load', function() {
         if($(this).attr('id') == "yearly") {
           $('[data-chart]').each(function () {
             var labels = $(this).data().yearlylabels;
+            removeChartData(window.lineChart);
             window.lineChart.data.labels = labels;
             window.lineChart.data.datasets[0].data = $(this).data().yearlydataset[0]
             window.lineChart.update();
@@ -69,7 +77,7 @@ $(document).on('turbolinks:load', function() {
               }
             }
           });
-          if ($(this).is(':visible')) {
+          if ($(this).is(':visible') && !$(this).hasClass('js-chart-drawn')) {
             var element = $(this);
             var attrData = $.extend({}, element.data())
             var data           = attrData.dataset ? eval(attrData.weeklydataset) : []
@@ -116,9 +124,6 @@ $(document).on('turbolinks:load', function() {
                     stacked: false,
                     steps: 20,
                   }, 
-                }],
-                xAxes: [{
-                  display: true
                 }]
               },
               tooltips: {
@@ -140,13 +145,9 @@ $(document).on('turbolinks:load', function() {
                 data: data,
                 options: options
             });
-
-
             $(this).addClass('js-chart-drawn')
           }
         })
       })
       .trigger('redraw.bs.charts')
-
-  
 });
