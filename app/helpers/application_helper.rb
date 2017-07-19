@@ -3,7 +3,7 @@ module ApplicationHelper
     class_name = current_page?(link_path) ? 'active' : nil
 
     content_tag(:li, :class => [class_name, 'nav-item']) do
-      link_to link_text, link_path, class: html_options[:class] || 'nav-link'
+      link_to link_text, link_path, class: html_options[:class] || 'nav-link', 'data-turbolinks': 'false'
     end
   end
 
