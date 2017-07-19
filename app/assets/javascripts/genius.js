@@ -1,3 +1,5 @@
+
+
 $(document).on('turbolinks:load', function() {
     var linechart;
     $('.nav-link').on('click', function() {
@@ -40,6 +42,33 @@ $(document).on('turbolinks:load', function() {
     $(document)
       .on('redraw.bs.charts', function () {
         $('[data-chart]').each(function () {
+          var originalLineController = Chart.controllers.line;
+          Chart.controllers.line = Chart.controllers.line.extend({
+            
+            draw: function(ease) {
+              originalLineController.prototype.draw.call(this, ease);
+
+              var originalShowTooltip = this.showTooltip;
+              
+              if (this.chart.tooltip._active && this.chart.tooltip._active.length) {
+                var activePoint = this.chart.tooltip._active[0],
+                     ctx = this.chart.ctx,
+                     x = activePoint.tooltipPosition().x,
+                     topY = this.chart.scales['y-axis-0'].top,
+                     bottomY = this.chart.scales['y-axis-0'].bottom;
+
+                // draw line
+                ctx.save();
+                ctx.beginPath();
+                ctx.moveTo(x, topY);
+                ctx.lineTo(x, bottomY);
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = '#07C';
+                ctx.stroke();
+                ctx.restore();
+              }
+            }
+          });
           if ($(this).is(':visible')) {
             var element = $(this);
             var attrData = $.extend({}, element.data())
@@ -94,7 +123,7 @@ $(document).on('turbolinks:load', function() {
               },
               tooltips: {
                 enabled: true,
-                intersect: true,
+                intersect: false,
                 bodyFontSize: 14,
                 callbacks: {
                   title: function () { return "Total" },
@@ -105,12 +134,13 @@ $(document).on('turbolinks:load', function() {
               }
             }, options)
             var ctx = this.getContext("2d");
-
+            
             window.lineChart = new Chart(ctx, {
-                type: 'line',
+                type: 'line', 
                 data: data,
                 options: options
-            })
+            });
+
 
             $(this).addClass('js-chart-drawn')
           }
