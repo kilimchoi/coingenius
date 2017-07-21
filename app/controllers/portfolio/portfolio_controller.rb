@@ -25,6 +25,7 @@ class Portfolio::PortfolioController < ApplicationController
       @last_seven_days = days_ago.last(7)
       @last_thirty_days = days_ago.last(30)
       @last_three_six_five_days = days_ago
+      @holdings = @holdings.sort_by { |h| h[:total] }.reverse!
 
       @holdings.map do |h|
         amount = h[:amount]
