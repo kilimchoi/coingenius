@@ -16,7 +16,10 @@ class User < ActiveRecord::Base
     response = HTTParty.get('http://www.coincap.io/front')
 
     coins = JSON.parse(response.body).sort_by{ |hash| hash['mktcap'].to_f }.reverse
-    self.transactions.includes(:coin).each do |transaction|
+    bought_transactions = self.transactions.includes(:coin).select { |tx| tx.transaction_type == "bought"}
+    sold_transactions = self.transactions.includes(:coin).select { |tx| tx.transaction_type == "sold"}
+    merged = bought_transactions + sold_transactions
+    merged.each do |transaction|
       coin = transaction.coin
       coin_data = coins.select{|api_coin| api_coin['short'] == coin.symbol}.first.with_indifferent_access
       holding = holdings[coin.symbol]
