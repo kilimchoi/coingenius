@@ -8,7 +8,6 @@ class User < ActiveRecord::Base
 
   has_many :transactions
 
-  scope :bought_transactions, -> { self.transactions.includes(:coin).select { |tx| tx.transaction_type == "bought"} }
   def holdings
     holdings = {}
     total = 0
@@ -17,7 +16,7 @@ class User < ActiveRecord::Base
     response = HTTParty.get('http://www.coincap.io/front')
 
     coins = JSON.parse(response.body).sort_by{ |hash| hash['mktcap'].to_f }.reverse
-    merged = self.transactions.bought + self.transactions.sold
+    merged = self.transactions.bought.includes(:coin) + self.transactions.sold.includes(:coin)
     merged.each do |transaction|
       coin = transaction.coin
       coin_data = coins.select{|api_coin| api_coin['short'] == coin.symbol}.first.with_indifferent_access
