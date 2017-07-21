@@ -38,7 +38,6 @@ class User < ActiveRecord::Base
         amount_change = transaction.amount
         total_change = (transaction.amount * weekly_data.last)
       elsif transaction.sold?
-        puts 'holding is ', holding
         if holding && transaction.amount <= holding[:amount]
           amount_change = -transaction.amount 
           total_change = -(transaction.amount * weekly_data.last)
