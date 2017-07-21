@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
     response = HTTParty.get('http://www.coincap.io/front')
 
     coins = JSON.parse(response.body).sort_by{ |hash| hash['mktcap'].to_f }.reverse
-
+    
     bought_transactions = self.transactions.includes(:coin).select { |tx| tx.transaction_type == "bought"}
     sold_transactions = self.transactions.includes(:coin).select { |tx| tx.transaction_type == "sold"}
     merged = bought_transactions + sold_transactions
