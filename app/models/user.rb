@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
     merged = self.transactions.bought.includes(:coin) + self.transactions.sold.includes(:coin)
     merged.each do |transaction|
       coin = transaction.coin
-      coin_data = coins.select{|api_coin| api_coin['short'] == coin.symbol}.first.with_indifferent_access
+      coin_data = coins.select{|api_coin| api_coin['short'] == coin.symbol}&.first&.with_indifferent_access
       holding = holdings[coin.symbol]
       
       if holding
@@ -53,7 +53,7 @@ class User < ActiveRecord::Base
       else
         holdings[coin.symbol] = {
           coin: coin,
-          percent_change: coin_data[:perc],
+          percent_change: coin_data[:perc] || "N/A",
           amount: amount_change,
           total: total_change,
           price: weekly_data.last,
