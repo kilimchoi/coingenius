@@ -7,7 +7,7 @@ class Portfolio::TransactionsController < ApplicationController
 
   def new
     @transaction = current_user.transactions.new
-    @coins = Coin.all
+    @coins = Coin.order("symbol ASC")
   end
 
   def create
