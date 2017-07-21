@@ -17,7 +17,6 @@ class User < ActiveRecord::Base
 
     coins = JSON.parse(response.body).sort_by{ |hash| hash['mktcap'].to_f }.reverse
     merged = self.transactions.bought.includes(:coin) + self.transactions.sold.includes(:coin)
-
     merged.each do |transaction|
       coin = transaction.coin
       coin_data = coins.select{|api_coin| api_coin['short'] == coin.symbol}.first.with_indifferent_access
