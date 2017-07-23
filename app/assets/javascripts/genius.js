@@ -1,10 +1,3 @@
-function removeChartData(chart) { 
-  chart.data.labels.pop();
-  chart.data.datasets.forEach((dataset) => {
-      dataset.data.pop();
-  });
-}
-
 $(document).ready(function() {
     var linechart;
     $('.nav-link').on('click', function() {
@@ -21,7 +14,6 @@ $(document).ready(function() {
         if($(this).attr('id') == "weekly") {
           $('[data-chart]').each(function () {
             var labels = $(this).data().weeklylabels;
-            removeChartData(window.lineChart);
             window.lineChart.data.labels = labels;
             window.lineChart.data.datasets[0].data = $(this).data().weeklydataset[0]
             window.lineChart.update();
@@ -30,7 +22,6 @@ $(document).ready(function() {
         if($(this).attr('id') == "monthly") {
           $('[data-chart]').each(function () {
             var labels = $(this).data().monthlylabels;
-            removeChartData(window.lineChart);
             window.lineChart.data.labels = labels;
             window.lineChart.data.datasets[0].data = $(this).data().monthlydataset[0]
             window.lineChart.update();
@@ -39,7 +30,6 @@ $(document).ready(function() {
         if($(this).attr('id') == "yearly") {
           $('[data-chart]').each(function () {
             var labels = $(this).data().yearlylabels;
-            removeChartData(window.lineChart);
             window.lineChart.data.labels = labels;
             window.lineChart.data.datasets[0].data = $(this).data().yearlydataset[0]
             window.lineChart.update();
