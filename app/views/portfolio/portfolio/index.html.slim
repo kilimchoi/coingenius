@@ -34,7 +34,7 @@ h3.text-center=number_to_currency(@total)
                 td
                   = "#{holding[:coin].name} (#{holding[:coin].symbol})"
                 td
-                  = number_to_currency(holding[:price])
+                  = number_to_currency(holding[:price], precision: 5)
                 td 
                   - if holding[:percent_change].to_i > 0
                     .positive-change 
