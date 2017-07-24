@@ -13,13 +13,13 @@ class User < ActiveRecord::Base
     total = 0
     responses = Hash.new(Hash.new([]))
 
-    response = HTTParty.get('http://www.coincap.io/front')
+    response = HTTParty.get('https://api.coinmarketcap.com/v1/ticker/')
 
-    coins = JSON.parse(response.body).sort_by{ |hash| hash['mktcap'].to_f }.reverse
+    coins = JSON.parse(response.body).sort_by{ |hash| hash['market_cap_usd'].to_f }.reverse
     merged = self.transactions.bought.includes(:coin) + self.transactions.sold.includes(:coin)
     merged.each do |transaction|
       coin = transaction.coin
-      coin_data = coins.select{|api_coin| api_coin['short'] == coin.symbol}&.first&.with_indifferent_access
+      coin_data = coins.select{|api_coin| api_coin['symbol'] == coin.symbol}&.first&.with_indifferent_access
       holding = holdings[coin.symbol]
       
       if holding
@@ -54,7 +54,7 @@ class User < ActiveRecord::Base
         holdings[coin.symbol] = {
           coin: coin,
           percent_change: if coin_data 
-                            coin_data[:perc] 
+                            coin_data[:percent_change_24h] 
                           else 
                             "N/A" 
                           end,
