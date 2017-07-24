@@ -53,7 +53,11 @@ class User < ActiveRecord::Base
       else
         holdings[coin.symbol] = {
           coin: coin,
-          percent_change: coin_data[:perc] || "N/A",
+          percent_change: if coin_data 
+                            coin_data[:perc] 
+                          else 
+                            "N/A" 
+                          end,
           amount: amount_change,
           total: total_change,
           price: weekly_data.last,
