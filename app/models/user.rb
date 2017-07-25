@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
     responses = Hash.new(Hash.new([]))
 
     response = HTTParty.get('https://api.coinmarketcap.com/v1/ticker/')
-    
+
     coins = JSON.parse(response.body).sort_by{ |hash| hash['market_cap_usd'].to_f }.reverse
     merged = self.transactions.bought.includes(:coin) + self.transactions.sold.includes(:coin)
     merged.each do |transaction|
