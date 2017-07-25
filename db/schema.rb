@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170710045434) do
+ActiveRecord::Schema.define(version: 20170725054210) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -82,6 +82,17 @@ ActiveRecord::Schema.define(version: 20170710045434) do
     t.text     "description"
     t.integer  "rank"
   end
+
+  create_table "identities", force: :cascade do |t|
+    t.string  "uid"
+    t.string  "provider"
+    t.integer "user_id"
+    t.string  "access_token"
+    t.string  "refresh_token"
+  end
+
+  add_index "identities", ["uid", "provider"], name: "index_identities_on_uid_and_provider"
+  add_index "identities", ["user_id"], name: "index_identities_on_user_id"
 
   create_table "transactions", force: :cascade do |t|
     t.integer  "transaction_type"
