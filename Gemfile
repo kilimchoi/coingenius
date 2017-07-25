@@ -43,6 +43,9 @@ gem 'select2-rails'
 gem 'httparty'
 gem 'sidecloq'
 gem 'sinatra'
+
+gem "omniauth-coinbase"
+
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
 end
