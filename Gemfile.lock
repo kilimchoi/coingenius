@@ -123,6 +123,10 @@ GEM
       has_scope (~> 0.6)
       railties (>= 3.2, < 5.2.x)
       responders
+    interactor (3.1.0)
+    interactor-rails (2.1.1)
+      interactor (~> 3.0)
+      rails (>= 4.2, < 5.2)
     jbuilder (2.6.4)
       activesupport (>= 3.0.0)
       multi_json (>= 1.2)
@@ -307,6 +311,7 @@ DEPENDENCIES
   dotenv-rails
   friendly_id (~> 5.1.0)
   httparty
+  interactor-rails
   jbuilder (~> 2.0)
   jquery-rails
   meta-tags

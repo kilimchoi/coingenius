@@ -44,6 +44,7 @@ gem 'httparty'
 gem 'sidecloq'
 gem 'sinatra'
 
+gem "interactor-rails"
 gem "omniauth-coinbase"
 
 source 'https://rails-assets.org' do
