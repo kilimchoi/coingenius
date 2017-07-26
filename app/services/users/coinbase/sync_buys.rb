@@ -26,10 +26,6 @@ module Users
         @client ||= Coinbase::Wallet::OAuthClient.new(access_token: coinbase_identity.access_token)
       end
 
-      def coin
-
-      end
-
       def coinbase_identity
         @coinbase_identity ||= user.identity.find_by(provider: :coinbase)
       end
