@@ -8,9 +8,9 @@ module Users
       def call
         buys.each do |buy_transaction|
           user.transactions.create(
-            amount: buy_transaction["amount"]["amount"],
+            amount: BigDecimal.new(buy_transaction["amount"]["amount"]),
             coin: Coin.find_by(symbol: buy_transaction["amount"]["currency"]),
-            price: buy_transaction["subtotal"]["amount"] / buy_transaction["amount"]["amount"],
+            price: BigDecimal.new(buy_transaction["subtotal"]["amount"]) / BigDecimal(buy_transaction["amount"]["amount"]),
             transaction_type: :bought
           )
         end
@@ -23,11 +23,11 @@ module Users
       end
 
       def client
-        @client ||= Coinbase::Wallet::OAuthClient.new(access_token: coinbase_identity.access_token)
+        @client ||= ::Coinbase::Wallet::OAuthClient.new(access_token: coinbase_identity.access_token)
       end
 
       def coinbase_identity
-        @coinbase_identity ||= user.identity.find_by(provider: :coinbase)
+        @coinbase_identity ||= user.identities.find_by(provider: :coinbase)
       end
     end
   end
