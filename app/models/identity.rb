@@ -11,7 +11,12 @@ class Identity < ActiveRecord::Base
     end
 
     def create_with_omniauth(auth)
-      create(uid: auth['uid'], provider: auth['provider'])
+      create(
+        uid: auth['uid'],
+        provider: auth['provider'],
+        refresh_token: auth.credentials.refresh_token,
+        access_token: auth.credentials.token
+      )
     end
   end
 end
