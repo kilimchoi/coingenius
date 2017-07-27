@@ -5,7 +5,7 @@ module Users
 
       def perform
         User.find_each do |user|
-          SyncBuysForUserWorker.perform_async(user_id: user.id)
+          SyncBuysForUserWorker.perform_async(user.id)
         end
       end
     end
