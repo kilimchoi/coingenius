@@ -1,6 +1,6 @@
 module Users
   module Coinbase
-    class SyncSells
+    class SyncSellsForUser
       include Interactor
 
       delegate :user, to: :context
