@@ -7,16 +7,31 @@ module Users
 
       def call
         sells.each do |sell_transaction|
-          user.transactions.create(
-            amount: BigDecimal.new(sell_transaction["amount"]["amount"]),
-            coin: Coin.find_by(symbol: sell_transaction["amount"]["currency"]),
-            price: BigDecimal.new(sell_transaction["subtotal"]["amount"]) / BigDecimal.new(sell_transaction["amount"]["amount"]),
-            transaction_type: :sold
-          )
+          # Skip uncompleted transactions
+          next if sell_transaction["status"] != "completed"
+
+          # Or if we already processed this transaction
+          next if ::Coinbase::Sell.where(uuid: sell_transaction["id"]).exists?
+
+          process_transaction(sell_transaction)
         end
       end
 
       private
+
+      def process_transaction(sell_transaction)
+        transaction = user.transactions.create!(
+          amount: BigDecimal.new(sell_transaction["amount"]["amount"]),
+          coin: Coin.find_by(symbol: sell_transaction["amount"]["currency"]),
+          price: BigDecimal.new(sell_transaction["subtotal"]["amount"]) / BigDecimal.new(sell_transaction["amount"]["amount"]),
+          transaction_type: :sold
+        )
+
+        transaction.create_coinbase_sell!(
+          uuid: sell_transaction["id"],
+          raw_data: sell_transaction
+        )
+      end
 
       def sells
         client.primary_account.list_sells
