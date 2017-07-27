@@ -2,6 +2,8 @@ class Transaction < ActiveRecord::Base
   belongs_to :user
   belongs_to :coin
 
+  has_one :coinbase_sell, class_name: "Coinbase::Sell"
+
   enum transaction_type: %i(bought sold)
 
   validates :transaction_type, presence: true
