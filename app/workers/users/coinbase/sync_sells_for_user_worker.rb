@@ -3,8 +3,10 @@ module Users
     class SyncSellsForUserWorker
       include Sidekiq::Worker
 
+      sidekiq_options retry: 5
+
       def perform(user_id)
-        user = User.find_by(user_id)
+        user = User.find_by(id: user_id)
 
         Users::Coinbase::SyncSellsForUser.call(user: user) if user
       end
