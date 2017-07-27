@@ -7,3 +7,8 @@ users_coinbase_sync_sells_for_all_users:
   class: Users::Coinbase::SyncSellsForAllUsersWorker
   cron: "0 0 1 * * *"
   queue: "coinbase"
+
+user_coinbase_refresh_access_tokens:
+  class: Users::Coinbase::RefreshAccessTokens
+  cron: "0 0 * * * *"
+  queue: "coinbase"
