@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170727185715) do
+ActiveRecord::Schema.define(version: 20170727185506) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,15 +49,13 @@ ActiveRecord::Schema.define(version: 20170727185715) do
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
-  create_table "coinbase_buys", force: :cascade do |t|
-    t.string "uuid",                  null: false
-    t.jsonb  "raw_data", default: {}
+  create_table "coinbase_sells", force: :cascade do |t|
+    t.integer "transaction_id"
+    t.jsonb   "raw_data"
+    t.string  "uuid",           null: false
   end
 
-  create_table "coinbase_sells", force: :cascade do |t|
-    t.string "uuid",     null: false
-    t.jsonb  "raw_data"
-  end
+  add_index "coinbase_sells", ["transaction_id"], name: "index_coinbase_sells_on_transaction_id", using: :btree
 
   create_table "coins", force: :cascade do |t|
     t.datetime "created_at",          null: false
@@ -142,5 +140,6 @@ ActiveRecord::Schema.define(version: 20170727185715) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
+  add_foreign_key "coinbase_sells", "transactions"
   add_foreign_key "identities", "users"
 end
