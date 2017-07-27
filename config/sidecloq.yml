@@ -2,3 +2,8 @@ users_coinbase_sync_buys_for_all_users:
   class: Users::Coinbase::SyncBuysForAllUsersWorker
   cron: "0 0 * * * *"
   queue: "coinbase"
+
+users_coinbase_sync_sells_for_all_users:
+  class: Users::Coinbase::SyncSellsForAllUsersWorker
+  cron: "0 0 * * * *"
+  queue: "coinbase"
