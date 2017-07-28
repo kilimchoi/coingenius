@@ -20,6 +20,10 @@ module Users
       request.env["omniauth.auth"]
     end
 
+    def failure_message
+      "Sorry, oauth login failed. Please try again."
+    end
+
     def after_omniauth_failure_path_for(_scope)
       "/portfolio"
     end
