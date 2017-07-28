@@ -11,7 +11,7 @@ module Users
       Users::Coinbase::SyncBuysForUserWorker.perform_async(current_user.id)
       Users::Coinbase::SyncSellsForUserWorker.perform_async(current_user.id)
 
-      redirect_to root_path
+      redirect_to "/portfolio", notice: "You have successfully connected to your Coinbase account."
     end
 
     private
@@ -21,7 +21,7 @@ module Users
     end
 
     def after_omniauth_failure_path_for(_scope)
-      root_path
+      "/portfolio"
     end
 
     def identity
