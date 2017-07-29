@@ -5,29 +5,27 @@ Rails.application.routes.draw do
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
-  get '/terms', to: 'static_pages#terms', :as => :terms
-  get '/privacy', to: 'static_pages#privacy', :as => :privacy
-  get 'coins/autocomplete', to: 'coins#autocomplete'
+  get "/terms", to: "static_pages#terms", :as => :terms
+  get "/privacy", to: "static_pages#privacy", :as => :privacy
+  get "coins/autocomplete", to: "coins#autocomplete"
   # You can have the root of your site routed with "root"
-  root to: redirect('/coins')
-  require 'sidekiq/web'
-  mount Sidekiq::Web => '/sidekiq'
+  root to: redirect("/coins")
+  require "sidekiq/web"
+  mount Sidekiq::Web => "/sidekiq"
   resources :coins
   namespace :portfolio do
-    get '/' => 'portfolio#index'
+    get "/" => "portfolio#index"
     resources :transactions do
       get :autocomplete_coin_name, :on => :collection
     end
   end
 
-  resources :transactions 
-
   resources :exchanges
   # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
+  #   get "products/:id" => "catalog#view"
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
+  #   get "products/:id/purchase" => "catalog#purchase", as: :purchase
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
@@ -35,12 +33,12 @@ Rails.application.routes.draw do
   # Example resource route with options:
   #   resources :products do
   #     member do
-  #       get 'short'
-  #       post 'toggle'
+  #       get "short"
+  #       post "toggle"
   #     end
   #
   #     collection do
-  #       get 'sold'
+  #       get "sold"
   #     end
   #   end
 
@@ -54,13 +52,13 @@ Rails.application.routes.draw do
   #   resources :products do
   #     resources :comments
   #     resources :sales do
-  #       get 'recent', on: :collection
+  #       get "recent", on: :collection
   #     end
   #   end
 
   # Example resource route with concerns:
   #   concern :toggleable do
-  #     post 'toggle'
+  #     post "toggle"
   #   end
   #   resources :posts, concerns: :toggleable
   #   resources :photos, concerns: :toggleable
