@@ -9,6 +9,7 @@ class Transaction < ActiveRecord::Base
 
   validates :transaction_type, presence: true
   validates :amount, presence: true
+  validates :coin_id, presence: true
 
   def description
     [transaction_type.titleize, coin.name].join(" ")
