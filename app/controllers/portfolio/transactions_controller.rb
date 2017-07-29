@@ -1,5 +1,18 @@
 class Portfolio::TransactionsController < ApplicationController
   before_action :authenticate_user!
+  autocomplete :coin, :name, full: true, :extra_data => [:symbol], display_value: :name_and_symbol
+
+  def autocomplete_coin_name
+    term = params[:term]
+    if term.present?
+      items = Coin.where("lower(coins.name) OR lower(coins.symbol) LIKE '%#{term}%'").order(:name)
+    else
+      items = {}
+    end
+    extra_data = [:symbol]
+    display_value = :name_and_symbol
+    render json: json_for_autocomplete(items, display_value, extra_data)
+  end
 
   def index
 
@@ -11,30 +24,33 @@ class Portfolio::TransactionsController < ApplicationController
   end
 
   def create
+    params["transaction"]["coin_id"].to_i
     if is_user_selling?
       if !user_has_coin?
         flash[:error] = "You do not have that coin"
-        redirect_to '/portfolio'
+        redirect_to :back
       elsif !user_has_sufficient_amount? 
-          flash[:error] = "You do not own enough coins"
-          redirect_to '/portfolio'
+        flash[:error] = "You do not own enough coins"
+        redirect_to :back
       else
         @transaction = current_user.transactions.new(transaction_params)
         if @transaction.save
           flash[:success] = 'You successfully removed the coin'
+          redirect_to '/portfolio'
         else
           flash[:error] = @transaction.errors.full_messages.join(', ')
+          redirect_to :back
         end
-        redirect_to '/portfolio'
       end
     else
       @transaction = current_user.transactions.new(transaction_params)
       if @transaction.save
         flash[:success] = 'Your transaction has been created!'
+        redirect_to '/portfolio'
       else
         flash[:error] = @transaction.errors.full_messages.join(', ')
+        redirect_to :back
       end
-      redirect_to '/portfolio'
     end
   end
 

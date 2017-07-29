@@ -4,15 +4,18 @@ h2.text-center.mt-5  New Transaction
     .form-group 
       = f.label :transaction_type, "Transaction Type"
       = f.select :transaction_type, Transaction.transaction_types.keys.map {|type| [type.titleize, type]}, {}, class: 'form-control mr-sm-2'
+    .form-group
+      = f.label :coin_name, "Coin"
+      br
+      = f.autocomplete_field :coin, autocomplete_coin_name_portfolio_transactions_path, class: 'form-control coin-s mr-sm-2', id_element: '#transaction_coin_id', placeholder: "bitcoin", "min-length": 1
+      = f.label :coin_id, class: "sr-only"
+      = f.text_field :coin_id, class: "form-control sr-only"
     .form-group 
       = f.label :price, "Price"
       = f.number_field :price, placeholder: 'Price in dollars', class: 'form-control mr-sm-2', step: :any
     .form-group 
       = f.label :amount, "Amount"
       = f.number_field :amount, placeholder: '# of coins', class: 'form-control mr-sm-2', step: :any
-    .form-group
-      = f.label :coin_name, "Coin"
-      = f.select :coin_id, options_from_collection_for_select(@coins, "id", "name"), {}, class: 'form-control coin-s mr-sm-2'
 
     = f.submit "Add", class: "btn btn-primary", data: {disable_with: "Adding..."}
 

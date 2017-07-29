@@ -4,6 +4,7 @@ html
     = display_meta_tags :site => full_title(yield(:title))
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = javascript_include_tag "autocomplete-rails.js"
     = csrf_meta_tags
     meta name="fo-verify" content="fed60fdd-6659-4f96-b222-8b5018210076"
     script src="//use.fontawesome.com/5434e791ce.js"

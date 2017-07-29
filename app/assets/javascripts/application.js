@@ -16,4 +16,6 @@
 //= require tether
 //= require bootstrap-sprockets
 //= require select2
+//= require jquery-ui
+//= require autocomplete-rails
 //= require_tree .

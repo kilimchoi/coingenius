@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
   get '/terms', to: 'static_pages#terms', :as => :terms
   get '/privacy', to: 'static_pages#privacy', :as => :privacy
+  get 'coins/autocomplete', to: 'coins#autocomplete'
   # You can have the root of your site routed with "root"
   root to: redirect('/coins')
   require 'sidekiq/web'
@@ -14,8 +15,12 @@ Rails.application.routes.draw do
   resources :coins
   namespace :portfolio do
     get '/' => 'portfolio#index'
-    resources :transactions
+    resources :transactions do
+      get :autocomplete_coin_name, :on => :collection
+    end
   end
+
+  resources :transactions 
 
   resources :exchanges
   # Example of regular route:

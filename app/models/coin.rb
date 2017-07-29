@@ -35,5 +35,9 @@ class Coin < ActiveRecord::Base
        a << (Date.today - i.days).to_time.to_i
      end
      a
-   end
+  end
+
+  def name_and_symbol
+    "#{name} (#{symbol})" 
+  end
 end
