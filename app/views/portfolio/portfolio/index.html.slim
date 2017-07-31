@@ -5,7 +5,9 @@ h2.dashhead-title.mt-5 My Portfolio
 h3.text-center=number_to_currency(@total)
 
 - if @total && @total > 0
-  = link_to "+ Add a new transaction", new_portfolio_transaction_path, class: "new-transaction", 'data-turbolinks': 'false'
+  = link_to "+ Add a new transaction", new_portfolio_transaction_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "new-transaction"}
+  #modal-window.modal.hide aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" 
+
   .hr-divider.mt-5.mb-3
     ul.nav.nav-pills.hr-divider-content.hr-divider-nav
       li.nav-item

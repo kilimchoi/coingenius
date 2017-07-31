@@ -1,7 +1,5 @@
 .transaction-form {
-  margin-top: 50px;
-  background-color: #efefef;
-  padding: 50px;
+  padding: 32px;
   border-radius: 5px;
 } 
 
@@ -9,11 +7,15 @@
   color: #252830 !important;
 }
 
+.modal-body { 
+  padding: 0 !important;
+}
+
 .ui-autocomplete {
+  z-index: 5000;
   position: absolute;
   top: 100%;
   left: 0;
-  z-index: 1000;
   float: left;
   display: none;
   min-width: 160px;
