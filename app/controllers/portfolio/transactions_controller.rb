@@ -5,7 +5,7 @@ class Portfolio::TransactionsController < ApplicationController
   def autocomplete_coin_name
     term = params[:term]
     if term.present?
-      items = Coin.where("lower(coins.name) OR lower(coins.symbol) LIKE '%#{term}%'").order(:name)
+      items = Coin.where("coins.symbol LIKE '%#{term}' OR lower(coins.name) LIKE '%#{term}%'")
     else
       items = {}
     end
@@ -24,7 +24,6 @@ class Portfolio::TransactionsController < ApplicationController
   end
 
   def create
-    params["transaction"]["coin_id"].to_i
     if is_user_selling?
       if !user_has_coin?
         flash[:error] = "You do not have that coin"
@@ -72,8 +71,9 @@ class Portfolio::TransactionsController < ApplicationController
   end
 
   def user_has_coin? 
-    current_user.holdings.first.select do |h| 
-      if h[:coin].id == params["transaction"]["coin_id"].to_i
+    current_user.holdings.first.select do |h|
+      if h[:coin].id == params["transaction"]["coin_id"].to_i &&
+         h[:coin][:amount].to_s != "0.0"
         return true
       end
     end
