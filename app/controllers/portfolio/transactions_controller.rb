@@ -1,14 +1,14 @@
 class Portfolio::TransactionsController < ApplicationController
   before_action :authenticate_user!
-  autocomplete :coin, :name, full: true, :extra_data => [:symbol], display_value: :name_and_symbol
 
   def autocomplete_coin_name
     term = params[:term]
     if term.present?
-      items = Coin.where("coins.symbol LIKE '%#{term}' OR lower(coins.name) LIKE '%#{term}%'")
+      items = Coin.where("lower(coins.symbol) LIKE '%#{term}' OR lower(coins.name) LIKE '%#{term}%'")
     else
       items = {}
     end
+    puts items.inspect
     extra_data = [:symbol]
     display_value = :name_and_symbol
     render json: json_for_autocomplete(items, display_value, extra_data)
@@ -73,7 +73,7 @@ class Portfolio::TransactionsController < ApplicationController
   def user_has_coin? 
     current_user.holdings.first.select do |h|
       if h[:coin].id == params["transaction"]["coin_id"].to_i &&
-         h[:coin][:amount].to_s != "0.0"
+         h[:amount].to_s != "0.0"
         return true
       end
     end
