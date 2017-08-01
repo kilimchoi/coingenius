@@ -8,7 +8,6 @@ class Portfolio::TransactionsController < ApplicationController
     else
       items = {}
     end
-    puts items.inspect
     extra_data = [:symbol]
     display_value = :name_and_symbol
     render json: json_for_autocomplete(items, display_value, extra_data)
