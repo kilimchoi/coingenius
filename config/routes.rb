@@ -7,7 +7,6 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
   get "/terms", to: "static_pages#terms", :as => :terms
   get "/privacy", to: "static_pages#privacy", :as => :privacy
-  get "coins/autocomplete", to: "coins#autocomplete"
   # You can have the root of your site routed with "root"
   root to: redirect("/coins")
   require "sidekiq/web"
