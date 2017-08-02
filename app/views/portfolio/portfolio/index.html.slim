@@ -62,4 +62,4 @@ h3.text-center=number_to_currency(@total)
       br
       .mx-auto
         p Please add coins to your portfolio 
-        = link_to "Add Coins", new_user_registration_path, {"data-turbolinks": "false", class: "btn btn-primary btn-lg coin-button", disable_with: "Redirecting..."}
+        = link_to "Add Coins", new_user_registration_path, class: "btn btn-primary btn-lg coin-button", data: {disable_with: "Redirecting...", turbolinks: "false"}
