@@ -2,7 +2,8 @@ class Portfolio::TransactionsController < ApplicationController
   before_action :authenticate_user!
 
   def autocomplete_coin_name
-    term = params[:term]
+    term = params[:term].downcase
+
     if term.present?
       items = Coin.where("lower(coins.symbol) LIKE '%#{term}' OR lower(coins.name) LIKE '%#{term}%'")
     else
