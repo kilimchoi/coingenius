@@ -1,4 +1,5 @@
 class Portfolio::PortfolioController < ApplicationController
+  before_action :authenticate_user!
   
   def index
     description = "Create your cryptocurrency portfolio to track your investment returns."
