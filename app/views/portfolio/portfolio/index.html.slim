@@ -49,10 +49,17 @@ h3.text-center=number_to_currency(@total)
                 td
                   = "#{number_to_currency(holding[:total])}"
 
-  - else 
+  - elsif @total == 0 && user_signed_in? 
     .mt-4.w-20.mx-auto
       = image_tag "empty_portfolio.png", class: "empty-portfolio rounded mx-auto img-fluid"
       br
       .mx-auto
         p Please add coins to your portfolio 
         = link_to "Add Coins", new_portfolio_transaction_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "btn btn-primary btn-lg coin-button", disable_with: "Redirecting..."}
+  - elsif !user_signed_in?
+    .mt-4.w-20.mx-auto
+      = image_tag "empty_portfolio.png", class: "empty-portfolio rounded mx-auto img-fluid"
+      br
+      .mx-auto
+        p Please add coins to your portfolio 
+        = link_to "Add Coins", new_user_registration_path, {"data-turbolinks": "false", class: "btn btn-primary btn-lg coin-button", disable_with: "Redirecting..."}
