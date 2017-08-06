@@ -6,7 +6,7 @@ h3.text-center=number_to_currency(@total)
 #modal-window.modal.hide aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" 
 - if @total && @total > 0
   = link_to "+ Add a new transaction", new_portfolio_transaction_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "new-transaction"}
-  
+  = link_to "Connect to your coinbase account", user_coinbase_omniauth_authorize_path
 
   .hr-divider.mt-5.mb-3
     ul.nav.nav-pills.hr-divider-content.hr-divider-nav
