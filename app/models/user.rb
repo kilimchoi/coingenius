@@ -32,21 +32,20 @@ class User < ActiveRecord::Base
         monthly_data = yearly_data.last(30)
         weekly_data = yearly_data.last(7)
       end
+
       if transaction.bought?
-        amount_change = transaction.amount
-        total_change = (transaction.amount * weekly_data.last)
+        amount_change = transaction.amount.to_i
+        total_change = (transaction.amount.to_i * weekly_data.last.to_f)
       elsif transaction.sold?
         if holding && transaction.amount <= holding[:amount]
-          amount_change = -transaction.amount 
-          total_change = -(transaction.amount * weekly_data.last)
+          amount_change = -transaction.amount.to_i
+          total_change = -(transaction.amount.to_i * weekly_data.last.to_f)
         else
           amount_change = 0
           total_change = 0
         end
       end 
-      
       total += total_change
-
       if holding
         holding[:amount] += amount_change
         holding[:total] += total_change
@@ -67,7 +66,6 @@ class User < ActiveRecord::Base
         }
       end
       responses = Hash.new(Hash.new([]))
-      a = []
     end
 
     holdings.each do |key, holding|
