@@ -45,7 +45,6 @@ gem "sinatra"
 gem "rails-jquery-autocomplete"
 gem "interactor-rails"
 gem "omniauth-coinbase"
-gem "bittrex" # Bittrex client
 
 source "https://rails-assets.org" do
   gem "rails-assets-tether", ">= 1.1.0"
