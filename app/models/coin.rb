@@ -12,7 +12,11 @@ class Coin < ActiveRecord::Base
         a << $redis.get(price_history_key(day_timestamp)).to_f
       end
     else
-      response = HTTParty.get("https://min-api.cryptocompare.com/data/histoday?fsym=#{symbol.upcase}&tsym=USD&limit=#{days-1}&e=CCCAGG")
+      if self.symbol == "MIOTA"
+        response = HTTParty.get("https://min-api.cryptocompare.com/data/histoday?fsym=IOT&tsym=USD&limit=#{days-1}&e=CCCAGG")
+      else
+        response = HTTParty.get("https://min-api.cryptocompare.com/data/histoday?fsym=#{symbol.upcase}&tsym=USD&limit=#{days-1}&e=CCCAGG")
+      end
       prices = JSON.parse(response.body).with_indifferent_access["Data"]
       prices.each do |price|
         timestamp = Time.at(price[:time])
