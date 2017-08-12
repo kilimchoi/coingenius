@@ -3,10 +3,11 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
 
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
+  # Static pages
   get "/terms", to: "static_pages#terms", :as => :terms
   get "/privacy", to: "static_pages#privacy", :as => :privacy
+  get "/setup_bittrex", to: "static_pages#setup_bittrex", as: :setup_bittrex
+
   # You can have the root of your site routed with "root"
   root to: redirect("/coins")
   require "sidekiq/web"
