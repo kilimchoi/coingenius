@@ -20,4 +20,8 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  activerecord:
+      attributes:
+        user:
+          bittrex_api_key: Bittrex API key
+          bittrex_api_secret: Bittrex API secret
