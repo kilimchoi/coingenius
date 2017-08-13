@@ -4,6 +4,7 @@ class Transaction < ActiveRecord::Base
 
   has_one :coinbase_sell, class_name: "Coinbase::Sell"
   has_one :coinbase_buy, class_name: "Coinbase::Buy"
+  has_one :bittrex_order
 
   enum transaction_type: %i(bought sold)
 
