@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 20170809213708) do
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
-  create_table "bittrex_deposits", force: :cascade do |t|
+  create_table "bittrex_orders", force: :cascade do |t|
     t.integer  "transaction_id"
     t.jsonb    "raw_data"
     t.string   "uuid"
@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 20170809213708) do
     t.datetime "updated_at",     null: false
   end
 
-  add_index "bittrex_deposits", ["transaction_id"], name: "index_bittrex_deposits_on_transaction_id", using: :btree
+  add_index "bittrex_orders", ["transaction_id"], name: "index_bittrex_orders_on_transaction_id", using: :btree
 
   create_table "coinbase_buys", force: :cascade do |t|
     t.integer "transaction_id"
@@ -160,7 +160,7 @@ ActiveRecord::Schema.define(version: 20170809213708) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
-  add_foreign_key "bittrex_deposits", "transactions"
+  add_foreign_key "bittrex_orders", "transactions"
   add_foreign_key "coinbase_buys", "transactions"
   add_foreign_key "coinbase_sells", "transactions"
   add_foreign_key "identities", "users"
