@@ -5,7 +5,7 @@ module Bittrex
     TYPES = [SELL_TYPE, BUY_TYPE].freeze
 
     attr_reader :type, :id, :limit,
-                :exchange, :price, :quantity, :remaining,
+                :exchange, :price, :price_per_unit, :quantity, :remaining,
                 :total, :fill, :executed_at, :closed, :raw
 
     def initialize(attrs = {})
@@ -15,6 +15,7 @@ module Bittrex
       @quantity = attrs["Quantity"]
       @remaining = attrs["QuantityRemaining"]
       @price = attrs["Rate"] || attrs["Price"]
+      @price_per_unit = BigDecimal.new(attrs["PricePerUnit"], 12)
       @total = attrs["Total"]
       @fill = attrs["FillType"]
       @limit = attrs["Limit"]
