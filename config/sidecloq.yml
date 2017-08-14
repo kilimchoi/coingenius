@@ -1,3 +1,8 @@
+users_bittrex_sync_orders_for_all_users:
+  class: Users::Bittrex::SyncOrdersForAllUsersWorker
+  cron: "0 0 * * * *"
+  queue: "bittrex"
+
 # users_coinbase_sync_buys_for_all_users:
 #   class: Users::Coinbase::SyncBuysForAllUsersWorker
 #   cron: "0 0 * * * *"
