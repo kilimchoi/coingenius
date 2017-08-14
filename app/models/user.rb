@@ -34,12 +34,12 @@ class User < ActiveRecord::Base
       end
 
       if transaction.bought?
-        amount_change = transaction.amount.to_i
-        total_change = (transaction.amount.to_i * weekly_data.last.to_f)
+        amount_change = transaction.amount
+        total_change = (transaction.amount * weekly_data.last.to_f)
       elsif transaction.sold?
         if holding && transaction.amount <= holding[:amount]
-          amount_change = -transaction.amount.to_i
-          total_change = -(transaction.amount.to_i * weekly_data.last.to_f)
+          amount_change = -transaction.amount
+          total_change = -(transaction.amount * weekly_data.last.to_f)
         else
           amount_change = 0
           total_change = 0
