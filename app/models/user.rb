@@ -15,13 +15,13 @@ class User < ActiveRecord::Base
     total = 0
     responses = Hash.new(Hash.new([]))
 
-    response = HTTParty.get('https://api.coinmarketcap.com/v1/ticker/')
+    response = HTTParty.get('https://www.cryptocompare.com/api/data/coinlist/')
 
-    coins = JSON.parse(response.body).sort_by{ |hash| hash['market_cap_usd'].to_f }.reverse
     merged = self.transactions.bought.includes(:coin) + self.transactions.sold.includes(:coin)
     merged.each do |transaction|
       coin = transaction.coin
-      coin_data = coins.select{|api_coin| api_coin['symbol'] == coin.symbol}&.first&.with_indifferent_access
+      coins = Coin.all
+      coin_data = coins.select{|api_coin| api_coin['Name'] == coin.symbol}&.first&.with_indifferent_access
       holding = holdings[coin.symbol]
       if holding
         yearly_data = holding[:yearly_price_history]
@@ -52,11 +52,7 @@ class User < ActiveRecord::Base
       else
         holdings[coin.symbol] = {
           coin: coin,
-          percent_change: if coin_data 
-                            coin_data[:percent_change_24h] 
-                          else 
-                            "N/A" 
-                          end,
+          percent_change: "N/A",
           amount: amount_change,
           total: total_change,
           price: weekly_data.last,
