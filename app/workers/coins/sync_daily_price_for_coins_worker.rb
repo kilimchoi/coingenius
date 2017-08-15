@@ -5,7 +5,7 @@ module Coins
 
     def perform
       Coin.find_each do |coin| 
-        SyncDailyPriceForCoinWorker.perform_async(coin.id)
+        Coins::SyncDailyPriceForCoinWorker.perform_async(coin.id)
       end
     end
   end
