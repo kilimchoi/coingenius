@@ -21,11 +21,11 @@ class Portfolio::PortfolioController < ApplicationController
       @yearly_history = [0] * 365
 
       days_ago = Coin.days_ago(365).map{|timestamp| Time.at(timestamp).strftime("%Y-%m-%d")}
-      
       @last_twenty_four_hours = get_24_hours
       @last_seven_days = days_ago.last(7)
       @last_thirty_days = days_ago.last(30)
       @last_three_six_five_days = days_ago
+      puts "there are #{days_ago.count} days"
       @holdings = @holdings.sort_by { |h| h[:total] }.reverse
       @holdings.map do |h|
         amount = h[:amount]
@@ -44,6 +44,7 @@ class Portfolio::PortfolioController < ApplicationController
             @yearly_history[index] += (price.to_f * amount.to_f).round(2)
           end
         end
+        puts 'last data point is ', @yearly_history.last
       end
     end
   end

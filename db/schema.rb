@@ -49,6 +49,12 @@ ActiveRecord::Schema.define(version: 20170806005832) do
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
+  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
+    t.string   "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "coinbase_buys", force: :cascade do |t|
     t.integer "transaction_id"
     t.jsonb   "raw_data"

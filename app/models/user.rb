@@ -14,14 +14,10 @@ class User < ActiveRecord::Base
     holdings = {}
     total = 0
     responses = Hash.new(Hash.new([]))
-
     response = HTTParty.get('https://www.cryptocompare.com/api/data/coinlist/')
-
     merged = self.transactions.bought.includes(:coin) + self.transactions.sold.includes(:coin)
     merged.each do |transaction|
       coin = transaction.coin
-      coins = Coin.all
-      coin_data = coins.select{|api_coin| api_coin['Name'] == coin.symbol}&.first&.with_indifferent_access
       holding = holdings[coin.symbol]
       if holding
         yearly_data = holding[:yearly_price_history]
@@ -32,7 +28,6 @@ class User < ActiveRecord::Base
         monthly_data = yearly_data.last(30)
         weekly_data = yearly_data.last(7)
       end
-
       if transaction.bought?
         amount_change = transaction.amount
         total_change = (transaction.amount * weekly_data.last.to_f)
@@ -44,7 +39,8 @@ class User < ActiveRecord::Base
           amount_change = 0
           total_change = 0
         end
-      end 
+      end
+
       total += total_change
       if holding
         holding[:amount] += amount_change
@@ -52,7 +48,7 @@ class User < ActiveRecord::Base
       else
         holdings[coin.symbol] = {
           coin: coin,
-          percent_change: "N/A",
+          percent_change: calculate_percentage_diff(weekly_data[-2].to_f, weekly_data[-1].to_f),
           amount: amount_change,
           total: total_change,
           price: weekly_data.last,
@@ -68,5 +64,9 @@ class User < ActiveRecord::Base
       holding[:percent] = holding[:total]/total
     end
     [holdings.values, total]
+  end
+
+  def calculate_percentage_diff(y1, y2)
+    ((y2 - y1) / y1) * 100
   end
 end

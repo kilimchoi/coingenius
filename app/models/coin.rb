@@ -7,12 +7,29 @@ class Coin < ActiveRecord::Base
   def price_history(days=7)
     a = []
     day_array = Coin.days_ago(days)
-    day_array.each do |timestamp|
-      puts "id is #{id}, timestap is #{timestamp}"
-      priceHistory = PriceHistory.find_by_timestamp_and_coin_id(timestamp, id) 
-      a << priceHistory.coin_price
+    if $redis.get(price_history_key(day_array.last)) && $redis.get(price_history_key(day_array.first))
+      day_array.each do |day_timestamp|
+        a << $redis.get(price_history_key(day_timestamp)).to_f
+      end
+    else
+      if self.symbol == "MIOTA"
+        response = HTTParty.get("https://min-api.cryptocompare.com/data/histoday?fsym=IOT&tsym=USD&limit=#{days-2}&e=CCCAGG")
+      else
+        response = HTTParty.get("https://min-api.cryptocompare.com/data/histoday?fsym=#{symbol.upcase}&tsym=USD&limit=#{days-2}&e=CCCAGG")
+      end
+      prices = JSON.parse(response.body).with_indifferent_access["Data"]
+      prices.each do |price|
+        timestamp = Time.at(price[:time])
+        key = price_history_key(timestamp.beginning_of_day.to_i)
+        $redis.set(key, price[:close])
+        a << price[:close]
+      end
     end
-    a[-1] = $redis.get("#{symbol}_price_today")
+
+    if $redis.get("#{symbol}_price_today")
+      a << $redis.get("#{symbol}_price_today")
+    end
+    puts "there are #{a.count} datapoints"
     a
   end
 
