@@ -8,6 +8,7 @@ class Coin < ActiveRecord::Base
     a = []
     day_array = Coin.days_ago(days)
     day_array.each do |timestamp|
+      puts "id is #{id}, timestap is #{timestamp}"
       priceHistory = PriceHistory.find_by_timestamp_and_coin_id(timestamp, id) 
       a << priceHistory.coin_price
     end
