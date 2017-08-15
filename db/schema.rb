@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170806005832) do
+ActiveRecord::Schema.define(version: 20170727185715) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,12 +48,6 @@ ActiveRecord::Schema.define(version: 20170806005832) do
 
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
-
-  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
-    t.string   "value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
 
   create_table "coinbase_buys", force: :cascade do |t|
     t.integer "transaction_id"
@@ -118,14 +112,6 @@ ActiveRecord::Schema.define(version: 20170806005832) do
 
   add_index "identities", ["uid", "provider"], name: "index_identities_on_uid_and_provider", using: :btree
   add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
-
-  create_table "price_histories", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "timestamp"
-    t.integer  "coin_id"
-    t.float    "coin_price"
-  end
 
   create_table "transactions", force: :cascade do |t|
     t.integer  "transaction_type"
