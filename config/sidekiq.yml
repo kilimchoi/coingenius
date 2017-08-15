@@ -4,4 +4,3 @@
 :queues:
   - default
   - coinbase
-  - daily_coin_price

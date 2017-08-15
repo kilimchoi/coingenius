@@ -29,7 +29,6 @@ class Coin < ActiveRecord::Base
     if $redis.get("#{symbol}_price_today")
       a << $redis.get("#{symbol}_price_today")
     end
-    puts "there are #{a.count} datapoints"
     a
   end
 
