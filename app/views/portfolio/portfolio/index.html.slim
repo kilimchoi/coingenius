@@ -37,9 +37,11 @@ h3.text-center=number_to_currency(@total)
                 td
                   = number_to_currency(holding[:price], precision: 5)
                 td 
-                  - if holding[:percent_change].to_i > 0
+                  - if holding[:percent_change].to_f > 0
                     .positive-change 
                       = number_to_percentage(holding[:percent_change], precision: 2)
+                  - elsif holding[:percent_change].to_f == 0
+                    = number_to_percentage(holding[:percent_change], precision: 2)
                   - else
                     .negative-change
                       = number_to_percentage(holding[:percent_change], precision: 2)  

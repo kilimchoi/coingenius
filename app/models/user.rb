@@ -40,7 +40,6 @@ class User < ActiveRecord::Base
           total_change = 0
         end
       end
-
       total += total_change
       if holding
         holding[:amount] += amount_change

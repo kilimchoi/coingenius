@@ -12,8 +12,9 @@ class Coin < ActiveRecord::Base
         a << $redis.get(price_history_key(day_timestamp)).to_f
       end
     else
-      response = HTTParty.get("https://min-api.cryptocompare.com/data/histoday?fsym=#{symbol.upcase}&tsym=USD&limit=#{days-2}&e=CCCAGG")
+      response = HTTParty.get("https://min-api.cryptocompare.com/data/histoday?fsym=#{symbol.upcase}&tsym=USD&limit=#{days-1}&e=CCCAGG")
       prices = JSON.parse(response.body).with_indifferent_access["Data"]
+      prices.pop
       prices.each do |price|
         timestamp = Time.at(price[:time])
         key = price_history_key(timestamp.beginning_of_day.to_i)
@@ -21,7 +22,7 @@ class Coin < ActiveRecord::Base
         a << price[:close]
       end
     end
-
+    puts 'a.count is ', a.count
     if $redis.get("#{symbol}_price_today")
       a << $redis.get("#{symbol}_price_today")
     end
