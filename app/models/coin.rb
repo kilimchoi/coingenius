@@ -22,7 +22,6 @@ class Coin < ActiveRecord::Base
         a << price[:close]
       end
     end
-    puts 'a.count is ', a.count
     if $redis.get("#{symbol}_price_today")
       a << $redis.get("#{symbol}_price_today")
     end
