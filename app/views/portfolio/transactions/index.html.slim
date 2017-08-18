@@ -1,0 +1,28 @@
+- provide(:title, "Edit Transactions for #{coin.name}")
+#modal-window2.modal.hide aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
+
+h2.dashhead-title.mt-5 Edit Transactions for #{coin.name}
+.row.mt-5
+  .table-responsive
+    table.table
+      thead
+        tr
+          th Transaction type
+          th Date of transaction
+          th Amount
+          th
+      - transactions.each do |tx| 
+        tbody
+          tr 
+            td
+              = "#{tx.transaction_type}"
+            td 
+              - if tx.transaction_date.nil? 
+                = "#{tx.created_at.strftime("%b %d, %Y")}"
+              - else
+                = "#{tx.transaction_date.strftime("%b %d, %Y")}"
+            td 
+              = "#{tx.amount}"
+            td
+              = link_to edit_portfolio_transaction_path(tx.id), {:remote => true, "data-toggle" =>  "modal", "data-target" => "#modal-window2", "data-animation" => "false", "data-turbolinks": "false", class: "new-transaction"}
+                i.fa.fa-pencil aria-hidden="true"

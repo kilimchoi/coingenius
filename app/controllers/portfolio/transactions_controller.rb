@@ -1,5 +1,8 @@
 class Portfolio::TransactionsController < ApplicationController
   before_action :authenticate_user!
+  respond_to :html
+  expose :transactions, -> { current_user.transactions.where(coin_id: params[:id], user_id: current_user.id)}
+  expose :coin, -> { transactions.last.coin }
 
   def autocomplete_coin_name
     term = params[:term].downcase
@@ -52,8 +55,19 @@ class Portfolio::TransactionsController < ApplicationController
     end
   end
 
-  def update
+  def edit
+    @transaction = Transaction.find params[:id]
+  end
 
+  def update
+    @transaction = Transaction.find params[:id]
+    if @transaction.update_attributes(transaction_params)
+      flash[:success] = 'You successfully updated the transaction'
+      redirect_to :back
+    else
+      flash[:error] = @transaction.errors.full_messages.join(', ')
+      redirect_to :back
+    end
   end
 
   def destroy
