@@ -1,9 +1,0 @@
-- if @transaction.errors.blank?
-  | 
-    $("#{escape_javascript(render @transaction)}").hide().prependTo($(".transactions").last()).fadeIn(1000)
-    $('#transaction_amount').val('')
-    $("#transaction_amount").parent().removeClass("has-danger")
-    $('ul.comments .no-comments').remove()
-- else
-  |
-    $("#transaction_amount").parent().addClass("has-danger")

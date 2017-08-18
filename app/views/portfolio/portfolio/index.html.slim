@@ -28,6 +28,7 @@ h3.text-center=number_to_currency(@total)
             th Change (24hrs)
             th Amount
             th Value
+            th
         - @holdings.each do |holding|
           -if holding[:total] > 0 
             tbody
@@ -49,6 +50,10 @@ h3.text-center=number_to_currency(@total)
                   = "#{holding[:amount]} #{holding[:coin].symbol}" 
                 td
                   = "#{number_to_currency(holding[:total])}"
+                td
+                  = link_to portfolio_transactions_path(id: holding[:coin].id), "data-turbolinks": "false"
+                    i.fa.fa-pencil aria-hidden="true"
+
 
   - elsif @total == 0 && user_signed_in? 
     .mt-4.w-20.mx-auto

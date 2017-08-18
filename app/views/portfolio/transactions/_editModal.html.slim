@@ -1,0 +1,21 @@
+.modal-dialog.modal-sm role="document" 
+  .modal-content
+    .modal-header
+      h5#exampleModalLabel.modal-title Edit Transaction
+      button.close aria-label="Close" data-dismiss="modal" type="button" 
+        span aria-hidden="true"  &times;
+    .modal-body
+      = form_for @transaction, url:  portfolio_transaction_path, html: {class: "mx-auto transaction-form", method: "put"} do |f|
+        .form-group 
+          = f.label :transaction_type, "Transaction Type"
+          = f.select :transaction_type, Transaction.transaction_types.keys.map {|type| [type.titleize, type]}, {}, class: 'form-control mr-sm-2', selected: @transaction.transaction_type
+        .form-group
+          = f.label :coin_id, class: "sr-only"
+          = f.text_field :coin_id, class: "form-control sr-only"
+        .form-group 
+          = f.label :price, "Price"
+          = f.number_field :price, placeholder: 'Price in dollars', class: 'form-control mr-sm-2', step: :any
+        .form-group 
+          = f.label :amount, "Amount"
+          = f.number_field :amount, placeholder: '# of coins', class: 'form-control mr-sm-2', step: :any
+        = f.submit "Update", class: "btn btn-primary", data: {disable_with: "Adding..."}
