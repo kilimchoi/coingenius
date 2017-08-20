@@ -5,7 +5,14 @@ h2.dashhead-title.mt-5 My Portfolio
 h3.text-center=number_to_currency(@total)
 #modal-window.modal.hide aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" 
 - if @total && @total > 0
-  = link_to "+ Add a new transaction", new_portfolio_transaction_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "new-transaction"}
+  .dropdown.float-right
+    button.btn.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" type="button" 
+    .dropdown-menu.dropdown-menu-right
+      = link_to "+ Add transaction", new_portfolio_transaction_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#modal-window", "data-animation" => "false", "data-turbolinks": "false", class:"dropdown-item"}
+      = link_to "Connect to Coinbase", 
+      user_coinbase_omniauth_authorize_path,  class:"dropdown-item"
+      = link_to "Import from Bittrex", 
+      setup_bittrex_path,  class:"dropdown-item"
 
   .hr-divider.mt-5.mb-3
     ul.nav.nav-pills.hr-divider-content.hr-divider-nav
@@ -28,7 +35,7 @@ h3.text-center=number_to_currency(@total)
             th Change (24hrs)
             th Amount
             th Value
-            th
+            th.text-center Edit Transactions
         - @holdings.each do |holding|
           -if holding[:total] > 0 
             tbody
@@ -50,7 +57,7 @@ h3.text-center=number_to_currency(@total)
                   = "#{holding[:amount]} #{holding[:coin].symbol}" 
                 td
                   = "#{number_to_currency(holding[:total])}"
-                td
+                td.text-center
                   = link_to portfolio_transactions_path(id: holding[:coin].id), "data-turbolinks": "false"
                     i.fa.fa-pencil aria-hidden="true"
 

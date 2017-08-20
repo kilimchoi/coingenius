@@ -21,7 +21,8 @@ module Users
             amount: BigDecimal.new(sell["amount"]["amount"]),
             coin: Coin.find_by(symbol: sell["amount"]["currency"]),
             price: BigDecimal.new(sell["subtotal"]["amount"]) / BigDecimal.new(sell["amount"]["amount"]),
-            transaction_type: :sold
+            transaction_type: :sold,
+            transaction_date: sell["created_at"]
           )
 
           context.coinbase_sell = context.transaction.create_coinbase_sell!(

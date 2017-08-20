@@ -1,7 +1,7 @@
-- provide(:title, "Edit Transactions for #{coin.name}")
+- provide(:title, "Edit Transactions for #{coin&.name}")
 #modal-window2.modal.hide aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
 
-h2.dashhead-title.mt-5 Edit Transactions for #{coin.name}
+h2.dashhead-title.mt-5 Edit Transactions for #{coin&.name}
 .row.mt-5
   .table-responsive
     table.table
@@ -10,7 +10,7 @@ h2.dashhead-title.mt-5 Edit Transactions for #{coin.name}
           th Transaction type
           th Date of transaction
           th Amount
-          th
+          th.text-right Edit
       - transactions.each do |tx| 
         tbody
           tr 
