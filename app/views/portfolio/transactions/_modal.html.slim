@@ -23,7 +23,7 @@
           = f.number_field :amount, placeholder: '# of coins', class: 'form-control mr-sm-2', step: :any
         .form-group 
           = f.label :transaction_date, "Transaction Date"
-          .input-group.date data-provide="datepicker" data-date-format="dd-mm-yyyy" data-date-min-view-mode="days" data-date-start-view="days"
+          .input-group.date data-provide="datepicker" data-date-format="dd-mm-yyyy"
             = f.text_field :transaction_date, class: 'form-control'
             .input-group-addon
               span.fa.fa-calendar
