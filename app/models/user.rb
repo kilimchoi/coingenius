@@ -75,7 +75,7 @@ class User < ActiveRecord::Base
         retry
       else
         puts "Exiting script."
-        exit(1)
+        [nil, 0]
       end
     end
   end
