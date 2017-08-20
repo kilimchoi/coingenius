@@ -12,7 +12,6 @@ module Coins
       $redis.expire(key, 5.minutes)
     rescue StandardError, Errno::ECONNREFUSED, Errno::ECONNRESET => e
       logger.warn "performing Coins::SyncDailyPriceForCoinWorker again in 1 minute due to #{e.message}"
-      self.class.perform_in(1.minute, coin_id)
     end
     
     private
