@@ -8,8 +8,11 @@ module Users
       delegate :user, :buy, to: :context
 
       before do
-        next if buy["status"] != "completed" # Skip uncompleted transactions
-        next if ::Coinbase::Buy.where(uuid: buy["id"]).exists? # Or if we already processed this transaction
+        # Skip uncompleted transactions
+        context.fail! if buy["status"] != "completed"
+
+        # Or if we already processed this transaction
+        context.fail! if ::Coinbase::Buy.where(uuid: buy["id"]).exists?
       end
 
       def call
