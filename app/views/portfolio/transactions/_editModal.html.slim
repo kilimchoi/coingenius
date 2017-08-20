@@ -18,4 +18,16 @@
         .form-group 
           = f.label :amount, "Amount"
           = f.number_field :amount, placeholder: '# of coins', class: 'form-control mr-sm-2', step: :any
-        = f.submit "Update", class: "btn btn-primary", data: {disable_with: "Adding..."}
+        .form-group 
+          = f.label :transaction_date, "Transaction Date"
+          .input-group.date data-provide="datepicker" data-date-format="dd-mm-yyyy"
+            = f.text_field :transaction_date, class: 'form-control'
+            .input-group-addon
+              span.fa.fa-calendar
+        = f.submit "Update", class: "btn btn-primary float-right mb-3", data: {disable_with: "Adding..."}
+        span
+      .delete-button
+        = button_to portfolio_transaction_path(@transaction), :method => :delete, class: "btn btn-default", data: { confirm: "Are you sure you want to delete this transaction?" } do
+          | Delete
+
+          

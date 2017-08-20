@@ -21,7 +21,8 @@ module Users
             amount: BigDecimal.new(buy["amount"]["amount"]),
             coin: Coin.find_by(symbol: buy["amount"]["currency"]),
             price: BigDecimal.new(buy["subtotal"]["amount"]) / BigDecimal.new(buy["amount"]["amount"]),
-            transaction_type: :bought
+            transaction_type: :bought, 
+            transaction_date: buy["created_at"]
           )
 
           context.coinbase_buy = context.transaction.create_coinbase_buy!(
