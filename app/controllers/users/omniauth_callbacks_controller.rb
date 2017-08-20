@@ -11,7 +11,7 @@ module Users
       # same Coinbase account to a different CoinGenius accounts.
       # We want to avoid it
       if identity.user != current_user
-        redirect_to "/portfolio", alert: "You have already connected to Coinbase."
+        redirect_to "/portfolio", alert: "You have already connected to Coinbase using a different CoinGenius account."
       else
         # Update access and refresh tokens on every login (eg for a changed scopes)
         tokens = {
