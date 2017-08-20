@@ -6,14 +6,22 @@ module Users
       delegate :user, to: :context
 
       def call
-        client.order_history.each do |order|
-          # Do not process orders in active state
-          next if order.active?
+        begin
+          client.order_history.each do |order|
+            # Do not process orders in active state
+            next if order.active?
 
-          # And skip those we already processed
-          next if BittrexOrder.where(uuid: order.id).exists?
+            # And skip those we already processed
+            next if BittrexOrder.where(uuid: order.id).exists?
 
-          process_order(order)
+            process_order(order)
+          end
+        rescue ::Bittrex::Client::BaseError
+          # Do nothing, but fail interactor.
+          #
+          # Initial idea was to purge Bittrex API key and secret but it may be excessive for now.
+          # I am not sure if we want to force user to update his API keys in case of Bittrex API failures.
+          context.fail!
         end
       end
 
