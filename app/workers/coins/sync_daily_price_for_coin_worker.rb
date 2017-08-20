@@ -10,8 +10,6 @@ module Coins
       key = price_today_key(coin.symbol)
       $redis.set(key, price)
       $redis.expire(key, 5.minutes)
-    rescue StandardError => e
-      logger.warn "performing Coins::SyncDailyPriceForCoinWorker again in 1 minute due to #{e.message}"
     end
     
     private
