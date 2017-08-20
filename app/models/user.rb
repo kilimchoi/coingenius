@@ -74,7 +74,7 @@ class User < ActiveRecord::Base
         puts "Failed to get the response from /coinlist, retry #{times_retried}/#{max_retries}"
         retry
       else
-        puts "Exiting script."
+        puts "Retry has failed. Returning nil"
         [nil, 0]
       end
     end
