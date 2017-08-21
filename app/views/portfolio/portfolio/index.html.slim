@@ -3,16 +3,17 @@
 h2.dashhead-title.mt-5 My Portfolio
 
 h3.text-center=number_to_currency(@total)
+#bittrex-modal-window.modal.hide aria-hidden="true" aria-labelledby="bittrexModal" role="dialog" 
 #modal-window.modal.hide aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" 
 - if @total && @total > 0
   .dropdown.float-right
     button.btn.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" type="button" 
     .dropdown-menu.dropdown-menu-right
-      = link_to "+ Add transaction", new_portfolio_transaction_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#modal-window", "data-animation" => "false", "data-turbolinks": "false", class:"dropdown-item"}
+      = link_to "+ Add transaction", new_portfolio_transaction_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "dropdown-item"}
       = link_to "Connect to Coinbase", 
       user_coinbase_omniauth_authorize_path,  class:"dropdown-item"
       = link_to "Import from Bittrex", 
-      setup_bittrex_path,  class:"dropdown-item"
+      bittrex_setup_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#bittrex-modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "dropdown-item"}
 
   .hr-divider.mt-5.mb-3
     ul.nav.nav-pills.hr-divider-content.hr-divider-nav
@@ -67,5 +68,13 @@ h3.text-center=number_to_currency(@total)
       = image_tag "empty_portfolio.png", class: "empty-portfolio rounded mx-auto img-fluid"
       br
       .mx-auto
-        p Please add coins to your portfolio 
-        = link_to "Add Coins", new_portfolio_transaction_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "btn btn-primary btn-lg coin-button", disable_with: "Redirecting..."}
+        p Please add coins to your portfolio
+        .dropdown
+          button.btn.btn-primary.dropdown-toggle.btn-lg.coin-button aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" type="button" 
+            | Add
+          .dropdown-menu.dropdown-menu-right.coin-button
+            = link_to "Manually", new_portfolio_transaction_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "dropdown-item"}
+            = link_to "From Coinbase", 
+            user_coinbase_omniauth_authorize_path,  class:"dropdown-item"
+            = link_to "From Bittrex", 
+            bittrex_setup_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#bittrex-modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "dropdown-item"}

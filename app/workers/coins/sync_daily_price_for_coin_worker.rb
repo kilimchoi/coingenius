@@ -9,7 +9,7 @@ module Coins
       price = JSON.parse(response.body).with_indifferent_access["USD"]
       key = price_today_key(coin.symbol)
       $redis.set(key, price)
-      $redis.expire(key, 5.minutes)
+      $redis.expire(key, 1.hour)
     end
     
     private

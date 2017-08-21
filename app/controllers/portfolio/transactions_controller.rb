@@ -81,6 +81,10 @@ class Portfolio::TransactionsController < ApplicationController
     end
   end
 
+  def bittrex_integration
+    @user = current_user
+  end
+
   private
   
   def transaction_params
