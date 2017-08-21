@@ -1,0 +1,25 @@
+.modal-dialog.modal-lg role="document" 
+  .modal-content
+    .modal-header
+      h5#exampleModalLabel.modal-title Import from Bittrex
+      button.close aria-label="Close" data-dismiss="modal" type="button" 
+        span aria-hidden="true"  &times;
+    .modal-body.p-3
+      h2 Read the following to create a bittrex api job
+      p
+        '1. Log in into your Bittrex account and click on Settings on the top right, then API Keys on the left sidebar or simply visit
+        a href="https://bittrex.com/Manage#sectionApi" (https://bittrex.com/Manage#sectionApi)
+        '
+      p 2. Next, click on "Add New Key" to create a new api key if you don't already have one.
+      p 3. Enable only READ INFO by toggling the button.
+      p 4. Click Update Keys
+      p 5. Copy paste your Key and Secret below
+      p We will be pulling transactions for the last 30 days and will add any new ones that you make.
+      = form_for(@user, url: bittrex_update_path, html: { method: :put }) do |f|
+        .form-group.mt-3
+          = f.label :bittrex_api_key
+          = f.text_field :bittrex_api_key, class: 'form-control'
+        .form-group
+          = f.label :bittrex_api_secret
+          = f.text_field :bittrex_api_secret, class: 'form-control'
+        = f.submit "Update", class: 'btn btn-primary float-right'

@@ -8,8 +8,9 @@ Rails.application.routes.draw do
   # Static pages
   get "/terms", to: "static_pages#terms", :as => :terms
   get "/privacy", to: "static_pages#privacy", :as => :privacy
-  get "/setup_bittrex", to: "static_pages#setup_bittrex", as: :setup_bittrex
 
+  get "/bittrex/setup", to: "bittrex#setup"
+  put "/bittrex/update", to: "bittrex#update"
   # You can have the root of your site routed with "root"
   root to: redirect("/coins")
   require "sidekiq/web"

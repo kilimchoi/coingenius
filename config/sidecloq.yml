@@ -3,20 +3,20 @@ users_bittrex_sync_orders_for_all_users:
   cron: "0 0 * * * *"
   queue: "bittrex"
 
-# users_coinbase_sync_buys_for_all_users:
-#   class: Users::Coinbase::SyncBuysForAllUsersWorker
-#   cron: "0 0 * * * *"
-#   queue: "coinbase"
+users_coinbase_sync_buys_for_all_users:
+  class: Users::Coinbase::SyncBuysForAllUsersWorker
+  cron: "0 0 * * * *"
+  queue: "coinbase"
 
-# users_coinbase_sync_sells_for_all_users:
-#   class: Users::Coinbase::SyncSellsForAllUsersWorker
-#   cron: "0 0 * * * *"
-#   queue: "coinbase"
+users_coinbase_sync_sells_for_all_users:
+  class: Users::Coinbase::SyncSellsForAllUsersWorker
+  cron: "0 0 * * * *"
+  queue: "coinbase"
 
-# user_coinbase_refresh_access_tokens:
-#   class: Users::Coinbase::RefreshAccessTokens
-#   cron: "0 0 * * * *"
-#   queue: "coinbase"
+user_coinbase_refresh_access_tokens:
+  class: Users::Coinbase::RefreshAccessTokens
+  cron: "0 0 * * * *"
+  queue: "coinbase"
 
 coins_sync_daily_price_for_coins:
   class: Coins::SyncDailyPriceForCoinsWorker

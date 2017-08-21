@@ -4,7 +4,4 @@ class StaticPagesController < ApplicationController
 
   def privacy 
   end
-
-  def setup_bittrex
-  end
 end
