@@ -14,7 +14,7 @@ class CoinsController < ApplicationController
 
     response = HTTParty.get('http://www.coincap.io/front')
     @coins = []
-    api_coins = JSON.parse(response.body).sort_by{ |hash| hash['mktcap'].to_f }.reverse.first(30)
+    api_coins = JSON.parse(response.body).sort_by{ |hash| hash['mktcap'].to_f }.reverse.first(3000)
     api_coins.each do |api_coin|
       api_coin = api_coin.with_indifferent_access
       coin = Coin.where(symbol: api_coin[:short]).first || Coin.create(symbol: api_coin[:short], name: api_coin[:long])
