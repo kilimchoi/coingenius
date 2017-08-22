@@ -1,0 +1,141 @@
+.rectangle {
+  width: 1280px;
+  height: 358px;
+  background-image: linear-gradient(to right, #28393d, #192426);
+  text-align: center;
+  padding-top: 79px;
+}
+
+.group {
+  width: 381px;
+  height: 111px;
+  object-fit: contain;
+}
+
+.hero-text {
+  width: 253px;
+  height: 16px;
+  font-family: 'Roboto Mono';
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-align: center;
+  color: #707e7a;
+  margin: 0 auto;
+  padding-top: 26px;
+}
+
+.get-started-button {
+  width: 178px;
+  height: 56px;
+  border-radius: 100px;
+  background-image: linear-gradient(to right, #c79375, #875e48);
+  
+  margin: 0 auto;
+  margin-top: 143px;
+  padding-top: 15px;
+  display: block;
+  position: absolute;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  span { 
+    font-family: "Roboto Mono";
+    margin-left: 14px;
+    font-size: 16px;
+    color: #eceded;
+  }
+}
+
+.triangle {
+  width: 12px;
+  height: 11px;
+  margin-top: -3px;
+}
+
+.rectangle-2 {
+  width: 1280px;
+  height: 360px;
+  background-color: #eceded;
+}
+
+.free-crypto-tracking {
+  width: 640px;
+  height: 72px;
+  font-family: 'Roboto Mono';
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: center;
+  color: #666d6f;
+  margin: 0 auto;
+  padding-top: 64px;
+  margin-bottom: 138px;
+}
+
+.value-prop1 { 
+  width: 314px;
+  height: 48px;
+  font-family: 'Roboto Mono';
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: left;
+  color: #787878;
+}
+
+.value-prop2 { 
+  width: 304px;
+  height: 48px;
+  font-family: 'Roboto Mono';
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: center;
+  color: #787878;
+}
+
+.value-prop3 {
+  width: 304px;
+  height: 48px;
+  font-family: 'Roboto Mono';
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: right;
+  color: #787878;
+}
+
+.value-prop3 .text-style-1 {
+  color: #c1c4c5;
+}
+
+.rectangle-4 {
+  width: 1280px;
+  height: 5px;
+  background-image: linear-gradient(to right, #c79375 3%, #875e48);
+}
+
+.value-props {
+  padding-left: 112px;
+  padding-right: 111px;
+}
+
+.feature1 {
+  height: 32px;
+  font-family: 'Roboto Mono';
+  font-size: 24px;
+  font-weight: 500;
+  text-align: left;
+  color: #666d6f;
+}
+
+.feature1-description {
+  width: 596px;
+  height: 120px;
+  font-family: 'Roboto Mono';
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: left;
+  color: #787878;
+  margin-left: 60px;
+}
+
+.pt-29 { 
+  padding-top: 29px;
+}
