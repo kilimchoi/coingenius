@@ -25,7 +25,7 @@ module Users
         Users::Coinbase::SyncBuysForUserWorker.perform_async(current_user.id)
         Users::Coinbase::SyncSellsForUserWorker.perform_async(current_user.id)
 
-        redirect_to "/portfolio", notice: "You have successfully connected to your Coinbase account."
+        redirect_to "/portfolio", notice: "You have successfully connected to your Coinbase wallet. We will be pulling your transactions soon."
       end
     end
 
