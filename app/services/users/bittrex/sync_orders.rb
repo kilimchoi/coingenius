@@ -9,10 +9,10 @@ module Users
         begin
           client.order_history.each do |order|
             # Do not process orders in active state
-            context.fail! if order.active?
+            next if order.active?
 
             # And skip those we already processed
-            context.fail! if BittrexOrder.where(uuid: order.id).exists?
+            next if BittrexOrder.where(uuid: order.id).exists?
 
             process_order(order)
           end
@@ -43,7 +43,7 @@ module Users
 
           transaction = user.transactions.create!(
             amount: BigDecimal.new(order.quantity, 12),
-            coin: Coin.find_by_symbol(coin_symbol),
+            coin: Coin.find_by!(symbol: coin_symbol),
             btc_price: order.price_per_unit,
             transaction_type: transaction_type
           )

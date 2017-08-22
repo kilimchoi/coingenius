@@ -60,7 +60,9 @@ class User < ActiveRecord::Base
     end
 
     holdings.each do |key, holding|
-      holding[:percent] = holding[:total]/total
+      if total > 0
+        holding[:percent] = holding[:total]/total
+      end
     end
     [holdings.values, total]
   end
