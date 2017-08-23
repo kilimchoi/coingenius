@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  require "sidekiq/web"
+  mount Sidekiq::Web => "/sidekiq"
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   devise_for :users, controllers:
@@ -8,13 +10,9 @@ Rails.application.routes.draw do
   # Static pages
   get "/terms", to: "static_pages#terms", :as => :terms
   get "/privacy", to: "static_pages#privacy", :as => :privacy
-
-  get "/bittrex/setup", to: "bittrex#setup"
-  put "/bittrex/update", to: "bittrex#update"
   # You can have the root of your site routed with "root"
   root to: redirect("/coins")
-  require "sidekiq/web"
-  mount Sidekiq::Web => "/sidekiq"
+  resources :bittrex_integrations
   resources :coins
   namespace :portfolio do
     get "/" => "portfolio#index"
