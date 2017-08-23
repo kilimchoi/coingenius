@@ -8,7 +8,7 @@ class BittrexIntegrationsController < ApplicationController
   def create
     accounts_with_same_api_key = User.where(bittrex_api_key: params["user"]["bittrex_api_key"])
     if !accounts_with_same_api_key.empty?
-      flash[:error] = "You have already imported transactions from your Bittrex account. Please use a different Bittrex account and create a new key."
+      flash[:error] = "You have already imported transactions from your Bittrex account using another CoinGenius account. Please use a different Bittrex account and create a new key."
     elsif user.update_attributes(bittrex_params)
       flash[:success] = "You successfully integrated with bittrex. We will be pulling transactions from bittrex."
       Users::Bittrex::SyncOrdersForUserWorker.perform_async(user.id)
