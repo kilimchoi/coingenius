@@ -20,5 +20,5 @@ user_coinbase_refresh_access_tokens:
 
 coins_sync_daily_price_for_coins:
   class: Coins::SyncDailyPriceForCoinsWorker
-  cron: "*/5 * * * *"
+  cron: "0 * * * *"
   queue: "default"
