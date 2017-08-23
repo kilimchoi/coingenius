@@ -2,7 +2,7 @@ class Portfolio::TransactionsController < ApplicationController
   before_action :authenticate_user!
   respond_to :html
   expose :transactions, -> { current_user.transactions.where(coin_id: params[:id], user_id: current_user.id)}
-  expose :coin, -> { transactions&.last&.coin }
+  expose :coin, -> { transactions.last&.coin }
 
   def autocomplete_coin_name
     term = params[:term].downcase

@@ -13,7 +13,7 @@ h3.text-center=number_to_currency(@total)
       = link_to "Connect to Coinbase", 
       user_coinbase_omniauth_authorize_path,  class:"dropdown-item"
       = link_to "Import from Bittrex", 
-      bittrex_setup_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#bittrex-modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "dropdown-item"}
+      new_bittrex_integration_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#bittrex-modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "dropdown-item"}
 
   .hr-divider.mt-5.mb-3
     ul.nav.nav-pills.hr-divider-content.hr-divider-nav
@@ -77,4 +77,4 @@ h3.text-center=number_to_currency(@total)
             = link_to "From Coinbase", 
             user_coinbase_omniauth_authorize_path,  class:"dropdown-item"
             = link_to "From Bittrex", 
-            bittrex_setup_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#bittrex-modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "dropdown-item"}
+            new_bittrex_integration_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#bittrex-modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "dropdown-item"}
