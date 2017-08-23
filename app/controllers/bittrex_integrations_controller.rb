@@ -3,7 +3,6 @@ class BittrexIntegrationsController < ApplicationController
   expose :user, -> { current_user }
 
   def new
-    
   end
 
   def create
