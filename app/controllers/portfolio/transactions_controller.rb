@@ -1,7 +1,7 @@
 class Portfolio::TransactionsController < ApplicationController
   before_action :authenticate_user!
   respond_to :html
-  expose :transactions, -> { current_user.transactions.where(coin_id: params[:id], user_id: current_user.id)}
+  expose :transactions, -> { current_user.transactions.where(coin_id: params[:id], user_id: current_user.id, is_expired: false)}
   expose :coin, -> { transactions.last&.coin }
 
   def autocomplete_coin_name
@@ -72,7 +72,7 @@ class Portfolio::TransactionsController < ApplicationController
 
   def destroy
     @transaction = Transaction.find params[:id]
-    if @transaction.destroy
+    if @transaction.update(is_expired: true)
       flash[:success] = 'You successfully destroyed the transaction'
       redirect_to :back
     else 

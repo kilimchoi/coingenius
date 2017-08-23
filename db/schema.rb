@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170817045950) do
+ActiveRecord::Schema.define(version: 20170823044444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -129,10 +129,11 @@ ActiveRecord::Schema.define(version: 20170817045950) do
     t.decimal  "amount"
     t.integer  "coin_id"
     t.integer  "user_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
     t.decimal  "btc_price"
     t.datetime "transaction_date"
+    t.boolean  "is_expired",       default: false
   end
 
   add_index "transactions", ["coin_id"], name: "index_transactions_on_coin_id", using: :btree
