@@ -2,7 +2,10 @@ module Users
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     def coinbase
       # Do not allow registration via Coinbase. We allow only linking Coinbase account to an existing User
-      redirect_to new_user_registration_path if current_user.blank?
+      if current_user.blank?
+        redirect_to new_user_registration_path
+        return
+      end
 
       # Link current User to a newly created Coinbase identity
       identity.update(user: current_user) if identity.user.blank?
