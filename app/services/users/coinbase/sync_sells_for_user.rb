@@ -6,7 +6,7 @@ module Users
       delegate :user, to: :context
 
       def call
-        unless client
+        unless client.nil?
           client.accounts.each do |account|
             sells = client.list_sells(account.id)
 
