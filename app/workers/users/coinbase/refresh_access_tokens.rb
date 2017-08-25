@@ -20,7 +20,7 @@ module Users
             refresh_token: client.refresh_token
           )
         end
-      rescue Coinbase::Wallet::APIError
+      rescue ::Coinbase::Wallet::APIError
         nil
       end
     end
