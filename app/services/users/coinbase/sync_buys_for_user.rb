@@ -16,6 +16,8 @@ module Users
           end
         end
         nil
+      rescue ::Coinbase::Wallet::APIError
+        nil
       end
 
       private
