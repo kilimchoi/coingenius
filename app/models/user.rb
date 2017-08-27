@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
     total = 0
     responses = Hash.new(Hash.new([]))
     response = HTTParty.get('https://www.cryptocompare.com/api/data/coinlist/')
-    merged = self.transactions.bought.includes(:coin) + self.transactions.sold.includes(:coin)
+    merged = self.transactions.bought.where(is_expired: false).includes(:coin) + self.transactions.sold.where(is_expired: false).includes(:coin)
     merged.each do |transaction|
       coin = transaction.coin
       holding = holdings[coin.symbol]
