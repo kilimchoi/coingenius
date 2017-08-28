@@ -1,27 +1,19 @@
 .rectangle
-  = image_tag "emblem.svg"
+  = image_tag "emblem.svg", class: "mx-auto"
   p.hero-text Track your crypto investments
-  .get-started-button
+  = link_to new_user_registration_path, class: "get-started-button" do
     = image_tag "triangle.svg", class: "triangle"
     span Get started
 .rectangle-2
-  .free-crypto-tracking
-    | Free crypto tracking app that lets you integrate with Coinbase, Bittrex, and more
-  .row.value-props
-    .value-prop1.col-md-4
-      | Import your transactions from Coinbase, Bittrex, and more
-    .value-prop2.col-md-4
-      | Track your returns on web as well as on mobile
-    .value-prop3.col-md-4
-      span
-        | Find out top traders and copy their trades 
-        span.text-style-1
-          | (coming soon)
+  .free-crypto-tracking.row.col-md-6
+    | Free crypto tracking app that lets you
+    br  
+    | integrate with Coinbase, Bittrex, and more
 .rectangle-4 
 .rectangle-2
   
   .row.d-flex.justify-content-center
-    .p-2.bd-highlight
+    .p-3.bd-highlight.col-md-8
       .feature1
         | Import trades from exchanges
       .media.pt-29
@@ -31,21 +23,30 @@
           | Give us read-only API access to your exchanges and we will import your transactions.
           br
           br 
-          |Save time manually entering your transactions. 
-          br
-          |Our background worker will automatically update your portfolio when you make new transactions.
+          |Save time doing data-entry.
   .row.d-flex.justify-content-center
-    .p-2.bd-highlight
+    .p-3.bd-highlight.col-md-8
       .feature1
-        |Leaderboard & Social trading (Coming soon) 
+        | Track returns on web
+      .media.pt-29
+        .d-flex.align-self-start
+          = image_tag "track.svg", class: "track-image"
+        .media-body.feature1-description
+          | Create your account and receive weekly emails on your portfolio changes.
+          br
+          br
+          | See your portfolio growth in dollar amount or percentage with our beautiful chart.
+  .row.d-flex.justify-content-center
+    .p-3.bd-highlight.col-md-8
+      .feature1
+        | Leaderboard & Social trading
+        span.text-style-1 
+          |  (Coming soon)
       .media.pt-29
         .d-flex.align-self-start
           = image_tag "copytrades.svg"
         .media-body.feature1-description
-          | Share your trades with others and make passive income. 
-          br
-          |Share your trades with others and let others copy your trades.
+          | Share your trades with others and let others copy your trades.
           br
           br
-          |Each time someone copies your trade and you make a profit, you earn tokens. Compete against other traders for top spot in the leaderboard to earn tokens.
-
+          | Compete against other traders for the top spot in the leaderboard.
