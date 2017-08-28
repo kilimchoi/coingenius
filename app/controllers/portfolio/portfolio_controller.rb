@@ -1,5 +1,4 @@
 class Portfolio::PortfolioController < ApplicationController
-
   def index
     description = "Create your cryptocurrency portfolio to track your investment returns."
     set_meta_tags :description => description
