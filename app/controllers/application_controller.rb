@@ -15,7 +15,11 @@ class ApplicationController < ActionController::Base
   private
 
   def after_sign_in_path_for(resource)
-    session["user_return_to"] || root_path
+    if session["user_return_to"] == '/landing_page' && !current_user.nil?
+      portfolio_path
+    else
+      session["user_return_to"] || root_path
+    end
   end
 
   def store_current_location
