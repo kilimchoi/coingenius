@@ -10,7 +10,8 @@ Rails.application.routes.draw do
   # Static pages
   get "/terms", to: "static_pages#terms", :as => :terms
   get "/privacy", to: "static_pages#privacy", :as => :privacy
-
+  get "/landing_page", to: "static_pages#landing_page", as: :landing_page
+  
   # You can have the root of your site routed with "root"
   root to: redirect("/coins")
   resources :bittrex_integrations
