@@ -22,4 +22,4 @@
         .form-group
           = f.label :bittrex_api_secret
           = f.text_field :bittrex_api_secret, class: 'form-control'
-        = f.submit "Update", class: 'btn btn-primary float-right'
+        = f.submit "Update", class: 'btn btn-primary float-right', data: {disable_with: "Adding..."}
