@@ -15,4 +15,4 @@
           = f.password_field :password, autocomplete: "off", class: 'form-control', placeholder: "Choose a password"
           - if @minimum_password_length
             small.form-text.text-muted #{@minimum_password_length} characters minimum
-        = f.submit "Sign up", class: 'btn btn-primary'
+        = f.submit "Sign up", class: 'btn btn-primary', data: {disable_with: "Creating..."}
