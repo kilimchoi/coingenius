@@ -21,12 +21,14 @@ module Coins
 
     before do
       context.fail! if currency.blank? || days.blank? || price_currency.blank?
+
+      context.days = days.to_i > 0 ? days : 1
     end
 
     def call
       context.prices = response["Data"].map do |data|
         data.slice(:time, :close, :high, :low, :open).symbolize_keys
-      end
+      end.last(days)
     end
 
     private
@@ -40,8 +42,8 @@ module Coins
         "https://min-api.cryptocompare.com/data/histoday?fsym=%s&tsym=%s&limit=%i&toTs=%i",
         currency.upcase,
         price_currency.upcase,
-        days - 1,
-        Date.today.to_time.to_i
+        days,
+        Date.yesterday.strftime('%s')
       )
     end
   end
