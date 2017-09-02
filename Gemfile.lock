@@ -248,6 +248,7 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
+    scout_apm (2.1.30)
     sdoc (0.4.2)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
@@ -327,6 +328,7 @@ DEPENDENCIES
   redis (~> 3.2)
   rinku
   sass-rails (~> 5.0)
+  scout_apm
   sdoc (~> 0.4.0)
   select2-rails
   sidecloq
