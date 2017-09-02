@@ -22,3 +22,8 @@ coins_sync_daily_price_for_coins:
   class: Coins::SyncDailyPriceForCoinsWorker
   cron: "0 * * * *"
   queue: "default"
+
+coins_sync_daily_prices_for_coins:
+  class: Coins::SyncDailyPricesForCoinsWorker
+  cron: "0 0 * * *"
+  queue: "default"
