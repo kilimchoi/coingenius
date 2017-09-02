@@ -9,13 +9,16 @@ module Coins
     def perform(coin_id, days, price_currency)
       coin = Coin.find(coin_id)
 
-      prices = Coins::GetDailyPrices.call(currency: coin.symbol, days: days, price_currency: price_currency).prices
+      prices = Coins::GetDailyPrices.call(
+        currency: coin.symbol, days: days, include_today: true, price_currency: price_currency
+      ).prices
 
       $redis.pipelined do
-        prices.each do |price|
+        prices.each_with_index do |price, index|
           key = "coins:#{coin_id}:prices:#{price[:time]}:#{price_currency.downcase}"
 
-          $redis.setnx(key, price[:close])
+          logger.debug "Redis SET #{key} = #{price[:close]}"
+          $redis.set(key, price[:close])
         end
       end
     end
