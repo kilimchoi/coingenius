@@ -4,6 +4,7 @@ module Coins
   #
   # @param currency       [String]  Crypto-currency
   # @param days           [Integer] Historical days
+  # @param include_today  [Boolean] Include today's price
   # @param price_currency [String]  Price currency
   #
   # @example
@@ -17,10 +18,11 @@ module Coins
   class GetDailyPrices
     include Interactor
 
-    delegate :currency, :days, :price_currency, to: :context
+    delegate :currency, :days, :include_today, :price_currency, to: :context
+    alias include_today? include_today
 
     before do
-      context.fail! if currency.blank? || days.blank? || price_currency.blank?
+      context.fail! if currency.blank? || price_currency.blank?
 
       context.days = days.to_i > 0 ? days : 1
     end
@@ -38,12 +40,14 @@ module Coins
     end
 
     def url
+      up_to_date = include_today? ? Date.today : Date.yesterday
+
       format(
         "https://min-api.cryptocompare.com/data/histoday?fsym=%s&tsym=%s&limit=%i&toTs=%i",
         currency.upcase,
         price_currency.upcase,
         days,
-        Date.yesterday.strftime('%s')
+        up_to_date.strftime('%s')
       )
     end
   end
