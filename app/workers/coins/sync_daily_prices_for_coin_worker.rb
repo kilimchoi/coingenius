@@ -14,11 +14,12 @@ module Coins
       ).prices
 
       $redis.pipelined do
-        prices.each_with_index do |price, index|
-          key = "coins:#{coin_id}:prices:#{price[:time]}:#{price_currency.downcase}"
+        prices.each do |price|
+          key = coin.price_history_cache_key(price[:time], price_currency)
+          value = price[:close]
 
-          logger.debug "Redis SET #{key} = #{price[:close]}"
-          $redis.set(key, price[:close])
+          logger.debug "Redis SET #{key} = #{value}"
+          $redis.set(key, value)
         end
       end
     end
