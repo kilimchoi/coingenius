@@ -7,14 +7,13 @@ class User < ActiveRecord::Base
 
   validates :username, presence: true, uniqueness: true
 
+  has_many :coins, through: :transactions
   has_many :identities
   has_many :transactions
 
   def holdings
     holdings = {}
     total = 0
-    responses = Hash.new(Hash.new([]))
-    response = HTTParty.get('https://www.cryptocompare.com/api/data/coinlist/')
     merged = self.transactions.bought.where(is_expired: false).includes(:coin) + self.transactions.sold.where(is_expired: false).includes(:coin)
     merged.each do |transaction|
       coin = transaction.coin
@@ -56,10 +55,9 @@ class User < ActiveRecord::Base
           yearly_price_history: yearly_data,
         }
       end
-      responses = Hash.new(Hash.new([]))
     end
 
-    holdings.each do |key, holding|
+    holdings.each do |_key, holding|
       if total > 0
         holding[:percent] = holding[:total]/total
       end
