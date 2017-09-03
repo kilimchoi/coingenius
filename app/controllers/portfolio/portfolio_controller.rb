@@ -1,4 +1,6 @@
 class Portfolio::PortfolioController < ApplicationController
+  include DatesHelper
+
   def index
     description = "Create your cryptocurrency portfolio to track your investment returns."
     set_meta_tags :description => description
@@ -20,7 +22,7 @@ class Portfolio::PortfolioController < ApplicationController
         @monthly_history = [0] * 30
         @yearly_history = [0] * 365
 
-        days_ago = Coin.days_ago(365).map{|timestamp| Time.at(timestamp).strftime("%Y-%m-%d")}
+        days_ago = dates_before(days_back: 365).map {|date| date.strftime("%Y-%m-%d")}
 
         @last_twenty_four_hours = get_24_hours
         @last_seven_days = days_ago.last(7)
