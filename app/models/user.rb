@@ -14,8 +14,7 @@ class User < ActiveRecord::Base
   def holdings
     holdings = {}
     total = 0
-    merged = self.transactions.bought.where(is_expired: false).includes(:coin) + self.transactions.sold.where(is_expired: false).includes(:coin)
-    merged.each do |transaction|
+    self.transactions.where(is_expired: false).includes(:coin).each do |transaction|
       coin = transaction.coin
       holding = holdings[coin.symbol]
       if holding
@@ -30,7 +29,7 @@ class User < ActiveRecord::Base
       if transaction.bought?
         amount_change = transaction.amount
         total_change = (transaction.amount * weekly_data.last.to_f)
-      elsif transaction.sold?
+      else
         if holding && transaction.amount <= holding[:amount]
           amount_change = -transaction.amount
           total_change = -(transaction.amount * weekly_data.last.to_f)
