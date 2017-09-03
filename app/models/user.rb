@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
         monthly_data = holding[:monthly_price_history]
         weekly_data = holding[:weekly_price_history]
       else
-        yearly_data = coin.price_history(365)
+        yearly_data = Coins::GetCachedPriceHistory.call(coin: coin, days: 365, price_currency: "USD").results
         monthly_data = yearly_data.last(30)
         weekly_data = yearly_data.last(7)
       end
