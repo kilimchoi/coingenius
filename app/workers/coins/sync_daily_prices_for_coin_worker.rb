@@ -10,7 +10,7 @@ module Coins
       coin = Coin.find(coin_id)
 
       prices = Coins::GetDailyPrices.call(
-        currency: coin.symbol, days: days, include_today: true, price_currency: price_currency
+        coin: coin, days: days, include_today: true, price_currency: price_currency
       ).prices
 
       $redis.pipelined do

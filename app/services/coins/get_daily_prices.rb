@@ -2,7 +2,7 @@ module Coins
   # This service is responsible for getting historical close prices.
   # It will not include today's price.
   #
-  # @param currency       [String]  Crypto-currency
+  # @param coin           [Coin]
   # @param days           [Integer] Historical days
   # @param include_today  [Boolean] Include today's price
   # @param price_currency [String]  Price currency
@@ -18,11 +18,11 @@ module Coins
   class GetDailyPrices
     include Interactor
 
-    delegate :currency, :days, :include_today, :price_currency, to: :context
+    delegate :coin, :days, :include_today, :price_currency, to: :context
     alias include_today? include_today
 
     before do
-      context.fail! if currency.blank? || price_currency.blank?
+      context.fail! if coin.blank? || price_currency.blank?
 
       context.days = days.to_i > 0 ? days : 1
     end
@@ -44,7 +44,7 @@ module Coins
 
       format(
         "https://min-api.cryptocompare.com/data/histoday?fsym=%s&tsym=%s&limit=%i&toTs=%i",
-        currency.upcase,
+        coin.symbol.upcase,
         price_currency.upcase,
         days,
         up_to_date.strftime('%s')
