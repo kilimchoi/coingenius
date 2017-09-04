@@ -3,5 +3,5 @@
 # It seems like CloudFlare or Heroku are involved in SSL termination
 # procedure which means that Rails behaves like a normal HTTP backend in that case.
 if Rails.env.production?
-  OmniAuth.config.full_host = "https://coingenius.io"
+  OmniAuth.config.full_host = "https://coingenius.co"
 end
