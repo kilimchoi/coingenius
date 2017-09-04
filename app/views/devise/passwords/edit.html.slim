@@ -1,0 +1,21 @@
+- provide(:title, "Change your password".html_safe)
+.row.session
+  .col-lg-12: .block.account-form
+    .row: .col-lg-5.mx-auto
+      h2 Change your password
+      = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+        = devise_error_messages!
+        = f.hidden_field :reset_password_token
+        .form-group
+          = f.label :password, "New password"
+          - if @minimum_password_length
+            em
+              | (#{@minimum_password_length} characters minimum)
+          br
+          = f.password_field :password, autofocus: true, class: 'form-control', placeholder: "New Password", autocomplete: "off"
+        .form-group 
+          = f.label :password_confirmation, "Confirm new password"
+          br
+          = f.password_field :password_confirmation, class: 'form-control', autocomplete: "off"
+        = f.submit "Change my password", class: 'btn btn-primary', data: {disable_with: "changing..."}
+       

@@ -1,0 +1,10 @@
+- provide(:title, "Change your password".html_safe)
+.row.session
+  .col-lg-12: .block.account-form
+    .row: .col-lg-5.mx-auto
+      h2 Forgot your password?
+      = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| 
+        = devise_error_messages!
+        .form-group 
+          = f.email_field :email, autofocus: true, class: 'form-control', placeholder: "your email" 
+        = f.submit "Send me reset password instructions", class: 'btn btn-primary', data: {disable_with: "sending..."}
