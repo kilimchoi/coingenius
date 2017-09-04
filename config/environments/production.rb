@@ -89,5 +89,5 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.assets.raise_runtime_errors = true
+  # config.assets.raise_runtime_errors = true
 end
