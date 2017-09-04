@@ -14,7 +14,9 @@ class User < ActiveRecord::Base
   def holdings
     holdings = {}
     total = 0
-    self.transactions.where(is_expired: false).includes(:coin).each do |transaction|
+    #we need to process buy transactions first and sell transactions next to cancel each other out. otherwise, order is random.
+    merged = self.transactions.bought.where(is_expired: false).includes(:coin) + self.transactions.sold.where(is_expired: false).includes(:coin)
+    merged.each do |transaction|
       coin = transaction.coin
       holding = holdings[coin.symbol]
       if holding
