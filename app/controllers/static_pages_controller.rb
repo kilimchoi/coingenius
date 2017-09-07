@@ -7,4 +7,7 @@ class StaticPagesController < ApplicationController
 
   def landing_page
   end
+
+  def google8fa477f418e49735
+  end
 end
