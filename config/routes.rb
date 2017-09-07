@@ -11,7 +11,8 @@ Rails.application.routes.draw do
   get "/terms", to: "static_pages#terms", :as => :terms
   get "/privacy", to: "static_pages#privacy", :as => :privacy
   get "/landing_page", to: "static_pages#landing_page", as: :landing_page
-  get "/google8fa477f418e49735.html", to: "static_pages#google8fa477f418e49735"
+  get '/google8fa477f418e49735.html', to: proc { |env| [200, {}, ["google-site-verification: google8fa477f418e49735.html"]] }
+
   # You can have the root of your site routed with "root"
   root to: redirect("/coins")
   resources :bittrex_integrations
