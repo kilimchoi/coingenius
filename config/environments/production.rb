@@ -1,5 +1,7 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+  config.full_host = "coingenius.co"
+  config.full_url = "https://#{config.full_host}"
 
   # Code is not reloaded between requests.
   config.cache_classes = true
@@ -64,7 +66,7 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true
-  config.action_mailer.default_url_options = { :host => "coingenius.co" }
+  config.action_mailer.default_url_options = { :host => config.full_host }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.default :charset => "utf-8"
   config.action_mailer.smtp_settings = {
