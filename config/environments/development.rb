@@ -1,5 +1,7 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+  config.full_host = "coingenius.dev"
+  config.full_url = "http://#{config.full_host}"
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
