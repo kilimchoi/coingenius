@@ -16,11 +16,12 @@ module Users
 
             process_order(order)
           end
-        rescue ::Bittrex::Client::BaseError
+        rescue ::Bittrex::Client::BaseError => e
           # Do nothing, but fail interactor.
           #
           # Initial idea was to purge Bittrex API key and secret but it may be excessive for now.
           # I am not sure if we want to force user to update his API keys in case of Bittrex API failures.
+          logger.warn "Bittrex SyncOrders failed. Message: #{e.message} user email: #{user.email}"
           context.fail!
         end
       end
