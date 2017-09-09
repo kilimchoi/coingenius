@@ -1,8 +1,15 @@
+require 'admin_constraint'
+
 Rails.application.routes.draw do
   require "sidekiq/web"
-  mount Sidekiq::Web => "/sidekiq"
-  devise_for :admin_users, ActiveAdmin::Devise.config
-  ActiveAdmin.routes(self)
+  
+  mount Sidekiq::Web => "/sidekiq", constraints: AdminConstraint.new
+  
+  constraints AdminConstraint.new do
+    devise_for :admin_users, ActiveAdmin::Devise.config
+    ActiveAdmin.routes(self)
+  end
+
   devise_for :users, controllers:
     { omniauth_callbacks: "users/omniauth_callbacks",
       registrations: "users/registrations" }
