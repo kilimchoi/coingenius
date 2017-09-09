@@ -7,6 +7,7 @@ class BittrexIntegrationsController < ApplicationController
 
   def create
     accounts_with_same_api_key = User.where(bittrex_api_key: params["user"]["bittrex_api_key"])
+    strip_whitespace(*params[:user])
     if !accounts_with_same_api_key.empty?
       flash[:error] = "You have already imported transactions from your Bittrex account using another CoinGenius account. Please use a different Bittrex account and create a new key."
     elsif user.update_attributes(bittrex_params)
@@ -22,5 +23,11 @@ class BittrexIntegrationsController < ApplicationController
 
   def bittrex_params
     params.require(:user).permit(:bittrex_api_key, :bittrex_api_secret)
+  end
+
+  private
+
+  def strip_whitespace(*params)
+    params.map{ |attr| attr.last.strip! }
   end
 end
