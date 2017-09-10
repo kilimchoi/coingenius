@@ -21,7 +21,7 @@ module Users
               refresh_token: client.refresh_token
             )
           rescue ::Coinbase::Wallet::APIError => e
-            logger.warn "Refresh access token failed. Coinbase::Wallet::APIError: #{e.message} Identity uid: #{identity.uid}"
+            Rails.logger.warn "Refresh access token failed. Coinbase::Wallet::APIError: #{e.message} Identity uid: #{identity.uid}"
             nil
           end
         end
