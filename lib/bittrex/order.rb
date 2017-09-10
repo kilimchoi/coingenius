@@ -20,7 +20,7 @@ module Bittrex
       @fill = attrs["FillType"]
       @limit = attrs["Limit"]
       @commission = attrs["Commission"]
-      @closed_at = attrs["Closed"]
+      @closed_at = Time.parse(attrs["Closed"])
       @raw = attrs
       @executed_at = Time.parse(attrs["TimeStamp"])
     end
