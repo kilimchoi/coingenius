@@ -7,9 +7,11 @@ class BittrexOrdersHistoryImportsController < ApplicationController
   end
 
   def create
-    current_user.bittrex_orders_history_imports.create!(
+    bittrex_orders_history_import = current_user.bittrex_orders_history_imports.create!(
       file_content: bittrex_orders_history_import_params[:history_file].read
     )
+
+    BittrexOrdersHistoryImports::ProcessWorker.perform_async(bittrex_orders_history_import.id)
 
     redirect_to portfolio_root_path
   end
