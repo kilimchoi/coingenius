@@ -3,6 +3,7 @@ class CreateBittrexOrdersHistoryImport < ActiveRecord::Migration
     create_table :bittrex_orders_history_imports do |t|
       t.belongs_to :user, index: true, foreign_key: true
       t.text :file_content
+      t.datetime :processed_at
 
       t.timestamps
     end

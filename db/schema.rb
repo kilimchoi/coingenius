@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 20170910154119) do
   create_table "bittrex_orders_history_imports", force: :cascade do |t|
     t.integer  "user_id"
     t.text     "file_content"
+    t.datetime "processed_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
