@@ -9,6 +9,10 @@ module BittrexOrdersHistoryImports
     delegate :bittrex_orders_history_import, :user, to: :context
     delegate :user, to: :bittrex_orders_history_import
 
+    before do
+      context.fail!(message: "Already processed") if bittrex_orders_history_import.processed_at.present?
+    end
+
     def call
       CSV.parse(bittrex_orders_history_import.file_content, headers: MAPPED_HEADERS).each_with_index do |order_row, index|
         # Skip initial headers row
