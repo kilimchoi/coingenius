@@ -11,9 +11,6 @@ module Users
             # Do not process orders in active state
             next if order.active?
 
-            # And skip those we already processed
-            next if BittrexOrder.where(uuid: order.id).exists?
-
             BittrexOrders::CreateFromOrder.call(order: order, user: user)
           end
         rescue ::Bittrex::Client::BaseError => e

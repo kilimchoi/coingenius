@@ -6,6 +6,10 @@ module BittrexOrders
 
     delegate :order, :user, to: :context
 
+    before do
+      context.fail!(message: "Already exists") if already_exists?
+    end
+
     def call
       ActiveRecord::Base.transaction do
         context.transaction = user.transactions.create!(
@@ -25,6 +29,14 @@ module BittrexOrders
     end
 
     private
+
+    def already_exists?
+      BittrexOrder
+        .where(closed_at: Time.parse(order.closed_at))
+        .where("raw_data->>'Exchange' = ?", order.exchange)
+        .where("raw_data->>'OrderType' = ?", order.type)
+        .exists?
+    end
 
     def coin_symbol
       context.coin_symbol ||= begin
