@@ -14,7 +14,7 @@ module Users
             # And skip those we already processed
             next if BittrexOrder.where(uuid: order.id).exists?
 
-            process_order(order)
+            BittrexOrders::CreateFromOrder.call(order: order, user: user)
           end
         rescue ::Bittrex::Client::BaseError => e
           # Do nothing, but fail interactor.
@@ -34,26 +34,7 @@ module Users
       #
       # @param [Bittrex::Order] order
       def process_order(order)
-        ActiveRecord::Base.transaction do
-          transaction_type = order.sell? ? :sold : :bought
-          coin_symbol = order.exchange.split("-").last
-          
-          if coin_symbol == 'BCC'
-            coin_symbol = 'BCH'
-          end
 
-          transaction = user.transactions.create!(
-            amount: BigDecimal.new(order.quantity, 12),
-            coin: Coin.find_by!(symbol: coin_symbol),
-            btc_price: order.price_per_unit,
-            transaction_type: transaction_type
-          )
-
-          transaction.create_bittrex_order!(
-            uuid: order.id,
-            raw_data: order.raw
-          )
-        end
       end
 
       def client
