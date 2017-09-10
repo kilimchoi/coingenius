@@ -6,7 +6,7 @@ module Bittrex
 
     attr_reader :type, :id, :limit,
                 :exchange, :price, :price_per_unit, :quantity, :remaining,
-                :total, :fill, :executed_at, :closed, :raw
+                :total, :fill, :executed_at, :closed_at, :raw
 
     def initialize(attrs = {})
       @id = attrs["Id"] || attrs["OrderUuid"]
