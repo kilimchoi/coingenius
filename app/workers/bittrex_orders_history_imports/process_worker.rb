@@ -5,7 +5,7 @@ module BittrexOrdersHistoryImports
     sidekiq_options queue: :bittrex
 
     def perform(bittrex_orders_history_import_id)
-      bittrex_orders_history_import = BittrexOrdersHistoryImport.find_by(bittrex_orders_history_import_id)
+      bittrex_orders_history_import = BittrexOrdersHistoryImport.find_by(id: bittrex_orders_history_import_id)
 
       return if bittrex_orders_history_import.blank?
 
