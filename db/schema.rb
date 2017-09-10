@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170910094621) do
+ActiveRecord::Schema.define(version: 20170910154119) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,13 +53,23 @@ ActiveRecord::Schema.define(version: 20170910094621) do
     t.integer  "transaction_id"
     t.jsonb    "raw_data"
     t.string   "uuid"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
     t.datetime "closed_at"
-    t.datetime "executed_at",    null: false
+    t.datetime "executed_at",                      null: false
+    t.integer  "bittrex_orders_history_import_id"
   end
 
   add_index "bittrex_orders", ["transaction_id"], name: "index_bittrex_orders_on_transaction_id", using: :btree
+
+  create_table "bittrex_orders_history_imports", force: :cascade do |t|
+    t.integer  "user_id"
+    t.text     "file_content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "bittrex_orders_history_imports", ["user_id"], name: "index_bittrex_orders_history_imports_on_user_id", using: :btree
 
   create_table "coinbase_buys", force: :cascade do |t|
     t.integer "transaction_id"
@@ -165,7 +175,9 @@ ActiveRecord::Schema.define(version: 20170910094621) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
+  add_foreign_key "bittrex_orders", "bittrex_orders_history_imports"
   add_foreign_key "bittrex_orders", "transactions"
+  add_foreign_key "bittrex_orders_history_imports", "users"
   add_foreign_key "coinbase_buys", "transactions"
   add_foreign_key "coinbase_sells", "transactions"
   add_foreign_key "identities", "users"
