@@ -6,22 +6,25 @@ module Users
       def perform
         Identity.where(provider: :coinbase).find_each do |identity|
           # Init client with an existing refresh token
-          client = ::Coinbase::Wallet::OAuthClient.new(
-            access_token: identity.access_token,
-            refresh_token: identity.refresh_token
-          )
+          begin 
+            client = ::Coinbase::Wallet::OAuthClient.new(
+              access_token: identity.access_token,
+              refresh_token: identity.refresh_token
+            )
 
-          # Refresh an access token
-          client.refresh!
+            # Refresh an access token
+            client.refresh!
 
-          # Save new tokens
-          identity.update!(
-            access_token: client.access_token,
-            refresh_token: client.refresh_token
-          )
+            # Save new tokens
+            identity.update!(
+              access_token: client.access_token,
+              refresh_token: client.refresh_token
+            )
+          rescue ::Coinbase::Wallet::APIError => e
+            logger.warn "Refresh access token failed. Coinbase::Wallet::APIError: #{e.message} Identity uid: #{identity.uid}"
+            nil
+          end
         end
-      rescue ::Coinbase::Wallet::APIError
-        nil
       end
     end
   end
