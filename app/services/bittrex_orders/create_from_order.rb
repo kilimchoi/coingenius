@@ -8,14 +8,14 @@ module BittrexOrders
 
     def call
       ActiveRecord::Base.transaction do
-        transaction = user.transactions.create!(
+        context.transaction = user.transactions.create!(
           amount: BigDecimal.new(order.quantity, 12),
           coin: Coin.find_by!(symbol: coin_symbol),
           btc_price: order.price_per_unit,
           transaction_type: transaction_type
         )
 
-        transaction.create_bittrex_order!(
+        context.bittrex_order = context.transaction.create_bittrex_order!(
           uuid: order.id,
           raw_data: order.raw
         )
