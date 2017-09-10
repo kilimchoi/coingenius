@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
 
   validates :username, presence: true, uniqueness: true
 
+  has_many :bittrex_orders_history_imports
   has_many :coins, through: :transactions
   has_many :identities
   has_many :transactions
