@@ -20,7 +20,7 @@ module Bittrex
       @fill = attrs["FillType"]
       @limit = attrs["Limit"]
       @commission = attrs["Commission"]
-      @closed = attrs["Closed"]
+      @closed_at = attrs["Closed"]
       @raw = attrs
       @executed_at = Time.parse(attrs["TimeStamp"])
     end
@@ -30,7 +30,7 @@ module Bittrex
     end
 
     def closed?
-      @closed.present?
+      @closed_at.present?
     end
 
     def sell?

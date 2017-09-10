@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170823044444) do
+ActiveRecord::Schema.define(version: 20170910094621) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,8 @@ ActiveRecord::Schema.define(version: 20170823044444) do
     t.string   "uuid"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.datetime "closed_at"
+    t.datetime "executed_at",    null: false
   end
 
   add_index "bittrex_orders", ["transaction_id"], name: "index_bittrex_orders_on_transaction_id", using: :btree
