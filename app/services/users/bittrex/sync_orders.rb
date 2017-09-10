@@ -21,7 +21,7 @@ module Users
           #
           # Initial idea was to purge Bittrex API key and secret but it may be excessive for now.
           # I am not sure if we want to force user to update his API keys in case of Bittrex API failures.
-          logger.warn "Bittrex SyncOrders failed. Message: #{e.message} user email: #{user.email}"
+          Rails.logger.warn "Bittrex SyncOrders failed. Message: #{e.message} user email: #{user.email}"
           context.fail!
         end
       end
