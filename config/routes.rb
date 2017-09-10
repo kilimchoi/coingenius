@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   require "sidekiq/web"
-  require 'admin_constraint'
 
   admin_constraint = lambda do |request| 
     request.session[:init] = true
