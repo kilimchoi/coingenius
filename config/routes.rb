@@ -1,11 +1,14 @@
-require 'admin_constraint'
-
 Rails.application.routes.draw do
   require "sidekiq/web"
+  require 'admin_constraint'
+
+  admin_constraint = lambda do |request| 
+    request.session[:init] = true
+    request.env["rack.session"]["warden.user.user.key"] && User.find(request.env["rack.session"]["warden.user.user.key"][0][0]).is_admin?
+  end  
   
-  mount Sidekiq::Web => "/sidekiq", constraints: AdminConstraint.new
-  
-  constraints AdminConstraint.new do
+  constraints admin_constraint do
+    mount Sidekiq::Web => "/sidekiq"
     devise_for :admin_users, ActiveAdmin::Devise.config
     ActiveAdmin.routes(self)
   end
@@ -32,6 +35,8 @@ Rails.application.routes.draw do
   end
 
   resources :exchanges
+
+  get "*path" => redirect("/")
   # Example of regular route:
   #   get "products/:id" => "catalog#view"
 
