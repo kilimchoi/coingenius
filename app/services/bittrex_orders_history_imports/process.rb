@@ -28,7 +28,7 @@ module BittrexOrdersHistoryImports
         bittrex_order&.update!(bittrex_orders_history_import_id: bittrex_orders_history_import.id)
       end
 
-      # bittrex_orders_history_import.update!(processed_at: Time.current)
+      bittrex_orders_history_import.update!(processed_at: Time.current)
     end
   end
 end
