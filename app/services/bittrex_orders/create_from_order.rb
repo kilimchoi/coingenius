@@ -32,7 +32,7 @@ module BittrexOrders
 
     def already_exists?
       BittrexOrder
-        .where(closed_at: Time.parse(order.closed_at))
+        .where(closed_at: order.closed_at)
         .where("raw_data->>'Exchange' = ?", order.exchange)
         .where("raw_data->>'OrderType' = ?", order.type)
         .exists?
