@@ -13,7 +13,7 @@ class BittrexOrdersHistoryImportsController < ApplicationController
 
     BittrexOrdersHistoryImports::ProcessWorker.perform_async(bittrex_orders_history_import.id)
 
-    redirect_to portfolio_root_path
+    redirect_to portfolio_root_path, notice: "Your Bittrex orders history file will be processed soon"
   end
 
   private
