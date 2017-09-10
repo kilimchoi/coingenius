@@ -25,15 +25,6 @@ module Users
 
       private
 
-      # 0. Determine transaction type based on order type
-      # 1. Create Transaction
-      # 2. Create BittrexOrder for this transaction
-      #
-      # @param [Bittrex::Order] order
-      def process_order(order)
-
-      end
-
       def client
         @client ||= ::Bittrex::Client.new(key: user.bittrex_api_key, secret: user.bittrex_api_secret)
       end
