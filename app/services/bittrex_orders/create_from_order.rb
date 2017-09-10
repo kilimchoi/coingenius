@@ -16,8 +16,10 @@ module BittrexOrders
         )
 
         context.bittrex_order = context.transaction.create_bittrex_order!(
-          uuid: order.id,
-          raw_data: order.raw
+          closed_at: order.closed_at,
+          executed_at: order.executed_at,
+          raw_data: order.raw,
+          uuid: order.id
         )
       end
     end
