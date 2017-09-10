@@ -2,9 +2,11 @@ class Transaction < ActiveRecord::Base
   belongs_to :user
   belongs_to :coin
 
-  has_one :coinbase_sell, class_name: "Coinbase::Sell"
-  has_one :coinbase_buy, class_name: "Coinbase::Buy"
-  has_one :bittrex_order
+  with_options(dependent: :destroy) do
+    has_one :coinbase_sell, class_name: "Coinbase::Sell"
+    has_one :coinbase_buy, class_name: "Coinbase::Buy"
+    has_one :bittrex_order
+  end
 
   enum transaction_type: %i(bought sold)
 
