@@ -24,11 +24,6 @@ module Users
 
           # Check if we already created an order by checking via
           #   [transaction type, closed date, market]
-          next if BittrexOrder
-            .where("raw_data->>'OrderType' = ?", order_row["OrderType"])
-            .where(closed_at: Time.parse(order_row["Closed"]))
-            .where("raw_data->>'Exchange' = ?", order_row["Exchange"])
-            .exists?
 
           order = ::Bittrex::Order.new(order_row.to_h)
           BittrexOrders::CreateFromOrder.call(order: order, user: user)
