@@ -27,10 +27,15 @@ Rails.application.routes.draw do
   resources :bittrex_integrations
   resources :coins
   namespace :portfolio do
-    get "/" => "portfolio#index"
+    root to: "portfolio#index"
+
     resources :transactions do
       get :autocomplete_coin_name, :on => :collection
     end
+  end
+
+  authenticated :user do
+    resources :bittrex_orders_history_imports, only: %i(new create)
   end
 
   resources :exchanges
