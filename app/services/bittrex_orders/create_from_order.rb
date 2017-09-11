@@ -31,11 +31,7 @@ module BittrexOrders
     private
 
     def already_exists?
-      BittrexOrder
-        .where(closed_at: order.closed_at)
-        .where("raw_data->>'Exchange' = ?", order.exchange)
-        .where("raw_data->>'OrderType' = ?", order.type)
-        .exists?
+      BittrexOrder.exists?(uuid: order.id)
     end
 
     def coin_symbol
