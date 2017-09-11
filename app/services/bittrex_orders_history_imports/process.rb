@@ -1,10 +1,10 @@
+require "uuid"
+
 module BittrexOrdersHistoryImports
   class Process
     include Interactor
 
-    MAPPED_HEADERS = [
-      "Closed", "TimeStamp", "Exchange", "OrderType", "Bid/Ask", "Units Filled", "Quantity", "PricePerUnit", "Cost / Proceeds"
-    ]
+    HEADERS = %w(OrderUuid Exchange Type Quantity Limit Commission Price TimeStamp Closed)
 
     delegate :bittrex_orders_history_import, :user, to: :context
     delegate :user, to: :bittrex_orders_history_import
@@ -14,17 +14,16 @@ module BittrexOrdersHistoryImports
     end
 
     def call
-      CSV.parse(bittrex_orders_history_import.file_content, headers: MAPPED_HEADERS).each_with_index do |order_row, index|
+      CSV.parse(bittrex_orders_history_import.file_content, headers: HEADERS).each_with_index do |order_row, index|
         # Skip initial headers row
-        next if index.zero?
+        next if index.zero? || order_row.length != HEADERS.length || !UUID.validate(order_row["OrderUuid"])
 
-        # Add missing info to data hash
-        order_row.tap do |order_data|
-          order_data["Closed"] = Time.strptime(order_data["Closed"], "%m/%d/%Y %l:%M:%S %p").to_s
-          order_data["OrderType"].sub!(" ", "_").upcase!
-          order_data["QuantityRemaining"] = (BigDecimal.new(order_data["Quantity"], 12) - BigDecimal.new(order_data["Units Filled"], 12)).to_f
-          order_data["TimeStamp"] = Time.strptime(order_data["TimeStamp"], "%m/%d/%Y %l:%M:%S %p").to_s
-        end
+        # Reformat closed and opened timestamps
+        order_row["Closed"] = Time.strptime(order_row["Closed"], '%m/%d/%Y %H:%M').to_s
+        order_row["TimeStamp"] = Time.strptime(order_row["TimeStamp"], '%m/%d/%Y %H:%M').to_s
+
+        # Calculate price per unit
+        order_row["PricePerUnit"] = BigDecimal.new(order_row["Price"], 12) / BigDecimal.new(order_row["Quantity"], 12)
 
         order = ::Bittrex::Order.new(order_row.to_h)
 
