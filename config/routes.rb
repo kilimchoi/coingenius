@@ -19,7 +19,8 @@ Rails.application.routes.draw do
   # Static pages
   get "/terms", to: "static_pages#terms", :as => :terms
   get "/privacy", to: "static_pages#privacy", :as => :privacy
-  get '/google8fa477f418e49735.html', to: proc { |env| [200, {}, ["google-site-verification: google8fa477f418e49735.html"]] }
+  get "/google8fa477f418e49735.html", to: proc { |env| [200, {}, ["google-site-verification: google8fa477f418e49735.html"]] }
+  get "/sitemap.xml", to: "sitemap#index", format: "xml", as: :sitemap
 
   # You can have the root of your site routed with "root"
   root to: redirect("/coins")
