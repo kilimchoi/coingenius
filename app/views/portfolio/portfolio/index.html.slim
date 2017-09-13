@@ -1,80 +1,82 @@
 - provide(:title, "Cryptocurrency Portfolio Tracker")
+- if current_user.nil? 
+  = render partial: "landing_page"
+- else
+  h2.dashhead-title.mt-5 My Portfolio
 
-h2.dashhead-title.mt-5 My Portfolio
-
-h3.text-center=number_to_currency(@total)
-#bittrex-modal-window.modal.hide aria-hidden="true" aria-labelledby="bittrexModal" role="dialog" 
-#modal-window.modal.hide aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" 
-- if @total && @total > 0
-  .dropdown.float-right
-    button.btn.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" type="button" 
-    .dropdown-menu.dropdown-menu-right
-      = link_to "+ Add transaction", new_portfolio_transaction_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "dropdown-item"}
-      = link_to "Connect to Coinbase", 
-      user_coinbase_omniauth_authorize_path,  class:"dropdown-item"
-      = link_to "Import from Bittrex", 
-      new_bittrex_integration_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#bittrex-modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "dropdown-item"}
-
-  .hr-divider.mt-5.mb-3
-    ul.nav.nav-pills.hr-divider-content.hr-divider-nav
-      li.nav-item
-        a.nav-link.active#weekly href="javascript:void(0)"  1W
-      li.nav-item
-        a.nav-link#monthly href="javascript:void(0)"  1M
-      li.nav-item
-        a.nav-link#yearly href="javascript:void(0)"  1Y
-  canvas#sparkline1.sparkline data-chart="spark-line" data-dataset="[#{@weekly_history}]" data-weeklyDataset="[#{@weekly_history}]" data-monthlyDataset="[#{@monthly_history}]" data-yearlyDataset="[#{@yearly_history}]" data-dailylabels="#{@last_twenty_four_hours}" data-weeklylabels="#{@last_seven_days}" data-monthlylabels="#{@last_thirty_days}" data-yearlylabels="#{@last_three_six_five_days}" data-dark="true" height="94" style=("width: 189px; height: 247px;") width="378"
-
-.row.mt-5
+  h3.text-center=number_to_currency(@total)
+  #bittrex-modal-window.modal.hide aria-hidden="true" aria-labelledby="bittrexModal" role="dialog" 
+  #modal-window.modal.hide aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" 
   - if @total && @total > 0
-    .table-responsive
-      table.table
-        thead
-          tr
-            th Name
-            th Price
-            th Change (24hrs)
-            th Amount
-            th Value
-            th.text-center Edit Transactions
-        - @holdings.each do |holding|
-          -if holding[:total] > 0 
-            tbody
-              tr 
-                td
-                  = "#{holding[:coin].name} (#{holding[:coin].symbol})"
-                td
-                  = number_to_currency(holding[:price], precision: 5)
-                td 
-                  - if holding[:percent_change].to_f > 0
-                    .positive-change 
+    .dropdown.float-right
+      button.btn.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" type="button" 
+      .dropdown-menu.dropdown-menu-right
+        = link_to "+ Add transaction", new_portfolio_transaction_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "dropdown-item"}
+        = link_to "Connect to Coinbase", 
+        user_coinbase_omniauth_authorize_path,  class:"dropdown-item"
+        = link_to "Import from Bittrex", 
+        new_bittrex_integration_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#bittrex-modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "dropdown-item"}
+
+    .hr-divider.mt-5.mb-3
+      ul.nav.nav-pills.hr-divider-content.hr-divider-nav
+        li.nav-item
+          a.nav-link.active#weekly href="javascript:void(0)"  1W
+        li.nav-item
+          a.nav-link#monthly href="javascript:void(0)"  1M
+        li.nav-item
+          a.nav-link#yearly href="javascript:void(0)"  1Y
+    canvas#sparkline1.sparkline data-chart="spark-line" data-dataset="[#{@weekly_history}]" data-weeklyDataset="[#{@weekly_history}]" data-monthlyDataset="[#{@monthly_history}]" data-yearlyDataset="[#{@yearly_history}]" data-dailylabels="#{@last_twenty_four_hours}" data-weeklylabels="#{@last_seven_days}" data-monthlylabels="#{@last_thirty_days}" data-yearlylabels="#{@last_three_six_five_days}" data-dark="true" height="94" style=("width: 189px; height: 247px;") width="378"
+
+  .row.mt-5
+    - if @total && @total > 0
+      .table-responsive
+        table.table
+          thead
+            tr
+              th Name
+              th Price
+              th Change (24hrs)
+              th Amount
+              th Value
+              th.text-center Edit Transactions
+          - @holdings.each do |holding|
+            -if holding[:total] > 0 
+              tbody
+                tr 
+                  td
+                    = "#{holding[:coin].name} (#{holding[:coin].symbol})"
+                  td
+                    = number_to_currency(holding[:price], precision: 5)
+                  td 
+                    - if holding[:percent_change].to_f > 0
+                      .positive-change 
+                        = number_to_percentage(holding[:percent_change], precision: 2)
+                    - elsif holding[:percent_change].to_f == 0
                       = number_to_percentage(holding[:percent_change], precision: 2)
-                  - elsif holding[:percent_change].to_f == 0
-                    = number_to_percentage(holding[:percent_change], precision: 2)
-                  - else
-                    .negative-change
-                      = number_to_percentage(holding[:percent_change], precision: 2)  
-                td
-                  = "#{holding[:amount]} #{holding[:coin].symbol}" 
-                td
-                  = "#{number_to_currency(holding[:total])}"
-                td.text-center
-                  = link_to portfolio_transactions_path(id: holding[:coin].id), "data-turbolinks": "false"
-                    i.fa.fa-pencil aria-hidden="true"
+                    - else
+                      .negative-change
+                        = number_to_percentage(holding[:percent_change], precision: 2)  
+                  td
+                    = "#{holding[:amount]} #{holding[:coin].symbol}" 
+                  td
+                    = "#{number_to_currency(holding[:total])}"
+                  td.text-center
+                    = link_to portfolio_transactions_path(id: holding[:coin].id), "data-turbolinks": "false"
+                      i.fa.fa-pencil aria-hidden="true"
 
 
-  - elsif @total == 0 && user_signed_in? 
-    .mt-4.w-20.mx-auto
-      = image_tag "empty_portfolio.png", class: "empty-portfolio rounded mx-auto img-fluid"
-      br
-      .mx-auto
-        p Please add coins to your portfolio
-        .dropdown
-          button.btn.btn-primary.dropdown-toggle.btn-lg.coin-button aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" type="button" 
-            | Add
-          .dropdown-menu.dropdown-menu-right.coin-button
-            = link_to "Manually", new_portfolio_transaction_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "dropdown-item"}
-            = link_to "From Coinbase", 
-            user_coinbase_omniauth_authorize_path,  class:"dropdown-item"
-            = link_to "From Bittrex", 
-            new_bittrex_integration_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#bittrex-modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "dropdown-item"}
+    - elsif @total == 0 && user_signed_in? 
+      .mt-4.w-20.mx-auto
+        = image_tag "empty_portfolio.png", class: "empty-portfolio rounded mx-auto img-fluid"
+        br
+        .mx-auto
+          p Please add coins to your portfolio
+          .dropdown
+            button.btn.btn-primary.dropdown-toggle.btn-lg.coin-button aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" type="button" 
+              | Add
+            .dropdown-menu.dropdown-menu-right.coin-button
+              = link_to "Manually", new_portfolio_transaction_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "dropdown-item"}
+              = link_to "From Coinbase", 
+              user_coinbase_omniauth_authorize_path,  class:"dropdown-item"
+              = link_to "From Bittrex", 
+              new_bittrex_integration_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#bittrex-modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "dropdown-item"}
