@@ -16,7 +16,8 @@ module BittrexOrders
           amount: BigDecimal.new(order.quantity, 12),
           coin: Coin.find_by!(symbol: coin_symbol),
           btc_price: order.price_per_unit,
-          transaction_type: transaction_type
+          transaction_type: transaction_type,
+          transaction_date: order.closed_at
         )
 
         context.bittrex_order = context.transaction.create_bittrex_order!(
