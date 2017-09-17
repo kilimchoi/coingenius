@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170910154119) do
+ActiveRecord::Schema.define(version: 20170917182948) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -153,6 +153,19 @@ ActiveRecord::Schema.define(version: 20170910154119) do
   add_index "transactions", ["transaction_type"], name: "index_transactions_on_transaction_type", using: :btree
   add_index "transactions", ["user_id"], name: "index_transactions_on_user_id", using: :btree
 
+  create_table "user_api_credentials", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "encrypted_key"
+    t.string   "encrypted_key_iv"
+    t.string   "encrypted_secret"
+    t.string   "encrypted_secret_iv"
+    t.integer  "nonce",               default: 0, null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  add_index "user_api_credentials", ["user_id"], name: "index_user_api_credentials_on_user_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
     t.string   "username",               default: "",    null: false
@@ -182,4 +195,5 @@ ActiveRecord::Schema.define(version: 20170910154119) do
   add_foreign_key "coinbase_buys", "transactions"
   add_foreign_key "coinbase_sells", "transactions"
   add_foreign_key "identities", "users"
+  add_foreign_key "user_api_credentials", "users"
 end

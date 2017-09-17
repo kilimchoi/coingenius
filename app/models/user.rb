@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   has_many :coins, through: :transactions
   has_many :identities
   has_many :transactions
+  has_one :user_api_credential, dependent: :destroy
 
   def holdings
     holdings = {}
