@@ -68,6 +68,8 @@ GEM
     arbre (1.1.1)
       activesupport (>= 3.0.0)
     arel (6.0.4)
+    attr_encrypted (3.0.3)
+      encryptor (~> 3.0.0)
     autoprefixer-rails (7.1.1)
       execjs
     awesome_print (1.7.0)
@@ -106,6 +108,7 @@ GEM
     dotenv-rails (2.2.1)
       dotenv (= 2.2.1)
       railties (>= 3.2, < 5.2)
+    encryptor (3.0.0)
     erubis (2.7.0)
     et-orbi (1.0.4)
       tzinfo
@@ -314,6 +317,7 @@ PLATFORMS
 
 DEPENDENCIES
   activeadmin!
+  attr_encrypted (~> 3.0)
   awesome_print
   bootstrap (~> 4.0.0.alpha6)
   bugsnag

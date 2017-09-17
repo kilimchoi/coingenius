@@ -45,6 +45,7 @@ gem "rails-jquery-autocomplete"
 gem "interactor-rails"
 gem "omniauth-coinbase", git: "https://github.com/kilimchoi/omniauth-coinbase.git"
 gem "uuid", require: false # For UUID validation
+gem "attr_encrypted", "~> 3.0" # Encrypt sensitive data
 
 source "https://rails-assets.org" do
   gem "rails-assets-tether", ">= 1.1.0"
