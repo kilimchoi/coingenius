@@ -40,6 +40,12 @@ Rails.application.routes.draw do
 
   resources :exchanges
 
+  # API section
+  namespace :api do
+    namespace :v1 do
+    end
+  end
+
   get "*path" => redirect("/")
   # Example of regular route:
   #   get "products/:id" => "catalog#view"
