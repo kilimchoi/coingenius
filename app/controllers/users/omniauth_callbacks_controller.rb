@@ -27,7 +27,10 @@ module Users
         # Immediately enqueue syncing user Coinbase buys and sells
         Users::Coinbase::SyncBuysForUserWorker.perform_async(current_user.id)
         Users::Coinbase::SyncSellsForUserWorker.perform_async(current_user.id)
-
+        Users::Coinbase::SyncDepositsForUserWorker.perform_async(current_user.id)
+        Users::Coinbase::SyncWithdrawalsForUserWorker.perform_async(current_user.id)
+        Users::Coinbase::SyncSentForUserWorker.perform_async(current_user.id)
+        Users::Coinbase::SyncReceivedForUserWorker.perform_async(current_user.id)
         redirect_to "/portfolio", notice: "You have successfully connected to your Coinbase wallet. We will be pulling your transactions soon."
       end
     end

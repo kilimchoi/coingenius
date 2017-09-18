@@ -13,6 +13,26 @@ users_coinbase_sync_sells_for_all_users:
   cron: "0 0 * * *"
   queue: "coinbase"
 
+users_coinbase_sync_sent_for_all_users:
+  class: Users::Coinbase::SyncSentForAllUsersWorker
+  cron: "0 0 * * *"
+  queue: "coinbase"
+
+users_coinbase_sync_received_for_all_users:
+  class: Users::Coinbase::SyncReceivedForAllUsersWorker
+  cron: "0 0 * * *"
+  queue: "coinbase"
+
+users_coinbase_sync_deposits_for_all_users:
+  class: Users::Coinbase::SyncDepositsForAllUsersWorker
+  cron: "0 0 * * *"
+  queue: "coinbase"
+
+users_coinbase_sync_withdrawals_for_all_users:
+  class: Users::Coinbase::SyncWithdrawalsForAllUsersWorker
+  cron: "0 0 * * *"
+  queue: "coinbase"
+
 user_coinbase_refresh_access_tokens:
   class: Users::Coinbase::RefreshAccessTokens
   cron: "0 0 * * *"

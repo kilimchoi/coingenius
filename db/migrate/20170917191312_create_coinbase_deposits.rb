@@ -1,6 +1,6 @@
-class CreateCoinbaseBuys < ActiveRecord::Migration[4.2]
+class CreateCoinbaseDeposits < ActiveRecord::Migration[4.2]
   def change
-    create_table :coinbase_buys do |t|
+    create_table :coinbase_deposits do |t|
       t.belongs_to :transaction, index: true, foreign_key: true
 
       t.jsonb :raw_data, {}
