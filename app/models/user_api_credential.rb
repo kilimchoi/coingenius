@@ -1,7 +1,7 @@
-class UserApiCredential < ActiveRecord::Base
+class UserApiCredential < ApplicationRecord
   belongs_to :user
 
-  validates :key, :secret, :user_id, presence: true
+  validates :key, :secret, presence: true
 
   before_validation :assign_key_and_secret, on: :create
 
