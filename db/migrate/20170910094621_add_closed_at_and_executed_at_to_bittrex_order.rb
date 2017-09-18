@@ -1,4 +1,4 @@
-class AddClosedAtAndExecutedAtToBittrexOrder < ActiveRecord::Migration
+class AddClosedAtAndExecutedAtToBittrexOrder < ActiveRecord::Migration[4.2]
   def change
     add_column :bittrex_orders, :closed_at, :datetime
     add_column :bittrex_orders, :executed_at, :datetime

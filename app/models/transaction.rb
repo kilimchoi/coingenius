@@ -5,10 +5,14 @@ class Transaction < ApplicationRecord
   with_options(dependent: :destroy) do
     has_one :coinbase_sell, class_name: "Coinbase::Sell"
     has_one :coinbase_buy, class_name: "Coinbase::Buy"
+    has_one :coinbase_deposit, class_name: "Coinbase::Deposit"
+    has_one :coinbase_withdrawal, class_name: "Coinbase::Withdrawal"
+    has_one :coinbase_sent, class_name: "Coinbase::Sent"
+    has_one :coinbase_received, class_name: "Coinbase::Received"
     has_one :bittrex_order
   end
 
-  enum transaction_type: %i(bought sold)
+  enum transaction_type: %i(bought sold withdrawal deposit received sent)
 
   validates :transaction_type, presence: true
   validates :amount, presence: true

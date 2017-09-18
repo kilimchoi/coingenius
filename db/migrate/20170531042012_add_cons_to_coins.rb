@@ -1,4 +1,4 @@
-class AddConsToCoins < ActiveRecord::Migration
+class AddConsToCoins < ActiveRecord::Migration[4.2]
   def change
     add_column :coins, :cons, :text
   end

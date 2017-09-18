@@ -24,11 +24,7 @@ module Users
       private
 
       def client
-        @client ||= ::Coinbase::Wallet::OAuthClient.new(access_token: coinbase_identity.access_token) unless coinbase_identity.nil?
-      end
-
-      def coinbase_identity
-        @coinbase_identity ||= user.identities.find_by(provider: :coinbase)
+        @client ||= Clients::CoinbaseClient.new(user: user).call
       end
     end
   end

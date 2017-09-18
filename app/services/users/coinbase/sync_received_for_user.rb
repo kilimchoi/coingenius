@@ -1,6 +1,6 @@
 module Users
   module Coinbase
-    class SyncSellsForUser
+    class SyncReceivedForUser
       include Interactor
 
       delegate :user, to: :context
@@ -8,16 +8,16 @@ module Users
       def call
         unless client.nil?
           client.accounts.each do |account|
-            sells = client.list_sells(account.id)
+            txs = client.transactions(account.id)
 
-            sells.each do |sell_transaction|
-              Users::Coinbase::CreateTransactionFromSell.call(user: user, sell: sell_transaction)
+            txs.each do |received|
+              Users::Coinbase::CreateTransactionFromReceived.call(user: user, received: received)
             end
           end
         end
         nil
       rescue ::Coinbase::Wallet::APIError => e
-        Rails.logger.warn "Sync sell failed. Coinbase::Wallet::APIError: #{e.message} user email: #{user.email}"
+        Rails.logger.warn "Sync received failed. Coinbase::Wallet::APIError: #{e.message} user email: #{user.email}"
         nil
       end
 

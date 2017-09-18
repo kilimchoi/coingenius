@@ -1,4 +1,4 @@
-class CreateUserApiCredential < ActiveRecord::Migration
+class CreateUserApiCredential < ActiveRecord::Migration[4.2]
   def change
     create_table :user_api_credentials do |t|
       t.belongs_to :user, index: true, foreign_key: true
