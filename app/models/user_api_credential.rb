@@ -1,7 +1,7 @@
 class UserApiCredential < ApplicationRecord
   belongs_to :user
 
-  validates :key, :secret, presence: true
+  validates :api_key, :key, :secret, presence: true
 
   before_validation :assign_key_and_secret, on: :create
 
@@ -14,7 +14,8 @@ class UserApiCredential < ApplicationRecord
   private
 
   def assign_key_and_secret
-    self.key = SecureRandom.hex(24)
+    self.api_key = SecureRandom.hex(24)
+    self.key = api_key
     self.secret = SecureRandom.hex(64)
   end
 end
