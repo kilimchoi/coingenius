@@ -10,10 +10,9 @@ module Users
       before do
         # Skip uncompleted transactions
         context.fail! if sent["status"] != "completed"
-
         # Or if the type isn't send and sent amount is greater than 0
         context.fail! if sent.type != "send"
-        context.fail! if get_amount(sent) > 0
+        context.fail! if get_amount(sent).to_f > 0
         # Or if we already processed this transaction
         context.fail! if ::Coinbase::Sent.where(uuid: sent["id"]).exists?
       end
@@ -38,7 +37,7 @@ module Users
       private
 
       def get_amount(transaction)
-        transaction.amount.amount
+        transaction["amount"]["amount"]
       end
     end
   end
