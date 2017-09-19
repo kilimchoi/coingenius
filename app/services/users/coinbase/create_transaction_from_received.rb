@@ -13,7 +13,7 @@ module Users
 
         # Or if the type isn't send and received amount is greater than 0
         context.fail! if received.type != "send"
-        context.fail! if get_amount(received) <= 0
+        context.fail! if get_amount(received).to_f <= 0
         # Or if we already processed this transaction
         context.fail! if ::Coinbase::Received.where(uuid: received["id"]).exists?
       end
@@ -38,7 +38,7 @@ module Users
       private
 
       def get_amount(transaction)
-        transaction.amount.amount
+        transaction["amount"]["amount"]
       end
     end
   end
