@@ -18,7 +18,7 @@ class User < ApplicationRecord
     total = 0
     #we need to process buy transactions first and sell transactions next to cancel each other out. otherwise, order is random.
 
-    merged = self.transactions.bought.where(is_expired: false).includes(:coin) + self.transactions.sold.where(is_expired: false).includes(:coin) + self.transactions.deposit.where(is_expired: false).includes(:coin) + self.transactions.withdrawal.where(is_expired: false).includes(:coin) + self.transactions.received.where(is_expired: false).includes(:coin) + self.transactions.sent.where(is_expired: false).includes(:coin)
+    merged = self.transactions.bought.where(is_expired: false).includes(:coin) + self.transactions.sold.where(is_expired: false).includes(:coin) + self.transactions.withdrawal.where(is_expired: false).includes(:coin) + self.transactions.deposit.where(is_expired: false).includes(:coin) + self.transactions.received.where(is_expired: false).includes(:coin) + self.transactions.sent.where(is_expired: false).includes(:coin)
     merged.each do |transaction|
       coin = transaction.coin
       holding = holdings[coin.symbol]
