@@ -16,7 +16,7 @@ class BittrexIntegrationsController < ApplicationController
     else
       flash[:error] = user.errors.full_messages.join(', ')
     end
-    redirect_to :back
+    redirect_back fallback_location: root_path
   end
 
   private

@@ -29,10 +29,10 @@ class Portfolio::TransactionsController < ApplicationController
     if is_user_selling?
       if !user_has_coin?
         flash[:error] = "You do not have that coin"
-        redirect_to :back
+        redirect_back fallback_location: root_path
       elsif !user_has_sufficient_amount? 
         flash[:error] = "You do not own enough coins"
-        redirect_to :back
+        redirect_back fallback_location: root_path
       else
         @transaction = current_user.transactions.new(transaction_params)
         if @transaction.save
@@ -40,7 +40,7 @@ class Portfolio::TransactionsController < ApplicationController
           redirect_to '/portfolio'
         else
           flash[:error] = @transaction.errors.full_messages.join(', ')
-          redirect_to :back
+          redirect_back fallback_location: root_path
         end
       end
     else
@@ -50,7 +50,7 @@ class Portfolio::TransactionsController < ApplicationController
         redirect_to '/portfolio'
       else
         flash[:error] = @transaction.errors.full_messages.join(', ')
-        redirect_to :back
+        redirect_back fallback_location: root_path
       end
     end
   end
@@ -63,10 +63,10 @@ class Portfolio::TransactionsController < ApplicationController
     @transaction = Transaction.find params[:id]
     if @transaction.update_attributes(transaction_params)
       flash[:success] = 'You successfully updated the transaction'
-      redirect_to :back
+      redirect_back fallback_location: root_path
     else
       flash[:error] = @transaction.errors.full_messages.join(', ')
-      redirect_to :back
+      redirect_back fallback_location: root_path
     end
   end
 
@@ -74,10 +74,10 @@ class Portfolio::TransactionsController < ApplicationController
     @transaction = Transaction.find params[:id]
     if @transaction.update(is_expired: true)
       flash[:success] = 'You successfully destroyed the transaction'
-      redirect_to :back
+      redirect_back fallback_location: root_path
     else 
       flash[:error] = @transaction.errors.full_messages.join(', ')
-      redirect_to :back
+      redirect_back fallback_location: root_path
     end
   end
 
