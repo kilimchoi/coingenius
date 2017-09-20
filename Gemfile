@@ -30,7 +30,7 @@ gem "friendly_id", "~> 5.1.0"
 gem "dotenv-rails", :groups => [:development, :test]
 gem "awesome_print"
 gem "redis", "~>3.2"
-gem "puma"
+gem "puma", "~> 3.10"
 gem "meta-tags"
 gem "rinku"
 gem "sidekiq", "~>4.0.1"
