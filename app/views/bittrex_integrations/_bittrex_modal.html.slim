@@ -15,7 +15,7 @@
       p 4. Click Update Keys
       p 5. Copy paste your Key and Secret below
       p We will be pulling transactions for the last 30 days and will add any new ones that you make.
-      = form_for(user, url: bittrex_integrations_path, html: { method: :post }) do |f|
+      = form_for(current_user, url: bittrex_integrations_path, html: { method: :post }) do |f|
         .form-group.mt-3
           = f.label :bittrex_api_key
           = f.text_field :bittrex_api_key, class: 'form-control'
