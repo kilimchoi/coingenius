@@ -1,4 +1,4 @@
-class CreateExchanges < ActiveRecord::Migration
+class CreateExchanges < ActiveRecord::Migration[5.1]
   def change
     create_table :exchanges do |t|
 
