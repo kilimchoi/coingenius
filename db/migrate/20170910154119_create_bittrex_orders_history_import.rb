@@ -1,4 +1,4 @@
-class CreateBittrexOrdersHistoryImport < ActiveRecord::Migration
+class CreateBittrexOrdersHistoryImport < ActiveRecord::Migration[5.0]
   def change
     create_table :bittrex_orders_history_imports do |t|
       t.belongs_to :user, index: true, foreign_key: true
