@@ -1,4 +1,4 @@
-class CreateCoinbaseBuys < ActiveRecord::Migration
+class CreateCoinbaseBuys < ActiveRecord::Migration[5.1]
   def change
     create_table :coinbase_buys do |t|
       t.belongs_to :transaction, index: true, foreign_key: true

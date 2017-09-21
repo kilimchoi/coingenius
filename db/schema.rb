@@ -74,11 +74,39 @@ ActiveRecord::Schema.define(version: 20170919183719) do
     t.index ["transaction_id"], name: "index_coinbase_buys_on_transaction_id"
   end
 
+  create_table "coinbase_deposits", id: :serial, force: :cascade do |t|
+    t.integer "transaction_id"
+    t.jsonb "raw_data"
+    t.string "uuid", null: false
+    t.index ["transaction_id"], name: "index_coinbase_deposits_on_transaction_id"
+  end
+
+  create_table "coinbase_receiveds", id: :serial, force: :cascade do |t|
+    t.integer "transaction_id"
+    t.jsonb "raw_data"
+    t.string "uuid", null: false
+    t.index ["transaction_id"], name: "index_coinbase_receiveds_on_transaction_id"
+  end
+
   create_table "coinbase_sells", id: :serial, force: :cascade do |t|
     t.integer "transaction_id"
     t.jsonb "raw_data"
     t.string "uuid", null: false
     t.index ["transaction_id"], name: "index_coinbase_sells_on_transaction_id"
+  end
+
+  create_table "coinbase_sents", id: :serial, force: :cascade do |t|
+    t.integer "transaction_id"
+    t.jsonb "raw_data"
+    t.string "uuid", null: false
+    t.index ["transaction_id"], name: "index_coinbase_sents_on_transaction_id"
+  end
+
+  create_table "coinbase_withdrawals", id: :serial, force: :cascade do |t|
+    t.integer "transaction_id"
+    t.jsonb "raw_data"
+    t.string "uuid", null: false
+    t.index ["transaction_id"], name: "index_coinbase_withdrawals_on_transaction_id"
   end
 
   create_table "coins", id: :serial, force: :cascade do |t|
