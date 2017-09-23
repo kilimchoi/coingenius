@@ -1,4 +1,4 @@
-class AddTransactionDateToTransactions < ActiveRecord::Migration[5.1]
+class AddTransactionDateToTransactions < ActiveRecord::Migration
   def change
     add_column :transactions, :transaction_date, :datetime
   end

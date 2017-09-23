@@ -1,4 +1,4 @@
-class AddNameToCoins < ActiveRecord::Migration[5.1]
+class AddNameToCoins < ActiveRecord::Migration
   def change
     add_column :coins, :name, :string
   end

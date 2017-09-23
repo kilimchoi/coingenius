@@ -1,4 +1,4 @@
-class CreateJoinTableCoinsExchanges < ActiveRecord::Migration[5.1]
+class CreateJoinTableCoinsExchanges < ActiveRecord::Migration
   def change
     create_join_table :coins, :exchanges do |t|
       t.integer :coin_id

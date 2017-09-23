@@ -1,4 +1,4 @@
-class CreateBittrexOrders < ActiveRecord::Migration[5.1]
+class CreateBittrexOrders < ActiveRecord::Migration
   def change
     create_table :bittrex_orders do |t|
       t.belongs_to :transaction, index: true, foreign_key: true

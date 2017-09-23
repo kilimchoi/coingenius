@@ -1,4 +1,4 @@
-class AddAttributesToExchanges < ActiveRecord::Migration[5.1]
+class AddAttributesToExchanges < ActiveRecord::Migration
   def change
     add_column :exchanges, :pros, :text
     add_column :exchanges, :cons, :text

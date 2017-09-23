@@ -1,4 +1,4 @@
-class AddIsExpiredToTransactions < ActiveRecord::Migration[5.1]
+class AddIsExpiredToTransactions < ActiveRecord::Migration
   def change
     add_column :transactions, :is_expired, :boolean, default: false
   end

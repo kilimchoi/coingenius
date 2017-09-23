@@ -1,4 +1,4 @@
-class AddIndextoCoinSymbol < ActiveRecord::Migration[5.1]
+class AddIndextoCoinSymbol < ActiveRecord::Migration
   def change
     add_index :coins, :symbol, unique: true
   end
