@@ -1,9 +1,5 @@
 module Coinbase
-  class Received < ActiveRecord::Base
+  class Received < Coinbase::Transaction
     self.table_name = "coinbase_receiveds"
-
-    belongs_to :user_transaction, class_name: "Transaction", foreign_key: :transaction_id
-
-    validates :uuid, presence: true
   end
 end
