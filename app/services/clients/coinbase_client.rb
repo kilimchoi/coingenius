@@ -1,6 +1,5 @@
 module Clients 
   class CoinbaseClient
-    include Interactor
     delegate :user, to: :context
 
     def call
