@@ -1,4 +1,4 @@
-class AddDescriptionToExchanges < ActiveRecord::Migration[5.1]
+class AddDescriptionToExchanges < ActiveRecord::Migration
   def change
     add_column :exchanges, :description, :text
   end

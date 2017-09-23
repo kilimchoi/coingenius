@@ -1,4 +1,4 @@
-class AddBtcPriceToTransaction < ActiveRecord::Migration[5.1]
+class AddBtcPriceToTransaction < ActiveRecord::Migration
   def change
     add_column :transactions, :btc_price, :decimal
   end

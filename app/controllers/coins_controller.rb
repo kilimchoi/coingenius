@@ -2,7 +2,7 @@ class CoinsController < ApplicationController
   respond_to :html
 
   def index
-    description = "Learn about pros and cons of some of the top cryptocurrencies to help you make a better investment decision."
+    description = "Learn about pros and cons of top cryptocurrencies to help you make a better investment decision."
     keywords = %w[bitcoin ethereum ripple litecoin]
     set_meta_tags :description => description
     set_meta_tags keywords: keywords
