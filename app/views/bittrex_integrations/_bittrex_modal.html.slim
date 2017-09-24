@@ -1,25 +1,48 @@
 .modal-dialog.modal-lg role="document" 
   .modal-content
     .modal-header
-      h5#exampleModalLabel.modal-title Import from Bittrex
+      h5#exampleModalLabel.modal-title Bittrex Import
       button.close aria-label="Close" data-dismiss="modal" type="button" 
         span aria-hidden="true"  &times;
     .modal-body.p-3
-      h2 Read the following to create a bittrex api job
-      p
-        '1. Log in into your Bittrex account and click on Settings on the top right, then API Keys on the left sidebar or simply visit
-        a href="https://bittrex.com/Manage#sectionApi" (https://bittrex.com/Manage#sectionApi)
-        '
-      p 2. Next, click on "Add New Key" to create a new api key if you don't already have one.
-      p 3. Enable only READ INFO by toggling the button.
-      p 4. Click Update Keys
-      p 5. Copy paste your Key and Secret below
-      p We will be pulling transactions for the last 30 days and will add any new ones that you make.
-      = form_for(current_user, url: bittrex_integrations_path, html: { method: :post }) do |f|
-        .form-group.mt-3
-          = f.label :bittrex_api_key
-          = f.text_field :bittrex_api_key, class: 'form-control'
-        .form-group
-          = f.label :bittrex_api_secret
-          = f.text_field :bittrex_api_secret, class: 'form-control'
-        = f.submit "Update", class: 'btn btn-primary float-right', data: {disable_with: "Adding..."}
+      div role="tabpanel" 
+        /! Nav tabs
+        ul.nav.nav-tabs role="tablist" 
+          li.nav-item
+            a.nav-link.tab-link.active data-toggle="tab" href="#api-import" role="tab"  From Bittrex API
+          li.nav-item
+            a.nav-link.tab-link data-toggle="tab" href="#csv-import" role="tab" From Bittrex CSV file
+        /! Tab panes
+        .tab-content
+          #api-import.tab-pane.active role="tabpanel"
+            h2 Read the following to create a bittrex api job
+            p
+              '1. Log in into your Bittrex account and click on Settings on the top right, then API Keys on the left sidebar or simply visit
+              a href="https://bittrex.com/Manage#sectionApi" (https://bittrex.com/Manage#sectionApi)
+              '
+            p 2. Next, click on "Add New Key" to create a new api key if you don't already have one.
+            p 3. Enable only READ INFO by toggling the button.
+            p 4. Click Update Keys
+            p 5. Copy paste your Key and Secret below
+            p We will be pulling transactions for the last 30 days and will add any new ones that you make.
+            = form_for(current_user, url: bittrex_integrations_path, html: { method: :post }) do |f|
+              .form-group.mt-3
+                = f.label :bittrex_api_key
+                = f.text_field :bittrex_api_key, class: 'form-control'
+              .form-group
+                = f.label :bittrex_api_secret
+                = f.text_field :bittrex_api_secret, class: 'form-control'
+              = f.submit "Save", class: 'btn btn-primary float-right', data: {disable_with: "Saving..."}
+
+          #csv-import.tab-pane.fade role="tabpanel"
+            h2 Read the following to download the csv file
+            p
+              '1. Log in into your Bittrex account and click on Orders tab on the navigation bar or simply visit
+              a href="https://bittrex.com/History" (https://bittrex.com/History)
+              '
+            p 2. Next, click on "Load All" button in the middle of the page little to the right.
+            p 3. Solve the recaptcha. Click Submit button. Your browser should've downloaded the csv file.
+            .mt-4
+              = form_for(bittrex_orders_history_import, url: bittrex_orders_history_imports_path, html: { method: :post }) do |f|
+                = f.file_field :history_file, accept: :csv
+                = f.submit "Import", class: 'btn btn-primary float-right', data: {disable_with: "importing..."}
