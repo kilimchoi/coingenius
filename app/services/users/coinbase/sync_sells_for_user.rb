@@ -24,7 +24,7 @@ module Users
       private
 
       def client
-        @client ||= Clients::CoinbaseClient.new(user: user).call
+        @client ||= Clients::CoinbaseClient.new(user).call
       end
     end
   end
