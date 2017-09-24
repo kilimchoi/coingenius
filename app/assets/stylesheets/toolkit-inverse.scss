@@ -2809,7 +2809,7 @@ tbody.collapse.show {
     cursor: not-allowed; }
 
 .nav-tabs {
-  border-bottom: 1px solid #252830; }
+  border-bottom: 1px solid #ddd; }
   .nav-tabs .nav-item {
     margin-bottom: -1px; }
   .nav-tabs .nav-link {
@@ -2825,13 +2825,24 @@ tbody.collapse.show {
   .nav-tabs .nav-link.active,
   .nav-tabs .nav-item.show .nav-link {
     color: #fff;
-    background-color: transparent;
-    border-color: #434857 #434857 transparent; }
+    background-color: #fff;
+    border-color: #ddd #ddd transparent; }
   .nav-tabs .dropdown-menu {
     margin-top: -1px;
     border-top-right-radius: 0;
     border-top-left-radius: 0; }
-
+  .tab-link.active { 
+    color: #111 !important;
+  }
+  .tab-link { 
+    color: #0275d8 !important;
+  }
+  .tab-link:hover {
+    border-bottom-color: #fff !important; 
+    border-top-color: #ddd !important;
+    border-right-color: #ddd !important;
+    border-left-color: #ddd !important;
+  }
 .nav-pills .nav-link {
   border-radius: 0.25rem; }
 
@@ -7011,7 +7022,7 @@ textarea {
     border-bottom: 4px solid transparent; }
     .nav-bordered > .nav-item > .nav-link:hover, .nav-bordered > .nav-item > .nav-link:focus {
       color: #1997c6;
-      background-color: transparent; }
+      background-color: #fff; }
     .nav-bordered > .nav-item > .nav-link.active, .nav-bordered > .nav-item > .nav-link.active:hover, .nav-bordered > .nav-item > .nav-link.active:focus {
       font-weight: 500;
       color: #1997c6;
