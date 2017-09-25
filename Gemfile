@@ -46,6 +46,7 @@ gem "interactor-rails"
 gem "omniauth-coinbase", git: "https://github.com/kilimchoi/omniauth-coinbase.git"
 gem "uuid", require: false # For UUID validation
 gem "attr_encrypted", "~> 3.0" # Encrypt sensitive data
+gem "scenic"
 
 source "https://rails-assets.org" do
   gem "rails-assets-tether", ">= 1.1.0"
@@ -75,4 +76,3 @@ group :development do
   gem 'scout_apm' # Dev profiling
   gem "listen"
 end
-

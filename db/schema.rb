@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170919183719) do
+ActiveRecord::Schema.define(version: 20170925171033) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -216,4 +216,21 @@ ActiveRecord::Schema.define(version: 20170919183719) do
   add_foreign_key "coinbase_withdrawals", "transactions"
   add_foreign_key "identities", "users"
   add_foreign_key "user_api_credentials", "users"
+
+  create_view "weekly_user_transaction_groups", materialized: true,  sql_definition: <<-SQL
+      SELECT tr.week_starts_at,
+      tr.transactions_count,
+      tr.amount,
+      tr.user_id,
+      (date_part('isodow'::text, tr.week_starts_at))::integer AS week_number
+     FROM ( SELECT date_trunc('week'::text, ((transactions.created_at)::date)::timestamp with time zone) AS week_starts_at,
+              count(transactions.id) AS transactions_count,
+              sum(transactions.amount) AS amount,
+              users.id AS user_id
+             FROM (transactions
+               JOIN users ON ((users.id = transactions.user_id)))
+            GROUP BY (date_trunc('week'::text, ((transactions.created_at)::date)::timestamp with time zone)), users.id
+            ORDER BY (date_trunc('week'::text, ((transactions.created_at)::date)::timestamp with time zone))) tr;
+  SQL
+
 end
