@@ -1,5 +1,5 @@
 class TransactionTypeQuery
-  
+  #TODO: Fix this as per Timur's comment.
   def initialize(relation)
     @relation = relation
   end
