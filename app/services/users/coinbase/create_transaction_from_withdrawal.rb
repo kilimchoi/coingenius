@@ -1,6 +1,6 @@
 module Users
   module Coinbase
-    # @param [::Coinbase::Wallet::Transfer] buy
+    # @param [::Coinbase::Wallet::Transfer] withdrawal
     # @param [User] user
     class CreateTransactionFromWithdrawal
       include Interactor

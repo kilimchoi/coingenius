@@ -1,6 +1,6 @@
 module Users
   module Coinbase
-    # @param [::Coinbase::Wallet::Transfer] buy
+    # @param [::Coinbase::Wallet::Transfer] sent
     # @param [User] user
     class CreateTransactionFromSent
       include Interactor
