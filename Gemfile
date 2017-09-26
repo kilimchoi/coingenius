@@ -47,6 +47,7 @@ gem "omniauth-coinbase", git: "https://github.com/kilimchoi/omniauth-coinbase.gi
 gem "uuid", require: false # For UUID validation
 gem "attr_encrypted", "~> 3.0" # Encrypt sensitive data
 gem "scenic"
+gem "mandrill_mailer"
 
 source "https://rails-assets.org" do
   gem "rails-assets-tether", ">= 1.1.0"

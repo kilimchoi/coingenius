@@ -111,6 +111,7 @@ GEM
     erubi (1.6.1)
     et-orbi (1.0.4)
       tzinfo
+    excon (0.59.0)
     execjs (2.7.0)
     faraday (0.12.2)
       multipart-post (>= 1.2, < 3)
@@ -172,6 +173,14 @@ GEM
       systemu (~> 2.6.2)
     mail (2.6.6)
       mime-types (>= 1.16, < 4)
+    mandrill-api (1.0.53)
+      excon (>= 0.16.0, < 1.0)
+      json (>= 1.7.7, < 2.0)
+    mandrill_mailer (1.6.0)
+      actionpack
+      activejob
+      activesupport
+      mandrill-api (~> 1.0.9)
     meta-tags (2.4.1)
       actionpack (>= 3.2.0, < 5.2)
     method_source (0.8.2)
@@ -344,6 +353,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   listen
+  mandrill_mailer
   meta-tags
   omniauth-coinbase!
   pg
@@ -373,4 +383,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.15.3
+   1.15.4

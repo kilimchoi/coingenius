@@ -222,7 +222,8 @@ ActiveRecord::Schema.define(version: 20170925171033) do
       tr.transactions_count,
       tr.amount,
       tr.user_id,
-      (date_part('isodow'::text, tr.week_starts_at))::integer AS week_number
+      (date_part('week'::text, tr.week_starts_at))::integer AS week_number,
+      (tr.week_starts_at + '6 days'::interval) AS week_ends_at
      FROM ( SELECT date_trunc('week'::text, ((transactions.created_at)::date)::timestamp with time zone) AS week_starts_at,
               count(transactions.id) AS transactions_count,
               sum(transactions.amount) AS amount,
