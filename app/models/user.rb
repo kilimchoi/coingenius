@@ -13,6 +13,8 @@ class User < ApplicationRecord
   has_many :transactions
   has_one :user_api_credential, dependent: :destroy
 
+  delegate :key, :secret, to: :user_api_credential, prefix: :api
+
   def holdings
     holdings = {}
     total = 0
