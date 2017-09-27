@@ -43,6 +43,7 @@ Rails.application.routes.draw do
   # API section
   namespace :api do
     namespace :v1 do
+      resource :login, only: :create, controller: :login
     end
   end
 
