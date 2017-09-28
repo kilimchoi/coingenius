@@ -48,6 +48,7 @@ gem "uuid", require: false # For UUID validation
 gem "attr_encrypted", "~> 3.0" # Encrypt sensitive data
 gem "scenic"
 gem "mandrill_mailer"
+gem "mandrill-rails"
 
 source "https://rails-assets.org" do
   gem "rails-assets-tether", ">= 1.1.0"
@@ -66,8 +67,7 @@ group :production do
 end
 
 group :development, :test do
-  # Call "byebug" anywhere in the code to stop execution and get a debugger console
-  gem "byebug"
+  gem "pry-byebug"
 end
 
 group :development do

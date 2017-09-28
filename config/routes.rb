@@ -3,7 +3,9 @@ require "sidekiq/web"
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  admin_constraint = lambda do |request| 
+  resource :inbox, :controller => 'mandrill_hooks/inbox', :only => [:show,:create]
+
+  admin_constraint = lambda do |request|
     request.session[:init] = true
     request.env["rack.session"]["warden.user.user.key"] && User.find(request.env["rack.session"]["warden.user.user.key"][0][0]).is_admin?
   end  

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170925171033) do
+ActiveRecord::Schema.define(version: 20170928062535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -130,6 +130,15 @@ ActiveRecord::Schema.define(version: 20170925171033) do
     t.integer "exchange_id"
   end
 
+  create_table "email_subscriptions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.boolean "enabled", default: false
+    t.string "kind", default: "weekly_portfolio_report"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_email_subscriptions_on_user_id"
+  end
+
   create_table "exchanges", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -212,12 +221,13 @@ ActiveRecord::Schema.define(version: 20170925171033) do
   add_foreign_key "coinbase_deposits", "transactions"
   add_foreign_key "coinbase_receiveds", "transactions"
   add_foreign_key "coinbase_sells", "transactions"
+  add_foreign_key "email_subscriptions", "users"
   add_foreign_key "coinbase_sents", "transactions"
   add_foreign_key "coinbase_withdrawals", "transactions"
   add_foreign_key "identities", "users"
   add_foreign_key "user_api_credentials", "users"
 
-  create_view "weekly_user_transaction_groups", materialized: true,  sql_definition: <<-SQL
+  create_view "weekly_user_transactions_groups", materialized: true,  sql_definition: <<-SQL
       SELECT tr.week_starts_at,
       tr.transactions_count,
       tr.amount,

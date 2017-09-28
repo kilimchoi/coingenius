@@ -1,18 +1,24 @@
-class WeeklyUserTransactionGroup < ApplicationRecord
+class WeeklyUserTransactionsGroup < ApplicationRecord
   belongs_to :user
 
-  def self.refresh
-    Scenic
-      .database
-      .refresh_materialized_view(
-        table_name,
-        concurrently: false,
-        cascade: false
-      )
-  end
+  class << self
+    def refresh
+      Scenic
+        .database
+        .refresh_materialized_view(
+          table_name,
+          concurrently: false,
+          cascade: false
+        )
+    end
 
-  def self.previous_week_record(user_id, week_number = Time.now.strftime("%U").to_i - 1)
-    find_by(user_id: user_id, week_number: week_number)
+    def previous_week_record(user_id, week_number = current_week_number - 1)
+      find_by(user_id: user_id, week_number: week_number)
+    end
+
+    def current_week_number
+      Time.now.strftime("%U").to_i
+    end
   end
 
   def weekly_change_percentage
@@ -20,6 +26,6 @@ class WeeklyUserTransactionGroup < ApplicationRecord
 
     return 0 unless previous_record
 
-    CalculationUtility.percentage_difference(amount.to_f, previous_record.amount.to_f)
+    PercentageDifference.new(amount, previous_record.amount).value
   end
 end

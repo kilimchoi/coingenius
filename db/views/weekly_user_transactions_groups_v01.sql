@@ -1,6 +1,6 @@
 SELECT *,
   EXTRACT(WEEK FROM week_starts_at)::int as week_number,
-  (week_starts_at + INTERVAL '6 days') as week_ends_at,
+  (week_starts_at + INTERVAL '6 days') as week_ends_at
 FROM (
   SELECT date_trunc('week', transactions.created_at::date) AS week_starts_at,
   COUNT(transactions.id) as transactions_count,
