@@ -67,7 +67,10 @@ group :production do
 end
 
 group :development, :test do
+  gem "factory_girl_rails"
+  gem "ffaker"
   gem "pry-byebug"
+  gem "pry-rails"
 end
 
 group :development do
@@ -76,4 +79,9 @@ group :development do
   gem "sqlite3"
   gem 'scout_apm' # Dev profiling
   gem "listen"
+end
+
+group :test do
+  gem "database_cleaner"
+  gem "rspec-rails"
 end

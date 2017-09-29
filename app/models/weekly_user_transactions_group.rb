@@ -1,3 +1,4 @@
+
 class WeeklyUserTransactionsGroup < ApplicationRecord
   belongs_to :user
 
