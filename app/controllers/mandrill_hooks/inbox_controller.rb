@@ -17,5 +17,6 @@ class MandrillHooks::InboxController < ApplicationController
   end
 
   def handle_unsub(event_payload)
+    EmailSubscriptions::UnsubscribeUser.call(event_payload.msg(%w[email tags]))
   end
 end
