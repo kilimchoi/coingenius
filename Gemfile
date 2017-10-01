@@ -76,5 +76,6 @@ group :development do
   gem "spring"
   gem "sqlite3"
   gem 'scout_apm' # Dev profiling
+  gem "listen"
 end
 
