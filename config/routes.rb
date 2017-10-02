@@ -46,6 +46,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resource :login, only: :create, controller: :login
+      resource :signup, only: :create, controller: :signup
       resources :transactions, except: :edit
     end
   end
