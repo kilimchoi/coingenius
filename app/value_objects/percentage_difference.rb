@@ -7,6 +7,6 @@ class PercentageDifference
   end
 
   def value
-    @value ||= 100 * (current - previous) / previous.abs
+    @value ||= (100 * (current - previous) / previous.abs).round(2)
   end
 end

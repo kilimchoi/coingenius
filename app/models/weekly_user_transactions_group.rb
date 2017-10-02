@@ -3,6 +3,8 @@ class WeeklyUserTransactionsGroup < ApplicationRecord
 
   belongs_to :user
 
+  scope :by_week_number, ->(direction = :desc) { order(week_number: direction) }
+
   class << self
     def refresh
       Scenic
@@ -14,8 +16,8 @@ class WeeklyUserTransactionsGroup < ApplicationRecord
         )
     end
 
-    def previous_week_record(user_id, week_number = current_week_number)
-      find_by(user_id: user_id, week_number: week_number - 1)
+    def find_by_week(user_id, week_number = current_week_number)
+      find_by(user_id: user_id, week_number: week_number)
     end
 
     def current_week_number
@@ -23,8 +25,9 @@ class WeeklyUserTransactionsGroup < ApplicationRecord
     end
   end
 
+
   def weekly_change_percentage
-    previous_record = self.class.previous_week_record(user_id, week_number)
+    previous_record = self.class.find_by_week(user_id, week_number - 1)
 
     return 0 unless previous_record
 
