@@ -1,9 +1,9 @@
 module Users
   class WeeklyPortfolioReportMailer < MandrillMailer::TemplateMailer
-    DEFAULT_VARS = {
-      "LIST:COMPANY" => "CoinGenius",
-    }
+    TIME_FORMAT = "%b %d, %Y".freeze
 
+    delegate :portfolio_root_url, to: "Rails.application.routes.url_helpers"
+    delegate :full_host, to: "Rails.application.config"
     delegate :email, :username, :transactions, to: :user
     delegate :weekly_change_percentage, :week_starts_at, :week_ends_at, to: :transactions_group
 
@@ -20,9 +20,10 @@ module Users
         to: { email: email, name: username },
         vars: {
           "TOTAL" => transactions.sum(:amount).to_f,
-          "WEEK_RANGE" => "#{week_starts_at} — #{week_ends_at}",
+          "WEEK_RANGE" => week_range,
           "WEEKLY_CHANGE_PERCENTAGE" => weekly_change_percentage,
-        }.merge(DEFAULT_VARS),
+          "PORTFOLIO_LINK" => portfolio_root_url(host: full_host),
+        },
        )
     end
 
@@ -36,6 +37,12 @@ module Users
       direction = weekly_change_percentage.positive? ? "up" : "down"
 
       "Your Portfolio #{direction} #{weekly_change_percentage}% last week"
+    end
+
+    def week_range
+      starts, ends = [week_starts_at, week_ends_at].map { |date| date.strftime(TIME_FORMAT) }
+
+      "#{starts} — #{ends}"
     end
   end
 end

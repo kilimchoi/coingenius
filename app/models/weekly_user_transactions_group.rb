@@ -1,5 +1,6 @@
-
 class WeeklyUserTransactionsGroup < ApplicationRecord
+  self.primary_key = :id
+
   belongs_to :user
 
   class << self
@@ -13,8 +14,8 @@ class WeeklyUserTransactionsGroup < ApplicationRecord
         )
     end
 
-    def previous_week_record(user_id, week_number = current_week_number - 1)
-      find_by(user_id: user_id, week_number: week_number)
+    def previous_week_record(user_id, week_number = current_week_number)
+      find_by(user_id: user_id, week_number: week_number - 1)
     end
 
     def current_week_number
@@ -27,6 +28,6 @@ class WeeklyUserTransactionsGroup < ApplicationRecord
 
     return 0 unless previous_record
 
-    PercentageDifference.new(amount, previous_record.amount).value
+    PercentageDifference.new(previous: previous_record.amount, current: amount).value
   end
 end
