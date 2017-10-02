@@ -11,20 +11,14 @@ module Api
         if user&.valid_password?(user_params[:password])
           render json: { api_key: user.api_key, api_secret: user.api_secret }
         else
-          fail_attempt!
+          head :unauthorized
         end
-      rescue ActionController::ParameterMissing
-        fail_attempt!
       end
 
       private
 
-      def fail_attempt!
-        head :unauthorized
-      end
-
       def user_params
-        params.require(:user).permit(:email, :password)
+        params.fetch(:user, {}).permit(:email, :password)
       end
     end
   end
