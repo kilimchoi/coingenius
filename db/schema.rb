@@ -230,20 +230,20 @@ ActiveRecord::Schema.define(version: 20170928062535) do
   create_view "weekly_user_transactions_groups", materialized: true,  sql_definition: <<-SQL
       SELECT tr2.week_starts_at,
       tr2.transactions_count,
-      tr2.amount,
+      tr2.price,
       tr2.user_id,
       tr2.week_number,
       tr2.week_ends_at,
       ((((tr2.week_number)::character varying)::text || '-'::text) || tr2.user_id) AS id
      FROM ( SELECT tr1.week_starts_at,
               tr1.transactions_count,
-              tr1.amount,
+              tr1.price,
               tr1.user_id,
               (date_part('week'::text, tr1.week_starts_at))::integer AS week_number,
               (tr1.week_starts_at + '6 days'::interval) AS week_ends_at
              FROM ( SELECT date_trunc('week'::text, ((transactions.created_at)::date)::timestamp with time zone) AS week_starts_at,
                       count(transactions.id) AS transactions_count,
-                      sum(transactions.amount) AS amount,
+                      sum((transactions.price * transactions.amount)) AS price,
                       users.id AS user_id
                      FROM (transactions
                        JOIN users ON ((users.id = transactions.user_id)))

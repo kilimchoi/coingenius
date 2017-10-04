@@ -12,14 +12,14 @@ describe Users::WeeklyPortfolioReportMailer do
       {
         important: true,
         inline_css: true,
-        subject: "Your Portfolio up 66.67% last week",
+        subject: "Your Portfolio up 71.43% last week",
         template: :users_weekly_portfolio_report,
         view_content_link: false,
         to: { email: user.email, name: user.username },
         vars: {
-          "TOTAL" => 80.0,
+          "TOTAL" => 19.0,
           "WEEK_RANGE" => "#{start} — #{finish}",
-          "WEEKLY_CHANGE_PERCENTAGE" => 66.67,
+          "WEEKLY_CHANGE_PERCENTAGE" => 71.43,
           "PORTFOLIO_LINK" => "http://example.com/portfolio",
         },
       }

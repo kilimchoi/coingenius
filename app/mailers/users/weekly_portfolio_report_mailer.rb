@@ -19,7 +19,7 @@ module Users
         view_content_link: Rails.env.development?,
         to: { email: email, name: username },
         vars: {
-          "TOTAL" => transactions.sum(:amount).to_f,
+          "TOTAL" => total,
           "WEEK_RANGE" => week_range,
           "WEEKLY_CHANGE_PERCENTAGE" => weekly_change_percentage,
           "PORTFOLIO_LINK" => portfolio_root_url(host: full_host),
@@ -37,6 +37,12 @@ module Users
       direction = weekly_change_percentage.positive? ? "up" : "down"
 
       "Your Portfolio #{direction} #{weekly_change_percentage}% last week"
+    end
+
+    def total
+      transactions
+        .sum { |tr| tr.amount * tr.price }
+        .to_f
     end
 
     def week_range
