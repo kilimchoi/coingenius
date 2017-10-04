@@ -10,25 +10,14 @@ module Coins
     delegate :coin, :days, :price_currency, to: :context
 
     before do
-      context.results = []
+      context.results = {}
     end
 
     def call
-      sorted_prices.each do |timestamp, cached_price|
-        if cached_price.blank?
-          Rails.logger.warn "Missing #{coin.symbol} price for #{timestamp}. Using the latest value"
-          context.results << context.results.last
-        else
-          context.results << cached_price
-        end
-      end
+      context.results = timestamps.zip(cached_prices).to_h
     end
 
     private
-
-    def sorted_prices
-      timestamps.zip(cached_prices).to_h
-    end
 
     def cached_prices
       $redis.mget(cache_keys)

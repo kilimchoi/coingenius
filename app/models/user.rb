@@ -28,7 +28,7 @@ class User < ApplicationRecord
         monthly_data = holding[:monthly_price_history]
         weekly_data = holding[:weekly_price_history]
       else
-        yearly_data = Coins::GetCachedPriceHistory.call(coin: coin, days: 365, price_currency: "USD").results
+        yearly_data = Coins::GetCachedPriceHistory.call(coin: coin, days: 365, price_currency: "USD").results.values
         monthly_data = yearly_data.last(30)
         weekly_data = yearly_data.last(7)
       end
