@@ -47,6 +47,11 @@ Rails.application.routes.draw do
     namespace :v1 do
       resource :login, only: :create, controller: :login
       resource :signup, only: :create, controller: :signup
+
+      resources :coins, only: [] do
+        resources :prices, only: :index, module: :coins
+      end
+
       resources :transactions, except: :edit
     end
   end
