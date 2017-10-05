@@ -1,4 +1,5 @@
-ActionMailer::Base.smtp_settings = {
+if Rails.env.in?(%w[staging production])
+  ActionMailer::Base.smtp_settings = {
     address:   'smtp.mandrillapp.com',
     port:      587,
     user_name: ENV['MANDRILL_USERNAME'],
@@ -6,4 +7,5 @@ ActionMailer::Base.smtp_settings = {
     domain:    Rails.application.config.full_host
   }
 
-ActionMailer::Base.delivery_method = :smtp
+  ActionMailer::Base.delivery_method = :smtp
+end
