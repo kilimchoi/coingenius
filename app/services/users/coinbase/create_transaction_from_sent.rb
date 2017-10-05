@@ -18,6 +18,8 @@ module Users
       end
 
       def call
+        puts 'currency is ', sent["amount"]["currency"]
+        puts 'Coin.find_by(symbol: sent["amount"]["currency"]) is ', Coin.find_by(symbol: sent["amount"]["currency"]).first
         ActiveRecord::Base.transaction do
           context.transaction = user.transactions.create!(
             amount: BigDecimal.new(sent["amount"]["amount"]) * -1,
