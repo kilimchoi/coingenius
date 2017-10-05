@@ -1,6 +1,6 @@
 class Transaction < ApplicationRecord
   belongs_to :user
-  belongs_to :coin
+  belongs_to :coin, optional: true
 
   with_options(dependent: :destroy) do
     has_one :coinbase_sell, class_name: "Coinbase::Sell"
