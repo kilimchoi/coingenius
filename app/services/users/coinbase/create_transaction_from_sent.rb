@@ -13,13 +13,12 @@ module Users
         # Or if the type isn't send and sent amount is greater than 0
         context.fail! if sent.type != "send"
         context.fail! if get_amount(sent).to_f > 0
+        context.fail! if sent["amount"]["currency"] == "USD"
         # Or if we already processed this transaction
         context.fail! if ::Coinbase::Sent.where(uuid: sent["id"]).exists?
       end
 
       def call
-        puts 'currency is ', sent["amount"]["currency"]
-        puts 'Coin.find_by(symbol: sent["amount"]["currency"]) is ', Coin.find_by(symbol: sent["amount"]["currency"]).first
         ActiveRecord::Base.transaction do
           context.transaction = user.transactions.create!(
             amount: BigDecimal.new(sent["amount"]["amount"]) * -1,
