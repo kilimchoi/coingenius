@@ -1,4 +1,4 @@
-shared_context :worker_context do
+shared_context :worker_examples do
   let(:worker) { described_class.new }
 
   it { is_expected.to be_kind_of(Sidekiq::Worker) }

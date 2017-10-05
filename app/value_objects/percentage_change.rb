@@ -1,4 +1,4 @@
-class PercentageDifference
+class PercentageChange
   attr_reader :previous, :current
 
   def initialize(previous:, current:)

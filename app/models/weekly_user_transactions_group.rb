@@ -31,6 +31,6 @@ class WeeklyUserTransactionsGroup < ApplicationRecord
 
     return 0 unless previous_record
 
-    PercentageDifference.new(previous: previous_record.price, current: price).value
+    PercentageChange.new(previous: previous_record.price, current: price).value
   end
 end

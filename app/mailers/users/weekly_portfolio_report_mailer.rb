@@ -23,7 +23,7 @@ module Users
           "WEEK_RANGE" => week_range,
           "WEEKLY_CHANGE_PERCENTAGE" => weekly_change_percentage,
           "PORTFOLIO_LINK" => portfolio_root_url(host: full_host),
-        },
+        }
        )
     end
 
@@ -46,7 +46,8 @@ module Users
     end
 
     def week_range
-      starts, ends = [week_starts_at - 1.week, week_starts_at].map { |date| date.strftime(TIME_FORMAT) }
+      starts = (week_starts_at - 1.week).strftime(TIME_FORMAT)
+      ends = week_starts_at.strftime(TIME_FORMAT)
 
       "#{starts} — #{ends}"
     end

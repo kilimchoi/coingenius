@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe EmailSubscriptions::WeeklyPortfolioCollectionWorker, type: :worker do
-  include_context :worker_context
+  include_context :worker_examples
 
   let(:sidekiq_options) { {} }
 
