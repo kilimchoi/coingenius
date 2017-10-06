@@ -20,8 +20,7 @@ module Users
       end
 
       def call
-        puts 'withdrawal currency is ', withdrawal["amount"]["currency"]
-        puts "withdrawal coin is ", Coin.find_by(symbol: withdrawal["amount"]["currency"])
+        logger.debug "Deposit is #{withdrawal}"
         ActiveRecord::Base.transaction do
           context.transaction = user.transactions.create!(
             amount: BigDecimal.new(withdrawal["amount"]["amount"]),

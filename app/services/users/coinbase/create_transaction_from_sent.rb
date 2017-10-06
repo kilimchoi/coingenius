@@ -19,6 +19,7 @@ module Users
       end
 
       def call
+        logger.debug "Sent is #{sent}"
         ActiveRecord::Base.transaction do
           context.transaction = user.transactions.create!(
             amount: BigDecimal.new(sent["amount"]["amount"]) * -1,
