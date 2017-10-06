@@ -20,7 +20,7 @@ module Users
       end
 
       def call
-        logger.debug "Deposit is #{withdrawal}"
+        Rails.logger.debug "Withdrawal is #{withdrawal}"
         ActiveRecord::Base.transaction do
           context.transaction = user.transactions.create!(
             amount: BigDecimal.new(withdrawal["amount"]["amount"]),

@@ -19,7 +19,7 @@ module Users
       end
 
       def call
-        logger.debug "Deposit is #{deposit}"
+        Rails.logger.debug "Deposit is #{deposit}"
         ActiveRecord::Base.transaction do
           context.transaction = user.transactions.create!(
             amount: BigDecimal.new(deposit["amount"]["amount"]) * -1,

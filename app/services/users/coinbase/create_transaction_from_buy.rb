@@ -16,6 +16,7 @@ module Users
       end
 
       def call
+        Rails.logger.debug "Buy is #{buy}"
         ActiveRecord::Base.transaction do
           context.transaction = user.transactions.create!(
             amount: BigDecimal.new(buy["amount"]["amount"]),

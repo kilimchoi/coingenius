@@ -19,7 +19,7 @@ module Users
       end
 
       def call
-        logger.debug "Received is #{received}"
+        Rails.logger.debug "Received is #{received}"
         ActiveRecord::Base.transaction do
           context.transaction = user.transactions.create!(
             amount: BigDecimal.new(received["amount"]["amount"]),

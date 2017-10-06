@@ -16,7 +16,7 @@ module Users
       end
 
       def call
-        logger.debug "Sell is #{sell}"
+        Rails.logger.debug "Sell is #{sell}"
         ActiveRecord::Base.transaction do
           context.transaction = user.transactions.create!(
             amount: BigDecimal.new(sell["amount"]["amount"]),
