@@ -10,12 +10,10 @@ FactoryGirl.define do
       create(:transaction, :bought, user: user, amount: 1.2, price: 10.0)
       create(:transaction, :bought,
         user: user, amount: 1.5, price: 10.0,
-        transaction_date: Time.now.beginning_of_week - 5.days
-      )
+        transaction_date: Time.now.beginning_of_week - 5.days)
       create(:transaction, :sold,
         user: user, amount: -0.8, price: 10.0,
-        transaction_date: Time.now.beginning_of_week - 6.days
-      )
+        transaction_date: Time.now.beginning_of_week - 6.days)
     end
   end
 end

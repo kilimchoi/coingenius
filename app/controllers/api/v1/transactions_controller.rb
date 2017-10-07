@@ -26,9 +26,7 @@ module Api
         respond_with transaction, location: api_v1_transaction_url(transaction.id)
       end
 
-      def destroy
-        transaction.destroy
-      end
+      delegate :destroy, to: :transaction
 
       private
 

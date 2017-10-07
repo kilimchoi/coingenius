@@ -2,8 +2,8 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable, :omniauth_providers => [:coinbase]
+    :recoverable, :rememberable, :trackable, :validatable,
+    :omniauthable, omniauth_providers: [:coinbase]
 
   validates :username, presence: true, uniqueness: true
 
@@ -20,8 +20,8 @@ class User < ApplicationRecord
   def holdings
     holdings = {}
     total = 0
-    #we need to process buy transactions first and sell transactions next to cancel each other out. otherwise, order is random.
-    merged = TransactionTypeQuery.new(self.transactions).all
+    # we need to process buy transactions first and sell transactions next to cancel each other out. otherwise, order is random.
+    merged = TransactionTypeQuery.new(transactions).all
     merged.each do |transaction|
       coin = transaction.coin
       holding = holdings[coin.symbol]
@@ -59,15 +59,13 @@ class User < ApplicationRecord
           price: weekly_data.last,
           weekly_price_history: weekly_data,
           monthly_price_history: monthly_data,
-          yearly_price_history: yearly_data,
+          yearly_price_history: yearly_data
         }
       end
     end
 
     holdings.each do |_key, holding|
-      if total > 0
-        holding[:percent] = holding[:total]/total
-      end
+      holding[:percent] = holding[:total] / total if total > 0
     end
     [holdings.values, total]
   end

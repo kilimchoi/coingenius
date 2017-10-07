@@ -8,7 +8,7 @@ class BittrexOrdersHistoryImportsController < ApplicationController
 
   def create
     bittrex_orders_history_import = current_user.bittrex_orders_history_imports.create!(
-      file_content: bittrex_orders_history_import_params[:history_file].read.gsub!(/\0/, '')
+      file_content: bittrex_orders_history_import_params[:history_file].read.gsub!(/\0/, "")
     )
 
     BittrexOrdersHistoryImports::ProcessWorker.perform_async(bittrex_orders_history_import.id)

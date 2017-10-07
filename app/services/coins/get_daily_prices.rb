@@ -47,7 +47,7 @@ module Coins
         coin.symbol.upcase,
         price_currency.upcase,
         days,
-        up_to_date.strftime('%s')
+        up_to_date.strftime("%s")
       )
     end
   end

@@ -26,7 +26,7 @@ module Users
             amount: BigDecimal.new(withdrawal["amount"]["amount"]),
             coin: Coin.find_by(symbol: withdrawal["amount"]["currency"]),
             price: BigDecimal.new(withdrawal["native_amount"]["amount"]) / BigDecimal.new(withdrawal["amount"]["amount"]),
-            transaction_type: :withdrawal, 
+            transaction_type: :withdrawal,
             transaction_date: withdrawal["created_at"]
           )
 

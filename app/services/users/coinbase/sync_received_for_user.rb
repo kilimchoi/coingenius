@@ -20,7 +20,6 @@ module Users
         Rails.logger.warn "Sync received failed. Coinbase::Wallet::APIError: #{e.message} user email: #{user.email}"
         nil
       end
-
     end
   end
 end

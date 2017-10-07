@@ -12,7 +12,7 @@ class MandrillHooks::InboxController < ApplicationController
   # or use some other means to avoid committing the API keys in your source code.
   # authenticate_with_mandrill_keys! 'YOUR_MANDRILL_WEBHOOK_KEY'
 
-  def handle_inbound(event_payload)
+  def handle_inbound(_event_payload)
     head(:ok)
   end
 

@@ -25,7 +25,7 @@ module Users
             amount: BigDecimal.new(deposit["amount"]["amount"]) * -1,
             coin: Coin.find_by(symbol: deposit["amount"]["currency"]),
             price: BigDecimal.new(deposit["native_amount"]["amount"]) / BigDecimal.new(deposit["amount"]["amount"]),
-            transaction_type: :deposit, 
+            transaction_type: :deposit,
             transaction_date: deposit["created_at"]
           )
 

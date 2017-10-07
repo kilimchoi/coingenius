@@ -12,12 +12,12 @@ module Users
     def configure_permitted_parameters
       devise_parameter_sanitizer.permit(
         :sign_up,
-        keys: %i(username)
+        keys: %i[username]
       )
 
       devise_parameter_sanitizer.permit(
         :account_update,
-        keys: %i(bittrex_api_key bittrex_api_secret username)
+        keys: %i[bittrex_api_key bittrex_api_secret username]
       )
     end
   end

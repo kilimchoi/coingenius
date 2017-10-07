@@ -12,7 +12,7 @@ class Transaction < ApplicationRecord
     has_one :bittrex_order
   end
 
-  enum transaction_type: %i(bought sold withdrawal deposit received sent)
+  enum transaction_type: %i[bought sold withdrawal deposit received sent]
 
   validates :transaction_type, presence: true
   validates :amount, presence: true

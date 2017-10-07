@@ -4,7 +4,7 @@ module BittrexOrdersHistoryImports
   class Process
     include Interactor
 
-    HEADERS = %w(OrderUuid Exchange Type Quantity Limit Commission Price TimeStamp Closed)
+    HEADERS = %w[OrderUuid Exchange Type Quantity Limit Commission Price TimeStamp Closed].freeze
 
     delegate :bittrex_orders_history_import, :user, to: :context
     delegate :user, to: :bittrex_orders_history_import
@@ -19,8 +19,8 @@ module BittrexOrdersHistoryImports
         next if index.zero? || order_row.length != HEADERS.length || !UUID.validate(order_row["OrderUuid"])
 
         # Reformat closed and opened timestamps
-        order_row["Closed"] = Time.strptime(order_row["Closed"], '%m/%d/%Y %H:%M').to_s
-        order_row["TimeStamp"] = Time.strptime(order_row["TimeStamp"], '%m/%d/%Y %H:%M').to_s
+        order_row["Closed"] = Time.strptime(order_row["Closed"], "%m/%d/%Y %H:%M").to_s
+        order_row["TimeStamp"] = Time.strptime(order_row["TimeStamp"], "%m/%d/%Y %H:%M").to_s
 
         # Calculate price per unit
         order_row["PricePerUnit"] = BigDecimal.new(order_row["Price"], 12) / BigDecimal.new(order_row["Quantity"], 12)

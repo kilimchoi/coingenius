@@ -13,7 +13,7 @@ module Api
         if result.success?
           @current_user = result.user
         else
-          render json: { error: result.message}, status: :unauthorized
+          render json: { error: result.message }, status: :unauthorized
         end
       end
     end

@@ -16,15 +16,15 @@ module Bittrex
     end
 
     def deposits
-      get("account/getdeposithistory").map {|data| Deposit.new(data)}
+      get("account/getdeposithistory").map { |data| Deposit.new(data) }
     end
 
     def withdrawals
-      get('account/getwithdrawalhistory').map {|data| Withdrawal.new(data)}
+      get("account/getwithdrawalhistory").map { |data| Withdrawal.new(data) }
     end
 
     def order_history
-      get('account/getorderhistory').map {|data| Order.new(data)}
+      get("account/getorderhistory").map { |data| Order.new(data) }
     end
 
     private
@@ -55,7 +55,7 @@ module Bittrex
     end
 
     def connection
-      @connection ||= Faraday.new(:url => HOST) do |faraday|
+      @connection ||= Faraday.new(url: HOST) do |faraday|
         faraday.request :url_encoded
         faraday.adapter Faraday.default_adapter
       end

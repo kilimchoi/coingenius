@@ -17,7 +17,7 @@ class BittrexIntegrationsController < ApplicationController
 
       Users::Bittrex::SyncOrdersForUserWorker.perform_async(current_user.id)
     else
-      flash[:error] = current_user.errors.full_messages.join(', ')
+      flash[:error] = current_user.errors.full_messages.join(", ")
     end
 
     redirect_back fallback_location: root_path
@@ -32,6 +32,6 @@ class BittrexIntegrationsController < ApplicationController
   private
 
   def strip_whitespaces_in_params!
-    bittrex_params.to_h.map {|_key, value| value&.strip!}
+    bittrex_params.to_h.map { |_key, value| value&.strip! }
   end
 end

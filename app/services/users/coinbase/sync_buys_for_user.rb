@@ -6,7 +6,7 @@ module Users
 
       delegate :user, to: :context
 
-      def call 
+      def call
         context.fail! if client.nil?
 
         client.accounts.each do |account|
