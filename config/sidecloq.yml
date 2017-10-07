@@ -42,3 +42,8 @@ coins_sync_daily_prices_for_coins:
   class: Coins::SyncDailyPricesForCoinsWorker
   cron: "0 * * * *"
   queue: "default"
+
+# email_subscriptions_weekly_portfolio_collection_worker:
+#   class: EmailSubscriptions::WeeklyPortfolioCollectionWorker
+#   cron: "0 0 12 ? * MON *"
+#   queue: "email_subscriptions"

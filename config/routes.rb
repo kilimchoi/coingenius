@@ -3,11 +3,13 @@ require "sidekiq/web"
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  admin_constraint = lambda do |request| 
+  resource :inbox, controller: "mandrill_hooks/inbox", only: [:show,:create]
+
+  admin_constraint = lambda do |request|
     request.session[:init] = true
     request.env["rack.session"]["warden.user.user.key"] && User.find(request.env["rack.session"]["warden.user.user.key"][0][0]).is_admin?
-  end  
-  
+  end
+
   constraints admin_constraint do
     mount Sidekiq::Web => "/sidekiq"
     devise_for :admin_users, ActiveAdmin::Devise.config
@@ -19,8 +21,8 @@ Rails.application.routes.draw do
       registrations: "users/registrations" }
 
   # Static pages
-  get "/terms", to: "static_pages#terms", :as => :terms
-  get "/privacy", to: "static_pages#privacy", :as => :privacy
+  get "/terms", to: "static_pages#terms", as: :terms
+  get "/privacy", to: "static_pages#privacy", as: :privacy
   get "/google8fa477f418e49735.html", to: proc { |env| [200, {}, ["google-site-verification: google8fa477f418e49735.html"]] }
   get "/sitemap.xml", to: "sitemap#index", format: "xml", as: :sitemap
 
@@ -32,7 +34,7 @@ Rails.application.routes.draw do
     root to: "portfolio#index"
 
     resources :transactions do
-      get :autocomplete_coin_name, :on => :collection
+      get :autocomplete_coin_name, on: :collection
     end
   end
 

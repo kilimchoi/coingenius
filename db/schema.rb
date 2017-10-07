@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170919183719) do
+ActiveRecord::Schema.define(version: 20170928062535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,10 +18,10 @@ ActiveRecord::Schema.define(version: 20170919183719) do
   create_table "active_admin_comments", id: :serial, force: :cascade do |t|
     t.string "namespace"
     t.text "body"
-    t.string "resource_type"
     t.integer "resource_id"
-    t.string "author_type"
+    t.string "resource_type"
     t.integer "author_id"
+    t.string "author_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
@@ -130,6 +130,15 @@ ActiveRecord::Schema.define(version: 20170919183719) do
     t.integer "exchange_id"
   end
 
+  create_table "email_subscriptions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.boolean "enabled", default: false
+    t.string "kind", default: "weekly_portfolio_report"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_email_subscriptions_on_user_id"
+  end
+
   create_table "exchanges", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -214,6 +223,32 @@ ActiveRecord::Schema.define(version: 20170919183719) do
   add_foreign_key "coinbase_sells", "transactions"
   add_foreign_key "coinbase_sents", "transactions"
   add_foreign_key "coinbase_withdrawals", "transactions"
+  add_foreign_key "email_subscriptions", "users"
   add_foreign_key "identities", "users"
   add_foreign_key "user_api_credentials", "users"
+
+  create_view "weekly_user_transactions_groups", materialized: true,  sql_definition: <<-SQL
+      SELECT tr2.week_starts_at,
+      tr2.transactions_count,
+      tr2.price,
+      tr2.user_id,
+      tr2.week_number,
+      tr2.week_ends_at,
+      ((((tr2.week_number)::character varying)::text || '-'::text) || tr2.user_id) AS id
+     FROM ( SELECT tr1.week_starts_at,
+              tr1.transactions_count,
+              tr1.price,
+              tr1.user_id,
+              (date_part('week'::text, tr1.week_starts_at))::integer AS week_number,
+              (tr1.week_starts_at + '6 days'::interval) AS week_ends_at
+             FROM ( SELECT date_trunc('week'::text, ((transactions.created_at)::date)::timestamp with time zone) AS week_starts_at,
+                      count(transactions.id) AS transactions_count,
+                      sum((transactions.price * transactions.amount)) AS price,
+                      users.id AS user_id
+                     FROM (transactions
+                       JOIN users ON ((users.id = transactions.user_id)))
+                    GROUP BY (date_trunc('week'::text, ((transactions.created_at)::date)::timestamp with time zone)), users.id
+                    ORDER BY (date_trunc('week'::text, ((transactions.created_at)::date)::timestamp with time zone))) tr1) tr2;
+  SQL
+
 end
