@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170928062535) do
+ActiveRecord::Schema.define(version: 20171009184645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -241,14 +241,14 @@ ActiveRecord::Schema.define(version: 20170928062535) do
               tr1.user_id,
               (date_part('week'::text, tr1.week_starts_at))::integer AS week_number,
               (tr1.week_starts_at + '6 days'::interval) AS week_ends_at
-             FROM ( SELECT date_trunc('week'::text, ((transactions.created_at)::date)::timestamp with time zone) AS week_starts_at,
+             FROM ( SELECT date_trunc('week'::text, ((transactions.transaction_date)::date)::timestamp with time zone) AS week_starts_at,
                       count(transactions.id) AS transactions_count,
                       sum((transactions.price * transactions.amount)) AS price,
                       users.id AS user_id
                      FROM (transactions
                        JOIN users ON ((users.id = transactions.user_id)))
-                    GROUP BY (date_trunc('week'::text, ((transactions.created_at)::date)::timestamp with time zone)), users.id
-                    ORDER BY (date_trunc('week'::text, ((transactions.created_at)::date)::timestamp with time zone))) tr1) tr2;
+                    GROUP BY (date_trunc('week'::text, ((transactions.transaction_date)::date)::timestamp with time zone)), users.id
+                    ORDER BY (date_trunc('week'::text, ((transactions.transaction_date)::date)::timestamp with time zone))) tr1) tr2;
   SQL
 
 end
