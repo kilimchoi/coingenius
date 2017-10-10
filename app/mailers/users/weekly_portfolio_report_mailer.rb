@@ -5,7 +5,7 @@ module Users
     delegate :portfolio_root_url, to: "Rails.application.routes.url_helpers"
     delegate :full_host, to: "Rails.application.config"
     delegate :email, :username, :transactions, to: :user
-    delegate :weekly_change_percentage, :week_starts_at, to: :transactions_group
+    delegate :weekly_change_percentage, :week_starts_at, :week_ends_at, to: :transactions_group
 
     def send_email(user, transactions_group)
       @user = user
@@ -46,8 +46,8 @@ module Users
     end
 
     def week_range
-      starts = (week_starts_at - 1.week).strftime(TIME_FORMAT)
-      ends = week_starts_at.strftime(TIME_FORMAT)
+      starts = week_starts_at.strftime(TIME_FORMAT)
+      ends = week_ends_at.strftime(TIME_FORMAT)
 
       "#{starts} — #{ends}"
     end

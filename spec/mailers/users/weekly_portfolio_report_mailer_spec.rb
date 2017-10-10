@@ -6,8 +6,8 @@ describe Users::WeeklyPortfolioReportMailer do
   describe "#send_email" do
     let(:user) { create(:user_with_transactions) }
     let(:transactions_group) { user.reload.weekly_user_transactions_groups.by_week_number.first }
-    let(:start) { (Time.now.beginning_of_week - 1.week).strftime(described_class::TIME_FORMAT) }
-    let(:finish) { Time.now.beginning_of_week.strftime(described_class::TIME_FORMAT) }
+    let(:start) { transactions_group.week_starts_at.strftime(described_class::TIME_FORMAT) }
+    let(:finish) { transactions_group.week_ends_at.strftime(described_class::TIME_FORMAT) }
     let(:mandrilla_options) do
       {
         important: true,
