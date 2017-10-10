@@ -4,13 +4,13 @@ class ExchangesController < ApplicationController
   def index
     description = "Compare some of the well known cryptocurrency exchanges in the market. Find out about their rates, deposit and withdrawl limits, and more."
     keywords = %w[gemini coinbase shapeshift bittrex]
-    set_meta_tags :description => description
+    set_meta_tags description: description
     set_meta_tags keywords: keywords
-    set_meta_tags :og => {
-        :title    => :title,
-        :description => description,
-        :image => root_url[0..-2] + ActionController::Base.helpers.image_url('coingeniusx256.png')
+    set_meta_tags og: {
+      title: :title,
+      description: description,
+      image: root_url[0..-2] + ActionController::Base.helpers.image_url("coingeniusx256.png")
     }
-    respond_with exchanges 
+    respond_with exchanges
   end
 end

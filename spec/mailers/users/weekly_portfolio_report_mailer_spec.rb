@@ -20,8 +20,8 @@ describe Users::WeeklyPortfolioReportMailer do
           "TOTAL" => 19.0,
           "WEEK_RANGE" => "#{start} — #{finish}",
           "WEEKLY_CHANGE_PERCENTAGE" => 71.43,
-          "PORTFOLIO_LINK" => "http://example.com/portfolio",
-        },
+          "PORTFOLIO_LINK" => "http://example.com/portfolio"
+        }
       }
     end
 

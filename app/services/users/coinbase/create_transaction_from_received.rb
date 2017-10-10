@@ -25,7 +25,7 @@ module Users
             amount: BigDecimal.new(received["amount"]["amount"]),
             coin: Coin.find_by(symbol: received["amount"]["currency"]),
             price: BigDecimal.new(received["native_amount"]["amount"]) / BigDecimal.new(received["amount"]["amount"]),
-            transaction_type: :received, 
+            transaction_type: :received,
             transaction_date: received["created_at"]
           )
 

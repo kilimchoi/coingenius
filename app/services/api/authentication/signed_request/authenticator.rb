@@ -61,11 +61,11 @@ module Api
         end
 
         private
-        
+
         def assign_key_and_signature
           authorization = request.env["HTTP_AUTHORIZATION"].to_s.strip
           fail_with(:authorization_header_missing) if authorization.blank?
-          fail_with(:authorization_header_format_invalid) unless authorization =~ AUTHORIZATION_HEADER_REGEXP
+          fail_with(:authorization_header_format_invalid) unless authorization.match?(AUTHORIZATION_HEADER_REGEXP)
 
           credentials = authorization.split(" ", 2).last
           @key, @signature = credentials.split(":", 2)
@@ -119,8 +119,6 @@ module Api
             "Key or HMAC signature is invalid"
           when :nonce_too_small
             "Nonce must be higher than previous value #{user_api_credential.nonce}. Given #{nonce}."
-          else
-            nil
           end
         end
       end

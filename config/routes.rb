@@ -3,7 +3,7 @@ require "sidekiq/web"
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  resource :inbox, controller: "mandrill_hooks/inbox", only: [:show,:create]
+  resource :inbox, controller: "mandrill_hooks/inbox", only: %i[show create]
 
   admin_constraint = lambda do |request|
     request.session[:init] = true
@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   # Static pages
   get "/terms", to: "static_pages#terms", as: :terms
   get "/privacy", to: "static_pages#privacy", as: :privacy
-  get "/google8fa477f418e49735.html", to: proc { |env| [200, {}, ["google-site-verification: google8fa477f418e49735.html"]] }
+  get "/google8fa477f418e49735.html", to: proc { |_env| [200, {}, ["google-site-verification: google8fa477f418e49735.html"]] }
   get "/sitemap.xml", to: "sitemap#index", format: "xml", as: :sitemap
 
   # You can have the root of your site routed with "root"
@@ -39,7 +39,7 @@ Rails.application.routes.draw do
   end
 
   authenticated :user do
-    resources :bittrex_orders_history_imports, only: %i(new create)
+    resources :bittrex_orders_history_imports, only: %i[new create]
   end
 
   resources :exchanges

@@ -6,7 +6,7 @@ module Users
       def perform
         Identity.where(provider: :coinbase).find_each do |identity|
           # Init client with an existing refresh token
-          begin 
+          begin
             client = ::Coinbase::Wallet::OAuthClient.new(
               access_token: identity.access_token,
               refresh_token: identity.refresh_token

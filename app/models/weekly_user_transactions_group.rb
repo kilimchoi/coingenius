@@ -25,7 +25,6 @@ class WeeklyUserTransactionsGroup < ApplicationRecord
     end
   end
 
-
   def weekly_change_percentage
     previous_record = self.class.find_by_week(user_id, week_number - 1)
 

@@ -22,45 +22,37 @@ gem "turbolinks"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem "jbuilder", "~> 2.0"
 # bundle exec rake doc:rails generates the API under doc/api.
-gem "sdoc", "~> 0.4.0", group: :doc
-gem "slim"
 gem "activeadmin", github: "activeadmin"
-gem "bugsnag"
-gem "friendly_id", "~> 5.1.0"
-gem "dotenv-rails", :groups => [:development, :test]
-gem "awesome_print"
-gem "redis", "~>3.2"
-gem "puma", "~> 3.10"
-gem "meta-tags"
-gem "rinku"
-gem "sidekiq", "~>4.0.1"
-gem "bootstrap", "~> 4.0.0.alpha6"
-gem "devise"
-gem "decent_exposure", "3.0.0"
-gem "select2-rails"
-gem "httparty"
-gem "sidecloq"
-gem "sinatra", "~> 2.0"
-gem "rails-jquery-autocomplete"
-gem "interactor-rails"
-gem "omniauth-coinbase", git: "https://github.com/kilimchoi/omniauth-coinbase.git"
-gem "uuid", require: false # For UUID validation
 gem "attr_encrypted", "~> 3.0" # Encrypt sensitive data
-gem "scenic"
-gem "mandrill_mailer"
+gem "awesome_print"
+gem "bootstrap", "~> 4.0.0.alpha6"
+gem "bugsnag"
+gem "decent_exposure", "3.0.0"
+gem "devise"
+gem "dotenv-rails", groups: %i[development test]
+gem "friendly_id", "~> 5.1.0"
+gem "httparty"
+gem "interactor-rails"
 gem "mandrill-rails"
+gem "mandrill_mailer"
+gem "meta-tags"
+gem "omniauth-coinbase", git: "https://github.com/kilimchoi/omniauth-coinbase.git"
+gem "puma", "~> 3.10"
+gem "rails-jquery-autocomplete"
+gem "redis", "~>3.2"
+gem "rinku"
+gem "scenic"
+gem "sdoc", "~> 0.4.0", group: :doc
+gem "select2-rails"
+gem "sidecloq"
+gem "sidekiq", "~>4.0.1"
+gem "sinatra", "~> 2.0"
+gem "slim"
+gem "uuid", require: false # For UUID validation
 
 source "https://rails-assets.org" do
   gem "rails-assets-tether", ">= 1.1.0"
 end
-# Use ActiveModel has_secure_password
-# gem "bcrypt", "~> 3.1.7"
-
-# Use Unicorn as the app server
-# gem "unicorn"
-
-# Use Capistrano for deployment
-# gem "capistrano-rails", group: :development
 
 group :production do
   gem "rails_12factor"
@@ -74,11 +66,13 @@ group :development, :test do
 end
 
 group :development do
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem "bullet"
+  gem "listen"
+  gem "rubocop", require: false
+  gem "rubocop-rspec"
+  gem "scout_apm" # Dev profiling
   gem "spring"
   gem "sqlite3"
-  gem 'scout_apm' # Dev profiling
-  gem "listen"
 end
 
 group :test do

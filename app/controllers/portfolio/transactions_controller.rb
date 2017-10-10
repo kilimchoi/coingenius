@@ -1,15 +1,15 @@
 class Portfolio::TransactionsController < ApplicationController
   before_action :authenticate_user!
   respond_to :html
-  expose :transactions, -> { current_user.transactions.where(coin_id: params[:id], user_id: current_user.id, is_expired: false)}
+  expose :transactions, -> { current_user.transactions.where(coin_id: params[:id], user_id: current_user.id, is_expired: false) }
   expose :coin, -> { transactions.last&.coin }
 
   def autocomplete_coin_name
     term = params[:term].downcase
-    if term.present?
-      items = Coin.where("lower(coins.symbol) LIKE '%#{term}' OR lower(coins.name) LIKE '%#{term}%'")
+    items = if term.present?
+      Coin.where("lower(coins.symbol) LIKE '%#{term}' OR lower(coins.name) LIKE '%#{term}%'")
     else
-      items = {}
+      {}
     end
     extra_data = [:symbol]
     display_value = :name_and_symbol
@@ -17,7 +17,6 @@ class Portfolio::TransactionsController < ApplicationController
   end
 
   def index
-
   end
 
   def new
@@ -30,26 +29,26 @@ class Portfolio::TransactionsController < ApplicationController
       if !user_has_coin?
         flash[:error] = "You do not have that coin"
         redirect_back fallback_location: root_path
-      elsif !user_has_sufficient_amount? 
+      elsif !user_has_sufficient_amount?
         flash[:error] = "You do not own enough coins"
         redirect_back fallback_location: root_path
       else
         @transaction = current_user.transactions.new(transaction_params)
         if @transaction.save
-          flash[:success] = 'You successfully removed the coin'
-          redirect_to '/portfolio'
+          flash[:success] = "You successfully removed the coin"
+          redirect_to "/portfolio"
         else
-          flash[:error] = @transaction.errors.full_messages.join(', ')
+          flash[:error] = @transaction.errors.full_messages.join(", ")
           redirect_back fallback_location: root_path
         end
       end
     else
       @transaction = current_user.transactions.new(transaction_params)
       if @transaction.save
-        flash[:success] = 'Your transaction has been created!'
-        redirect_to '/portfolio'
+        flash[:success] = "Your transaction has been created!"
+        redirect_to "/portfolio"
       else
-        flash[:error] = @transaction.errors.full_messages.join(', ')
+        flash[:error] = @transaction.errors.full_messages.join(", ")
         redirect_back fallback_location: root_path
       end
     end
@@ -62,10 +61,10 @@ class Portfolio::TransactionsController < ApplicationController
   def update
     @transaction = Transaction.find params[:id]
     if @transaction.update_attributes(transaction_params)
-      flash[:success] = 'You successfully updated the transaction'
+      flash[:success] = "You successfully updated the transaction"
       redirect_back fallback_location: root_path
     else
-      flash[:error] = @transaction.errors.full_messages.join(', ')
+      flash[:error] = @transaction.errors.full_messages.join(", ")
       redirect_back fallback_location: root_path
     end
   end
@@ -73,10 +72,10 @@ class Portfolio::TransactionsController < ApplicationController
   def destroy
     @transaction = Transaction.find params[:id]
     if @transaction.update(is_expired: true)
-      flash[:success] = 'You successfully destroyed the transaction'
+      flash[:success] = "You successfully destroyed the transaction"
       redirect_back fallback_location: root_path
-    else 
-      flash[:error] = @transaction.errors.full_messages.join(', ')
+    else
+      flash[:error] = @transaction.errors.full_messages.join(", ")
       redirect_back fallback_location: root_path
     end
   end
@@ -86,28 +85,28 @@ class Portfolio::TransactionsController < ApplicationController
   end
 
   private
-  
+
   def transaction_params
     params.require(:transaction).permit(:price, :amount, :coin_id, :transaction_type, :transaction_date)
   end
 
-  def is_user_selling? 
+  def is_user_selling?
     params["transaction"]["transaction_type"] == "sold"
   end
 
-  def user_has_coin? 
+  def user_has_coin?
     current_user.holdings.first.select do |h|
       if h[:coin].id == params["transaction"]["coin_id"].to_i &&
          h[:amount].to_s != "0.0"
         return true
       end
     end
-    return false
+    false
   end
 
-  def user_has_sufficient_amount? 
+  def user_has_sufficient_amount?
     coin_amount = 0
-    current_user.holdings.first.select do |h| 
+    current_user.holdings.first.select do |h|
       if h[:coin].id == params["transaction"]["coin_id"].to_i
         coin_amount = h[:amount].to_s.to_f
         break
