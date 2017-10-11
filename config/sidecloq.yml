@@ -45,5 +45,5 @@ coins_sync_daily_prices_for_coins:
 
 email_subscriptions_weekly_portfolio_collection_worker:
   class: EmailSubscriptions::WeeklyPortfolioCollectionWorker
-  cron: "0 0 12 ? * SUN *"
+  cron: "0 0 23 ? * SUN *"
   queue: "email_subscriptions"
