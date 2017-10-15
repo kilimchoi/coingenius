@@ -8,7 +8,6 @@ def setup_bullet
     Bullet.bullet_logger = true
     Bullet.console = true
     Bullet.bugsnag = true
-    Bullet.stacktrace_excludes = [".bundle"]
   end
 end
 
