@@ -13,6 +13,7 @@ module Users
 
         # Or if we already processed this transaction
         context.fail! if ::Coinbase::Sell.where(uuid: sell["id"]).exists?
+        context.fail! if coin.nil?
       end
 
       def call
@@ -20,7 +21,7 @@ module Users
         ActiveRecord::Base.transaction do
           context.transaction = user.transactions.create!(
             amount: BigDecimal.new(sell["amount"]["amount"]),
-            coin: Coin.find_by(symbol: sell["amount"]["currency"]),
+            coin: coin,
             price: BigDecimal.new(sell["subtotal"]["amount"]) / BigDecimal.new(sell["amount"]["amount"]),
             transaction_type: :sold,
             transaction_date: sell["created_at"]
@@ -31,6 +32,12 @@ module Users
             raw_data: sell
           )
         end
+      end
+
+      private
+
+      def coin
+        context.coin ||= Coin.find_by(symbol: sell["amount"]["currency"])
       end
     end
   end
