@@ -16,6 +16,7 @@ module Users
         context.fail! if sent["amount"]["currency"] == "USD"
         # Or if we already processed this transaction
         context.fail! if ::Coinbase::Sent.where(uuid: sent["id"]).exists?
+        context.fail! if coin.nil?
       end
 
       def call
@@ -23,7 +24,7 @@ module Users
         ActiveRecord::Base.transaction do
           context.transaction = user.transactions.create!(
             amount: BigDecimal.new(sent["amount"]["amount"]) * -1,
-            coin: Coin.find_by(symbol: sent["amount"]["currency"]),
+            coin: coin,
             price: BigDecimal.new(sent["native_amount"]["amount"]) / BigDecimal.new(sent["amount"]["amount"]),
             transaction_type: :sent,
             transaction_date: sent["created_at"]
@@ -37,6 +38,10 @@ module Users
       end
 
       private
+      
+      def coin
+        context.coin ||= Coin.find_by(symbol: sent["amount"]["currency"])
+      end
 
       def get_amount(transaction)
         transaction["amount"]["amount"]
