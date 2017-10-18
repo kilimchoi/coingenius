@@ -87,7 +87,11 @@ class Portfolio::TransactionsController < ApplicationController
   private
 
   def transaction_params
-    params.require(:transaction).permit(:price, :amount, :coin_id, :transaction_type, :transaction_date)
+    params
+      .require(:transaction)
+      .permit(:price, :amount, :coin_id, :transaction_type, :transaction_date).tap do |whitelisted|
+      whitelisted[:transaction_date] = whitelisted[:transaction_date].presence || Time.zone.now
+    end
   end
 
   def is_user_selling?
