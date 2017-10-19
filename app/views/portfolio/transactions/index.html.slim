@@ -11,18 +11,15 @@ h2.dashhead-title.mt-5 Edit Transactions for #{coin&.name}
           th Date of transaction
           th Amount
           th.text-right Edit
-      - transactions.each do |tx| 
+      - transactions.each do |tx|
         tbody
-          tr 
+          tr
             td
               = "#{tx.transaction_type}"
-            td 
-              - if tx.transaction_date.nil? 
-                = "#{tx.created_at.strftime("%b %d, %Y")}"
-              - else
-                = "#{tx.transaction_date.strftime("%b %d, %Y")}"
-            td 
+            td
+              = "#{tx.transaction_date.strftime("%b %d, %Y")}"
+            td
               = "#{tx.amount}"
             td
-              = link_to edit_portfolio_transaction_path(tx.id), {:remote => true, "data-toggle" =>  "modal", "data-target" => "#modal-window2", "data-animation" => "false", "data-turbolinks": "false", class: "new-transaction"}
+              = link_to edit_portfolio_transaction_path(tx.id), {:remote => true, "data-toggle" => "modal", "data-target" => "#modal-window2", "data-animation" => "false", "data-turbolinks": "false", class: "new-transaction"}
                 i.fa.fa-pencil aria-hidden="true"
