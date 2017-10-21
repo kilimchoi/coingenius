@@ -1,5 +1,10 @@
 module Users
   class WeeklyPortfolioReportMailer < MandrillMailer::TemplateMailer
+    BLANK_TRANSACTION_GROUP = OpenStruct.new(
+      weekly_change_percentage: 0.0,
+      week_starts_at: Time.zone.now.beginning_of_week,
+      week_ends_at: Time.zone.now.end_of_week
+    ).freeze
     TIME_FORMAT = "%b %d, %Y".freeze
 
     delegate :portfolio_root_url, to: "Rails.application.routes.url_helpers"
@@ -9,7 +14,7 @@ module Users
 
     def send_email(user, transactions_group)
       @user = user
-      @transactions_group = transactions_group
+      @transactions_group = transactions_group || BLANK_TRANSACTION_GROUP
 
       mandrill_mail(
         important: true,

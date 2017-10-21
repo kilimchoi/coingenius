@@ -7,10 +7,13 @@ describe EmailSubscriptions::WeeklyPortfolioCollectionWorker, type: :worker do
 
   describe "#perform" do
     let(:item_worker) { EmailSubscriptions::WeeklyPortfolioItemWorker }
-    let!(:user1) { create(:user_with_transactions) }
-    let!(:user2) { create(:user) }
-    let!(:email_subscription1) { create(:email_subscription, :weekly_portfolio_report, :enabled, user: user1) }
-    let!(:email_subscription2) { create(:email_subscription, :weekly_portfolio_report, user: user2) }
+    let(:user1) { create(:user_with_transactions) }
+    let(:user2) { create(:user) }
+
+    before do
+      create(:email_subscription, :weekly_portfolio_report, :enabled, user: user1)
+      create(:email_subscription, :weekly_portfolio_report, user: user2)
+    end
 
     after { worker.perform }
 
