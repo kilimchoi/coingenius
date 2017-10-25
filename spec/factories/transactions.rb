@@ -8,7 +8,7 @@ FactoryGirl.define do
     price 100.0
     transaction_date { Time.zone.now.beginning_of_day }
 
-    TYPES.keys.each do |type|
+    TYPES.each_key do |type|
       trait type.to_sym do
         transaction_type { TYPES[type] }
       end

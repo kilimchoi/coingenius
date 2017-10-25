@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171009184645) do
+ActiveRecord::Schema.define(version: 20171024061715) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "uuid-ossp"
 
   create_table "active_admin_comments", id: :serial, force: :cascade do |t|
     t.string "namespace"
@@ -164,6 +165,15 @@ ActiveRecord::Schema.define(version: 20171009184645) do
     t.index ["user_id"], name: "index_identities_on_user_id"
   end
 
+  create_table "statistics_weekly_portfolios", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "week_number", null: false
+    t.decimal "total", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_statistics_weekly_portfolios_on_user_id"
+  end
+
   create_table "transactions", id: :serial, force: :cascade do |t|
     t.integer "transaction_type"
     t.decimal "price"
@@ -225,30 +235,50 @@ ActiveRecord::Schema.define(version: 20171009184645) do
   add_foreign_key "coinbase_withdrawals", "transactions"
   add_foreign_key "email_subscriptions", "users"
   add_foreign_key "identities", "users"
+  add_foreign_key "statistics_weekly_portfolios", "users"
   add_foreign_key "user_api_credentials", "users"
 
   create_view "weekly_user_transactions_groups", materialized: true,  sql_definition: <<-SQL
-      SELECT tr2.week_starts_at,
-      tr2.transactions_count,
-      tr2.price,
-      tr2.user_id,
-      tr2.week_number,
-      tr2.week_ends_at,
-      ((((tr2.week_number)::character varying)::text || '-'::text) || tr2.user_id) AS id
-     FROM ( SELECT tr1.week_starts_at,
-              tr1.transactions_count,
-              tr1.price,
-              tr1.user_id,
-              (date_part('week'::text, tr1.week_starts_at))::integer AS week_number,
-              (tr1.week_starts_at + '6 days'::interval) AS week_ends_at
-             FROM ( SELECT date_trunc('week'::text, ((transactions.transaction_date)::date)::timestamp with time zone) AS week_starts_at,
-                      count(transactions.id) AS transactions_count,
-                      sum((transactions.price * transactions.amount)) AS price,
-                      users.id AS user_id
-                     FROM (transactions
-                       JOIN users ON ((users.id = transactions.user_id)))
-                    GROUP BY (date_trunc('week'::text, ((transactions.transaction_date)::date)::timestamp with time zone)), users.id
-                    ORDER BY (date_trunc('week'::text, ((transactions.transaction_date)::date)::timestamp with time zone))) tr1) tr2;
+      WITH dates AS (
+           SELECT min(date_trunc('week'::text, transactions.transaction_date)) AS start_week,
+              max(date_trunc('week'::text, transactions.transaction_date)) AS end_week
+             FROM transactions
+          ), weeks AS (
+           SELECT sub_dates.week_starts_at,
+              sub_dates.week_ends_at,
+              concat((date_part('year'::text, sub_dates.week_starts_at))::integer, '-', (date_part('week'::text, sub_dates.week_starts_at))::integer) AS week_number
+             FROM ( SELECT generate_series(dates.start_week, dates.end_week, '7 days'::interval) AS week_starts_at,
+                      generate_series((dates.start_week + '6 days'::interval), (dates.end_week + '6 days'::interval), '7 days'::interval) AS week_ends_at
+                     FROM dates) sub_dates
+          )
+   SELECT DISTINCT transactions_subquery.week_starts_at,
+      transactions_subquery.week_ends_at,
+      transactions_subquery.week_number,
+      transactions_subquery.user_id,
+      transactions_subquery.coin_id,
+      transactions_subquery.weekly_transactions_count,
+      transactions_subquery.weekly_total,
+      transactions_subquery.total_amount,
+      uuid_generate_v3(uuid_ns_x500(), concat(transactions_subquery.week_number, transactions_subquery.user_id, transactions_subquery.coin_id)) AS id
+     FROM ( SELECT weeks.week_starts_at,
+              weeks.week_ends_at,
+              weeks.week_number,
+              users.id AS user_id,
+              coins.id AS coin_id,
+              count(transactions.id) OVER week_user_coin AS weekly_transactions_count,
+              sum(transactions.amount) OVER week_user_coin AS weekly_total,
+              sum(transactions.amount) OVER user_and_coin AS total_amount
+             FROM (((weeks
+               JOIN transactions ON ((date_trunc('week'::text, transactions.transaction_date) = weeks.week_starts_at)))
+               JOIN users ON ((users.id = transactions.user_id)))
+               LEFT JOIN coins ON ((coins.id = transactions.coin_id)))
+            GROUP BY weeks.week_number, weeks.week_starts_at, weeks.week_ends_at, users.id, coins.id, transactions.id, transactions.amount
+            WINDOW week_user_coin AS (PARTITION BY weeks.week_starts_at, users.id, coins.id), user_and_coin AS (PARTITION BY users.id, coins.id ORDER BY weeks.week_starts_at)
+            ORDER BY weeks.week_starts_at) transactions_subquery;
   SQL
+
+  add_index "weekly_user_transactions_groups", ["coin_id"], name: "weekly_user_transactions_groups_coin_id_idx"
+  add_index "weekly_user_transactions_groups", ["user_id"], name: "weekly_user_transactions_groups_user_id_idx"
+  add_index "weekly_user_transactions_groups", ["week_number"], name: "weekly_user_transactions_groups_week_number_idx"
 
 end

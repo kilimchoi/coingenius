@@ -1,20 +1,14 @@
 module Users
   class WeeklyPortfolioReportMailer < MandrillMailer::TemplateMailer
-    BLANK_TRANSACTION_GROUP = OpenStruct.new(
-      weekly_change_percentage: 0.0,
-      week_starts_at: Time.zone.now.beginning_of_week,
-      week_ends_at: Time.zone.now.end_of_week
-    ).freeze
     TIME_FORMAT = "%b %d, %Y".freeze
 
     delegate :portfolio_root_url, to: "Rails.application.routes.url_helpers"
     delegate :full_host, to: "Rails.application.config"
-    delegate :email, :username, :transactions, to: :user
-    delegate :weekly_change_percentage, :week_starts_at, :week_ends_at, to: :transactions_group
+    delegate :email, :username, to: :user
 
-    def send_email(user, transactions_group)
+    def send_email(user:, total:, weekly_change_percentage:)
       @user = user
-      @transactions_group = transactions_group || BLANK_TRANSACTION_GROUP
+      @weekly_change_percentage = weekly_change_percentage
 
       mandrill_mail(
         important: true,
@@ -34,7 +28,7 @@ module Users
 
     private
 
-    attr_reader :user, :transactions_group
+    attr_reader :user, :weekly_change_percentage
 
     def subject_text
       return "Your portfolio hasn't changed" if weekly_change_percentage.zero?
@@ -44,17 +38,12 @@ module Users
       "Your Portfolio #{direction} #{weekly_change_percentage}% last week"
     end
 
-    def total
-      transactions
-        .sum { |tr| tr.amount * tr.price }
-        .to_f
-    end
-
     def week_range
-      starts = week_starts_at.strftime(TIME_FORMAT)
-      ends = week_ends_at.strftime(TIME_FORMAT)
+      now = Time.zone.now
+      week_starts_at = now.beginning_of_week.strftime(TIME_FORMAT)
+      week_ends_at = now.end_of_week.strftime(TIME_FORMAT)
 
-      "#{starts} — #{ends}"
+      "#{week_starts_at} — #{week_ends_at}"
     end
   end
 end
