@@ -4,7 +4,6 @@ class WeeklyUserTransactionsGroup < ApplicationRecord
   belongs_to :user
   belongs_to :coin
 
-  scope :by_week_number, ->(direction = :desc) { order(week_number: direction) }
   scope :recent_by_coin, -> {
     select("DISTINCT ON(coin_id) *, MAX(week_number) OVER (PARTITION BY coin_id) AS week_number").reorder(:coin_id)
   }

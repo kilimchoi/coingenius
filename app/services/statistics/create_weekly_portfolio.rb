@@ -2,19 +2,14 @@ module Statistics
   class CreateWeeklyPortfolio
     include Interactor
 
-    delegate :formatted_year_and_week, :user, :today_timestamp, to: :context
+    delegate :formatted_year_and_week, :user, to: :context
     delegate :weekly_user_transactions_groups, to: :user
-
-    before do
-      context.today_timestamp = Time.zone.now.beginning_of_day.to_i
-      context.formatted_year_and_week = FormattedYearAndWeek.new.value
-    end
 
     def call
       context.weekly_portfolio = Statistics::WeeklyPortfolio.create(
         total: total,
         user: user,
-        week_number: formatted_year_and_week
+        week_number: FormattedYearAndWeek.new.value
       )
     end
 
