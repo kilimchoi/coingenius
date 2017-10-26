@@ -3,8 +3,16 @@ module Users
     class SendEmail
       include Interactor
 
-      delegate :weekly_portfolio, :user, to: :context
+      delegate :previous_portfolio, :weekly_portfolio, :user, to: :context
       delegate :week_number, :total, to: :weekly_portfolio
+      delegate :total, to: :previous_portfolio, prefix: :previous
+
+      before do
+        context.previous_portfolio = Statistics::WeeklyPortfolio.find_by(
+          user: user,
+          week_number: FormattedYearAndWeek.new(weekly_portfolio.created_at).previous
+        )
+      end
 
       def call
         return unless previous_portfolio
@@ -14,14 +22,6 @@ module Users
 
       private
 
-      def previous_portfolio
-        Statistics::WeeklyPortfolio.find_by(user: user, week_number: previous_week_number)
-      end
-
-      def previous_week_number
-        FormattedYearAndWeek.new(weekly_portfolio.created_at).previous
-      end
-
       def send_email
         Users::WeeklyPortfolioReportMailer
           .send_email(user: user, total: total, weekly_change_percentage: weekly_change_percentage)
@@ -29,7 +29,9 @@ module Users
       end
 
       def weekly_change_percentage
-        PercentageChange.new(previous: previous_portfolio.total, current: total).value
+        return 100.0 if previous_total.zero?
+
+        PercentageChange.new(previous: previous_total, current: total).value
       end
     end
   end

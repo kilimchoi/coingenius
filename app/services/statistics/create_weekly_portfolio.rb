@@ -2,7 +2,7 @@ module Statistics
   class CreateWeeklyPortfolio
     include Interactor
 
-    delegate :formatted_year_and_week, :user, to: :context
+    delegate :user, to: :context
     delegate :weekly_user_transactions_groups, to: :user
 
     def call
