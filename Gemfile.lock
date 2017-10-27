@@ -115,6 +115,7 @@ GEM
     dotenv-rails (2.2.1)
       dotenv (= 2.2.1)
       railties (>= 3.2, < 5.2)
+    dry-matcher (0.6.0)
     encryptor (3.0.0)
     erubi (1.6.1)
     et-orbi (1.0.4)
@@ -415,6 +416,7 @@ DEPENDENCIES
   decent_exposure (= 3.0.0)
   devise
   dotenv-rails
+  dry-matcher
   factory_girl_rails
   ffaker
   friendly_id (~> 5.1.0)

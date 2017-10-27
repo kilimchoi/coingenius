@@ -11,11 +11,11 @@ class FormattedYearAndWeek
   end
 
   def next
-    "#{year}-#{week.next}"
+    @next ||= "#{year}-#{week.next}"
   end
 
   def previous
-    "#{year}-#{week.pred}"
+    @previous ||= "#{year}-#{week.pred}"
   end
 
   private

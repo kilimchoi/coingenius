@@ -6,6 +6,8 @@ require "rspec/rails"
 require "simplecov"
 SimpleCov.start "rails" do
   add_group "Services", "app/services"
+  add_filter ".bundle"
+  add_filter "gems"
 end
 
 Dir[Rails.root.join("spec", "support", "**", "*.rb")].each { |f| require f }

@@ -1,5 +1,7 @@
 module Users
   class WeeklyPortfolioReportMailer < MandrillMailer::TemplateMailer
+    SUBJECT_FORMAT = "Your Portfolio %s %.1f%% last week".freeze
+    SUBJECT_PORTFOLIO_NOT_CHANGED = "Your portfolio hasn't changed".freeze
     TIME_FORMAT = "%b %d, %Y".freeze
 
     delegate :portfolio_root_url, to: "Rails.application.routes.url_helpers"
@@ -31,11 +33,11 @@ module Users
     attr_reader :user, :weekly_change_percentage
 
     def subject_text
-      return "Your portfolio hasn't changed" if weekly_change_percentage.zero?
-
-      direction = weekly_change_percentage.positive? ? "up" : "down"
-
-      "Your Portfolio #{direction} #{weekly_change_percentage}% last week"
+      NumberSign.call(weekly_change_percentage) do |match|
+        match.positive { |value| format(SUBJECT_FORMAT, :up, value) }
+        match.negative { |value| format(SUBJECT_FORMAT, :down, value) }
+        match.zero { |_| SUBJECT_PORTFOLIO_NOT_CHANGED }
+      end
     end
 
     def week_range
