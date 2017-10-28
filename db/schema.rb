@@ -246,7 +246,7 @@ ActiveRecord::Schema.define(version: 20171024061715) do
           ), weeks AS (
            SELECT sub_dates.week_starts_at,
               sub_dates.week_ends_at,
-              concat((date_part('year'::text, sub_dates.week_starts_at))::integer, '-', (date_part('week'::text, sub_dates.week_starts_at))::integer) AS week_number
+              concat((date_part('isoyear'::text, sub_dates.week_starts_at))::integer, '-', lpad((date_part('week'::text, sub_dates.week_starts_at))::text, 2, '0'::text)) AS week_number
              FROM ( SELECT generate_series(dates.start_week, dates.end_week, '7 days'::interval) AS week_starts_at,
                       generate_series((dates.start_week + '6 days'::interval), (dates.end_week + '6 days'::interval), '7 days'::interval) AS week_ends_at
                      FROM dates) sub_dates

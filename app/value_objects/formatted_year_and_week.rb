@@ -1,5 +1,6 @@
 class FormattedYearAndWeek
   WEEK_FORMAT = "%V".freeze
+  PREPEND_ZERO_FORMAT = "%02d".freeze
 
   def initialize(time = Time.zone.now)
     @year = time.year
@@ -7,18 +8,22 @@ class FormattedYearAndWeek
   end
 
   def value
-    @value ||= "#{year}-#{week}"
+    @value ||= "#{year}-#{formatted_week(week)}"
   end
 
   def next
-    @next ||= "#{year}-#{week.next}"
+    @next ||= "#{year}-#{formatted_week(week.next)}"
   end
 
   def previous
-    @previous ||= "#{year}-#{week.pred}"
+    @previous ||= "#{year}-#{formatted_week(week.pred)}"
   end
 
   private
 
   attr_reader :year, :week
+
+  def formatted_week(week)
+    format(PREPEND_ZERO_FORMAT, week)
+  end
 end

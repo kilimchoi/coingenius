@@ -6,9 +6,9 @@ WITH dates AS (
   weeks AS (
     SELECT *,
     CONCAT(
-      EXTRACT(YEAR FROM sub_dates.week_starts_at)::int,
+      EXTRACT(ISOYEAR FROM sub_dates.week_starts_at)::int,
       '-',
-      EXTRACT(WEEK FROM sub_dates.week_starts_at)::int
+      LPAD(EXTRACT(WEEK FROM sub_dates.week_starts_at)::text, 2, '0')
     ) AS week_number
     FROM (
       SELECT generate_series(start_week, end_week, '7 days') AS week_starts_at,
