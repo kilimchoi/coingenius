@@ -30,6 +30,7 @@ gem "bugsnag"
 gem "decent_exposure", "3.0.0"
 gem "devise"
 gem "dotenv-rails", groups: %i[development test]
+gem "dry-matcher"
 gem "friendly_id", "~> 5.1.0"
 gem "httparty"
 gem "interactor-rails"
@@ -78,4 +79,7 @@ end
 group :test do
   gem "database_cleaner"
   gem "rspec-rails"
+  gem "shoulda-matchers"
+  gem "simplecov", require: false
+  gem "timecop"
 end

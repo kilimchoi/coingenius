@@ -38,7 +38,7 @@ module Users
       end
 
       private
-      
+
       def coin
         context.coin ||= Coin.find_by(symbol: sent["amount"]["currency"])
       end

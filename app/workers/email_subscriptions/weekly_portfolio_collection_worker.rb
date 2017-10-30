@@ -10,7 +10,8 @@ module EmailSubscriptions
 
     def collection
       User
-        .joins(:email_subscriptions)
+        .distinct
+        .joins(:transactions, :email_subscriptions)
         .merge(EmailSubscription.enabled.weekly_portfolio_report)
         .pluck(:id)
     end

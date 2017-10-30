@@ -1,15 +1,16 @@
 module Users
   class WeeklyPortfolioReportMailer < MandrillMailer::TemplateMailer
+    SUBJECT_FORMAT = "Your Portfolio %s %.1f%% last week".freeze
+    SUBJECT_PORTFOLIO_NOT_CHANGED = "Your portfolio hasn't changed".freeze
     TIME_FORMAT = "%b %d, %Y".freeze
 
     delegate :portfolio_root_url, to: "Rails.application.routes.url_helpers"
     delegate :full_host, to: "Rails.application.config"
-    delegate :email, :username, :transactions, to: :user
-    delegate :weekly_change_percentage, :week_starts_at, :week_ends_at, to: :transactions_group
+    delegate :email, :username, to: :user
 
-    def send_email(user, transactions_group)
+    def send_email(user:, total:, weekly_change_percentage:)
       @user = user
-      @transactions_group = transactions_group
+      @weekly_change_percentage = weekly_change_percentage
 
       mandrill_mail(
         important: true,
@@ -29,27 +30,22 @@ module Users
 
     private
 
-    attr_reader :user, :transactions_group
+    attr_reader :user, :weekly_change_percentage
 
     def subject_text
-      return "Your portfolio hasn't changed" if weekly_change_percentage.zero?
-
-      direction = weekly_change_percentage.positive? ? "up" : "down"
-
-      "Your Portfolio #{direction} #{weekly_change_percentage}% last week"
-    end
-
-    def total
-      transactions
-        .sum { |tr| tr.amount * tr.price }
-        .to_f
+      NumberSign.call(weekly_change_percentage) do |match|
+        match.positive { |value| format(SUBJECT_FORMAT, :up, value) }
+        match.negative { |value| format(SUBJECT_FORMAT, :down, value) }
+        match.zero { |_| SUBJECT_PORTFOLIO_NOT_CHANGED }
+      end
     end
 
     def week_range
-      starts = week_starts_at.strftime(TIME_FORMAT)
-      ends = week_ends_at.strftime(TIME_FORMAT)
+      now = Time.zone.now
+      week_starts_at = now.beginning_of_week.strftime(TIME_FORMAT)
+      week_ends_at = now.end_of_week.strftime(TIME_FORMAT)
 
-      "#{starts} — #{ends}"
+      "#{week_starts_at} — #{week_ends_at}"
     end
   end
 end
