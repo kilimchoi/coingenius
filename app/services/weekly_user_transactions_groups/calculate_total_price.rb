@@ -8,6 +8,8 @@ module WeeklyUserTransactionsGroups
     delegate :coin, :total_amount, to: :transactions_group
 
     before do
+      context.fail! unless transactions_group
+
       today_timestamp = Time.zone.now.beginning_of_day.to_i
       prices = Coins::GetCachedPriceHistory.call(
         coin: coin,

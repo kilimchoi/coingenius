@@ -18,10 +18,20 @@ class Transaction < ApplicationRecord
   validates :amount, presence: true
   validates :coin_id, presence: true
 
-  after_commit { WeeklyUserTransactionsGroup.refresh }
-  after_commit { |transaction| Statistics::UpdateWeeklyPortfolio.call(transaction: transaction) }
+  after_commit :refresh_transaction_groups
+  after_commit :update_weekly_portfolio
 
   def description
     [transaction_type.titleize, coin.name].join(" ")
+  end
+
+  private
+
+  def refresh_transaction_groups
+    WeeklyUserTransactionsGroup.refresh
+  end
+
+  def update_weekly_portfolio
+    Statistics::UpdateWeeklyPortfolio.call(transaction: self)
   end
 end

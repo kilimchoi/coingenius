@@ -5,6 +5,8 @@ module Statistics
     delegate :transaction, to: :context
     delegate :coin, :user, :transaction_date, to: :transaction
 
+    before { WeeklyUserTransactionsGroup.refresh }
+
     def call
       return if current_or_future?
 
@@ -36,9 +38,12 @@ module Statistics
     end
 
     def update_portfolio
-      Statistics::WeeklyPortfolio
-        .find_by(user: user, week_number: formatted_week_number)
-        &.update(total: total_price)
+      portfolio = Statistics::WeeklyPortfolio.find_or_create_by(
+        user: user,
+        week_number: formatted_week_number
+      )
+
+      portfolio.update(total: total_price)
     end
   end
 end
