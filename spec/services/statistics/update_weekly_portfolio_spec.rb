@@ -5,8 +5,14 @@ describe Statistics::UpdateWeeklyPortfolio do
     let(:service_call) { described_class.call(transaction: transaction) }
     let(:transaction_date) { 1.week.ago }
     let(:week_number) { FormattedYearAndWeek.new(transaction_date).value }
-    let!(:transaction) { create(:transaction, :bought, user: user, transaction_date: transaction_date) }
-    let(:user) { create(:user) }
+    let!(:transaction) do
+      Transaction.skip_callback :commit, :after,:update_weekly_portfolio
+      record = create(:transaction, :bought, user: user, transaction_date: transaction_date)
+      Transaction.set_callback :commit, :after, :update_weekly_portfolio
+
+      record
+    end
+    let!(:user) { create(:user) }
     let!(:weekly_portfolio) do
       create(:statistics_weekly_portfolio,
         user: user, total: 100.0, created_at: transaction_date, week_number: week_number)
@@ -16,7 +22,7 @@ describe Statistics::UpdateWeeklyPortfolio do
     it "creates weekly portfolio record" do
       expect(WeeklyUserTransactionsGroups::CalculateTotalPrice)
         .to receive(:call)
-        .with(transactions_group: user.weekly_user_transactions_groups.last)
+        .with(transactions_group: user.reload.weekly_user_transactions_groups.last)
         .and_return(total_price_context)
 
       expect(service_call).to be_success
