@@ -13,7 +13,7 @@ describe WeeklyUserTransactionsGroups::CalculateTotalPrice do
       expect(Coins::GetCachedPriceHistory)
         .to receive(:call)
         .with(coin: coin, days: 1, price_currency: "USD")
-        .and_return(timestamp => "5000.0")
+        .and_return(double(results: { timestamp => "5000.0" }))
       expect(service_call).to be_success
       expect(service_call.total_price).to eq(total_price)
     end

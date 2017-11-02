@@ -29,7 +29,7 @@ describe "Weekly Portfolio", type: :feature do
   before do
     allow(Coins::GetCachedPriceHistory)
       .to receive(:call)
-      .and_return(previous_timestamp => previous_price, timestamp => current_price)
+      .and_return(double(results: { previous_timestamp => previous_price, timestamp => current_price }))
   end
 
   context "user has transactions every and coin rates has been changed" do
