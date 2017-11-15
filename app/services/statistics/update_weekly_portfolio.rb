@@ -5,18 +5,17 @@ module Statistics
     delegate :transaction, to: :context
     delegate :coin, :user, :transaction_date, to: :transaction
 
-    before { WeeklyUserTransactionsGroup.refresh }
-
     def call
-      return if current_or_future?
+      return if week_old?
 
+      WeeklyUserTransactionsGroup.refresh
       update_portfolio
     end
 
     private
 
-    def current_or_future?
-      transaction_date >= Time.zone.now
+    def week_old?
+      transaction_date >= 1.week.ago
     end
 
     def formatted_week_number
@@ -32,9 +31,10 @@ module Statistics
     end
 
     def total_price
-      WeeklyUserTransactionsGroups::CalculateTotalPrice.call(
-        transactions_group: transactions_group
-      ).total_price
+      WeeklyUserTransactionsGroups::TotalPrice.new(
+        transactions_group: transactions_group,
+        datetime: transaction_date
+      ).value
     end
 
     def update_portfolio

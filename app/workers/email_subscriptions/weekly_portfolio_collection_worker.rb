@@ -3,6 +3,8 @@ module EmailSubscriptions
     include Sidekiq::Worker
 
     def perform
+      WeeklyUserTransactionsGroup.refresh
+
       collection.each { |item| EmailSubscriptions::WeeklyPortfolioItemWorker.perform_async(item) }
     end
 
