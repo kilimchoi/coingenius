@@ -6,7 +6,7 @@ module Statistics
     delegate :coin, :user, :transaction_date, to: :transaction
 
     def call
-      return if week_old?
+      return if current_week?
 
       WeeklyUserTransactionsGroup.refresh
       update_portfolio
@@ -14,8 +14,8 @@ module Statistics
 
     private
 
-    def week_old?
-      transaction_date >= 1.week.ago
+    def current_week?
+      transaction_date >= Time.zone.now.beginning_of_week
     end
 
     def formatted_week_number
