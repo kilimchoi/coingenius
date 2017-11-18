@@ -30,9 +30,7 @@ module WeeklyUserTransactionsGroups
     end
 
     def days
-      diff = (Time.zone.now.to_date - datetime.to_date).to_i.abs
-      diff = 1 if diff.zero?
-      diff
+      (Time.zone.now.to_date - datetime.to_date).to_i.abs.succ
     end
 
     def timestamp
