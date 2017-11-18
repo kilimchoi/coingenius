@@ -132,8 +132,9 @@ ActiveRecord::Schema.define(version: 20171118181833) do
   end
 
   create_table "conversions", force: :cascade do |t|
-    t.integer "sending_coin_id"
     t.integer "receive_coin_id"
+    t.integer "sending_coin_id"
+    t.bigint "user_id"
     t.string "return_address", comment: "Address for refunding in case of failed conversion"
     t.string "withdrawal_address", comment: "Address to send requested coin"
     t.string "deposit_address", comment: "Address to send coin to"
@@ -142,6 +143,7 @@ ActiveRecord::Schema.define(version: 20171118181833) do
     t.datetime "updated_at", null: false
     t.index ["receive_coin_id"], name: "index_conversions_on_receive_coin_id"
     t.index ["sending_coin_id"], name: "index_conversions_on_sending_coin_id"
+    t.index ["user_id"], name: "index_conversions_on_user_id"
   end
 
   create_table "email_subscriptions", force: :cascade do |t|
@@ -248,6 +250,7 @@ ActiveRecord::Schema.define(version: 20171118181833) do
   add_foreign_key "coinbase_withdrawals", "transactions"
   add_foreign_key "conversions", "coins", column: "receive_coin_id"
   add_foreign_key "conversions", "coins", column: "sending_coin_id"
+  add_foreign_key "conversions", "users"
   add_foreign_key "email_subscriptions", "users"
   add_foreign_key "identities", "users"
   add_foreign_key "statistics_weekly_portfolios", "users"
