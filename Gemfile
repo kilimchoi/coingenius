@@ -85,3 +85,5 @@ group :test do
   gem "simplecov", require: false
   gem "timecop"
 end
+
+gem 'mini_racer', platforms: :ruby
