@@ -40,6 +40,7 @@ gem "meta-tags"
 gem "omniauth-coinbase", git: "https://github.com/kilimchoi/omniauth-coinbase.git"
 gem "puma", "~> 3.10"
 gem "rails-jquery-autocomplete"
+gem "react_on_rails", "10.0.2"
 gem "redis", "~>3.2"
 gem "rinku"
 gem "scenic"
@@ -50,6 +51,7 @@ gem "sidekiq", "~>4.0.1"
 gem "sinatra", "~> 2.0"
 gem "slim"
 gem "uuid", require: false # For UUID validation
+gem "webpacker", "~> 3.0"
 
 source "https://rails-assets.org" do
   gem "rails-assets-tether", ">= 1.1.0"
