@@ -135,6 +135,10 @@ ActiveRecord::Schema.define(version: 20171118181833) do
     t.integer "receive_coin_id"
     t.integer "sending_coin_id"
     t.bigint "user_id"
+    t.decimal "amount", null: false
+    t.decimal "rate", null: false
+    t.decimal "max_amount"
+    t.decimal "min_amount"
     t.string "return_address", comment: "Address for refunding in case of failed conversion"
     t.string "withdrawal_address", comment: "Address to send requested coin"
     t.string "deposit_address", comment: "Address to send coin to"
