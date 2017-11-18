@@ -50,6 +50,7 @@ gem "sidekiq", "~>4.0.1"
 gem "sinatra", "~> 2.0"
 gem "slim"
 gem "uuid", require: false # For UUID validation
+gem "shapeshift_ruby"
 
 source "https://rails-assets.org" do
   gem "rails-assets-tether", ">= 1.1.0"
