@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171102092544) do
+ActiveRecord::Schema.define(version: 20171118181833) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -131,6 +131,19 @@ ActiveRecord::Schema.define(version: 20171102092544) do
     t.integer "exchange_id"
   end
 
+  create_table "conversions", force: :cascade do |t|
+    t.integer "sending_coin_id"
+    t.integer "receive_coin_id"
+    t.string "return_address", comment: "Address for refunding in case of failed conversion"
+    t.string "withdrawal_address", comment: "Address to send requested coin"
+    t.string "deposit_address", comment: "Address to send coin to"
+    t.jsonb "raw_data", comment: "Raw response from ShapeShift"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["receive_coin_id"], name: "index_conversions_on_receive_coin_id"
+    t.index ["sending_coin_id"], name: "index_conversions_on_sending_coin_id"
+  end
+
   create_table "email_subscriptions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.boolean "enabled", default: false
@@ -233,6 +246,8 @@ ActiveRecord::Schema.define(version: 20171102092544) do
   add_foreign_key "coinbase_sells", "transactions"
   add_foreign_key "coinbase_sents", "transactions"
   add_foreign_key "coinbase_withdrawals", "transactions"
+  add_foreign_key "conversions", "coins", column: "receive_coin_id"
+  add_foreign_key "conversions", "coins", column: "sending_coin_id"
   add_foreign_key "email_subscriptions", "users"
   add_foreign_key "identities", "users"
   add_foreign_key "statistics_weekly_portfolios", "users"
