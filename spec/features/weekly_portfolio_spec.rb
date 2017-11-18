@@ -41,11 +41,13 @@ describe "Weekly Portfolio", type: :feature do
         create(:transaction, :bought,
           amount: 1.0, user: user, coin: coin,
           price: 5000.0)
+        WeeklyUserTransactionsGroup.refresh
         Statistics::CreateWeeklyPortfolio.call(user: user)
       end
       create(:transaction, :bought,
         amount: 1.0, user: user, coin: coin,
         price: 6000.0, transaction_date: week_start)
+      WeeklyUserTransactionsGroup.refresh
     end
 
     include_examples "sending email and creating new portfolio record"
@@ -59,6 +61,7 @@ describe "Weekly Portfolio", type: :feature do
       create(:transaction, :bought,
         amount: 1.0, user: user, coin: coin,
         price: 1000.0, transaction_date: 1.year.ago)
+      WeeklyUserTransactionsGroup.refresh
       Timecop.freeze(week_start - 1.week) do
         Statistics::CreateWeeklyPortfolio.call(user: user)
       end
@@ -77,11 +80,13 @@ describe "Weekly Portfolio", type: :feature do
         create(:transaction, :bought,
           amount: 1.0, user: user, coin: coin,
           price: 5000.0)
+        WeeklyUserTransactionsGroup.refresh
         Statistics::CreateWeeklyPortfolio.call(user: user)
       end
       create(:transaction, :bought,
         amount: 1.0, user: user, coin: coin,
         price: 5000.0, transaction_date: week_start)
+      WeeklyUserTransactionsGroup.refresh
     end
 
     include_examples "sending email and creating new portfolio record"
