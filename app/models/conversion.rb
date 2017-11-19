@@ -3,7 +3,11 @@ class Conversion < ApplicationRecord
   belongs_to :sending_coin, class_name: "Coin"
   belongs_to :user
 
-  validates :deposit_address,
+  validates :amount,
+            :deposit_address,
+            :max_amount,
+            :min_amount,
+            :rate,
             :return_address,
             :withdrawal_address,
             presence: true
