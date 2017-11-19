@@ -44,6 +44,7 @@ Rails.application.routes.draw do
   end
 
   resources :exchanges
+  resource :coin_exchange, only: %i[show]
 
   # API section
   namespace :api do

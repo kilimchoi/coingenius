@@ -1,9 +1,15 @@
 {
   "dependencies": {
     "@rails/webpacker": "^3.0.2",
-    "react-on-rails": "^10.0.2"
+    "babel-preset-react": "^6.24.1",
+    "prop-types": "^15.6.0",
+    "react": "^16.1.1",
+    "react-dom": "^16.1.1",
+    "react-on-rails": "^10.0.2",
+    "reactstrap": "^5.0.0-alpha.4"
   },
   "devDependencies": {
+    "webpack-blocks": "^1.0.0-rc.2",
     "webpack-dev-server": "^2.9.4"
   }
 }
