@@ -24,12 +24,19 @@ module Api
         respond_with conversion
       end
 
+      def create
+        result = Conversions::Create.call(params: conversion_params, user: current_user)
+        self.conversion = result.conversion
+
+        respond_with conversion, api_v1_conversion_url(conversion.id)
+      end
+
       private
 
       def conversion_params
         params
           .require(:conversion)
-          .permit(:sending_coin_id, :receive_coin_id, :source_wallet, :destination_wallet)
+          .permit(:amount, :sending_coin_id, :receive_coin_id, :return_address, :withdrawal_address)
       end
     end
   end

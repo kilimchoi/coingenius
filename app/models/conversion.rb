@@ -4,11 +4,12 @@ class Conversion < ApplicationRecord
   belongs_to :user
 
   validates :amount,
-            :deposit_address,
             :max_amount,
             :min_amount,
             :rate,
             :return_address,
             :withdrawal_address,
             presence: true
+
+  validates :deposit_address, presence: true, on: :update
 end
