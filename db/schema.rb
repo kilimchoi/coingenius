@@ -143,6 +143,7 @@ ActiveRecord::Schema.define(version: 20171118181833) do
     t.string "withdrawal_address", comment: "Address to send requested coin"
     t.string "deposit_address", comment: "Address to send coin to"
     t.jsonb "raw_data", comment: "Raw response from ShapeShift"
+    t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["receive_coin_id"], name: "index_conversions_on_receive_coin_id"

@@ -15,6 +15,7 @@ class CreateConversions < ActiveRecord::Migration[5.1]
       t.string :deposit_address, comment: "Address to send coin to"
 
       t.jsonb :raw_data, comment: "Raw response from ShapeShift"
+      t.integer :status
 
       t.timestamps
     end
