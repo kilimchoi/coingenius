@@ -55,6 +55,7 @@ Rails.application.routes.draw do
         resources :prices, only: :index, module: :coins
       end
 
+      resources :conversions, except: %i(update destroy)
       resources :transactions, except: :edit
     end
   end
