@@ -30,6 +30,7 @@ gem "bugsnag"
 gem "decent_exposure", "3.0.0"
 gem "devise"
 gem "dotenv-rails", groups: %i[development test]
+gem "dry-container"
 gem "dry-matcher"
 gem "friendly_id", "~> 5.1.0"
 gem "httparty"
