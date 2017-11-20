@@ -3,9 +3,9 @@ html
   head
     = display_meta_tags :site => full_title(yield(:title))
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
-    = stylesheet_pack_tag('app-bundle', media: 'all', 'data-turbolinks-track': true)
+    = stylesheet_pack_tag('application_pack', media: 'all', 'data-turbolinks-track': true)
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
-    = javascript_pack_tag('app-bundle', 'data-turbolinks-track': true)
+    = javascript_pack_tag('application_pack', 'data-turbolinks-track': true)
     = javascript_include_tag "autocomplete-rails.js"
     link href='https://fonts.googleapis.com/css?family=Roboto+Mono:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'
     meta name="google-site-verification" content="f-rMysU_AKDMJdTlZdSmpyPgWUiCqXGR08zxMxZYRhE"
