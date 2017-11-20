@@ -1,6 +1,6 @@
 import ReactOnRails from 'react-on-rails';
-import CoinExchanger from '_bundles/CoinExchanger/components/CoinExchanger';
+import CoinExchangeWizard from '_bundles/CoinExchanger/components/CoinExchangeWizard';
 
 ReactOnRails.register({
-  CoinExchanger
+  CoinExchangeWizard,
 });

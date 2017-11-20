@@ -1,3 +1,6 @@
-const environment = require('./environment')
+const environment = require('./environment');
+const addCssModules = require('./addCssModules');
 
-module.exports = environment.toWebpackConfig()
+addCssModules(environment);
+
+module.exports = environment.toWebpackConfig();

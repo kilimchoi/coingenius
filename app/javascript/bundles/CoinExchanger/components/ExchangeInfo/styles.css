@@ -1,0 +1,28 @@
+.wrapper {
+  margin-bottom: 10px;
+  height: 120px;
+  width: 600px;
+  margin: 10px auto;
+}
+
+.top {
+  border: 1px solid;
+  height: 70px;
+}
+
+.left {
+  border-top: none;
+  border: 1px solid;
+  float: left;
+  height: 50px;
+  width: 50%;
+}
+
+.right {
+  border-left: none;
+  border-top: none;
+  border: 1px solid;
+  float: right;
+  height: 50px;
+  width: 50%;
+}

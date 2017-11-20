@@ -1,0 +1,23 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "jest": true,
+  },
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "rules": {
+    "import/no-unresolved": "off",
+    "import/extensions": [0],
+    "import/no-extraneous-dependencies": "off",
+    "import/prefer-default-export": "off",
+    "no-underscore-dangle": "off",
+    "no-case-declarations": "off",
+    "no-undef": ["error"],
+    "react/prefer-stateless-function": "off",
+    "react/forbid-prop-types": "off",
+    "react/prop-types": [2, { ignore: ["children", "dispatch"]}],
+    "react/jsx-filename-extension": "off",
+    "no-script-url": "off",
+  },
+}

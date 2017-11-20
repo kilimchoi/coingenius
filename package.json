@@ -1,14 +1,21 @@
 {
   "dependencies": {
     "@rails/webpacker": "^3.0.2",
-    "babel-preset-react": "^6.24.1",
     "prop-types": "^15.6.0",
     "react": "^16.1.1",
+    "react-albus": "^1.1.0",
     "react-dom": "^16.1.1",
     "react-on-rails": "^10.0.2",
     "reactstrap": "^5.0.0-alpha.4"
   },
   "devDependencies": {
+    "babel-eslint": "^8.0.2",
+    "babel-preset-react": "^6.24.1",
+    "eslint": "^4.11.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.5.1",
     "webpack-blocks": "^1.0.0-rc.2",
     "webpack-dev-server": "^2.9.4"
   }
