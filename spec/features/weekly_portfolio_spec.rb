@@ -70,7 +70,7 @@ describe "Weekly Portfolio", type: :feature do
     include_examples "sending email and creating new portfolio record"
   end
 
-  context "user has transactions every and coin rates hasn't changed" do
+  context "user has transactions every week and coin rates hasn't changed" do
     let(:current_price) { "5000.0" }
     let(:total) { 10_000.0 }
     let(:change) { 100.0 }
@@ -86,6 +86,9 @@ describe "Weekly Portfolio", type: :feature do
       create(:transaction, :bought,
         amount: 1.0, user: user, coin: coin,
         price: 5000.0, transaction_date: week_start)
+      create(:transaction, :bought,
+        amount: 1.0, user: user, coin: coin,
+        price: 5000.0, is_expired: true)
       WeeklyUserTransactionsGroup.refresh
     end
 

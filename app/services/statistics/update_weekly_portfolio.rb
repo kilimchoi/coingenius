@@ -3,9 +3,10 @@ module Statistics
     include Interactor
 
     delegate :transaction, to: :context
-    delegate :coin, :user, :transaction_date, to: :transaction
+    delegate :coin, :is_expired, :user, :transaction_date, to: :transaction
 
     def call
+      return if is_expired
       return if current_week?
 
       WeeklyUserTransactionsGroup.refresh
