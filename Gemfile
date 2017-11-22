@@ -29,7 +29,7 @@ gem "bootstrap", "~> 4.0.0.alpha6"
 gem "bugsnag"
 gem "decent_exposure", "3.0.0"
 gem "devise"
-gem "dotenv-rails", groups: %i[development test]
+gem "dry-container"
 gem "dry-matcher"
 gem "friendly_id", "~> 5.1.0"
 gem "httparty"
@@ -52,6 +52,7 @@ gem "sinatra", "~> 2.0"
 gem "slim"
 gem "uuid", require: false # For UUID validation
 gem "webpacker", "~> 3.0"
+gem "shapeshift_ruby"
 
 source "https://rails-assets.org" do
   gem "rails-assets-tether", ">= 1.1.0"
@@ -62,6 +63,7 @@ group :production do
 end
 
 group :development, :test do
+  gem "dotenv-rails"
   gem "factory_girl_rails"
   gem "ffaker"
   gem "pry-byebug"
