@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import FontAwesome from 'react-fontawesome';
-import { wrapper, top, right, left, item, summary } from './styles.css';
+import { bottomInnerWrapper, centered, wrapper, pane, right, left, item } from './styles.css';
 
 class ExchangeInfo extends Component {
   render() {
     const {
-      sendCurrency, receiveCurrency, sendAmount, receiveAmount,
+      sendCurrency,
+      receiveCurrency,
+      sendAmount,
+      receiveAmount,
     } = this.props;
 
     return (
       <div className={wrapper}>
-        <div className={top}>
-          <div className={summary}>
+        <div className={pane}>
+          <div className={centered}>
             <span className={item}>
               {sendAmount} {sendCurrency.symbol}
             </span>
@@ -23,13 +26,18 @@ class ExchangeInfo extends Component {
             </span>
           </div>
         </div>
-        <div className={left}>
-          <p>Exchange rate</p>
-          <p>
+        <div className={`${pane} ${left}`}>
+          <div className={`${centered} ${bottomInnerWrapper}`}>
+            <p>Exchange rate</p>
             1 {sendCurrency.symbol} = 0.223786 {receiveCurrency.symbol}
-          </p>
+          </div>
         </div>
-        <div className={right} />
+        <div className={`${pane} ${right}`}>
+          <div className={`${centered} ${bottomInnerWrapper}`}>
+            <p>FEE (INC)</p>
+            0.5%
+          </div>
+        </div>
       </div>
     );
   }

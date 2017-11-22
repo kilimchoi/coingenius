@@ -2,10 +2,10 @@
   margin-bottom: 10px;
   height: 120px;
   width: 600px;
-  margin: 25  px auto;
+  margin: 20px auto 50px auto;
 }
 
-.top {
+.pane {
   border: 1px solid;
   height: 70px;
   position: relative;
@@ -13,26 +13,27 @@
 
 .left {
   border-top: none;
-  border: 1px solid;
   float: left;
-  height: 70px;
   width: 50%;
 }
 
 .right {
   border-left: none;
   border-top: none;
-  border: 1px solid;
   float: right;
-  height: 70px;
   width: 50%;
 }
 
-.summary {
+.centered {
   left: 50%;
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.bottomInnerWrapper {
+  line-height: 4px;
+  padding-top: 10px;
 }
 
 .item {

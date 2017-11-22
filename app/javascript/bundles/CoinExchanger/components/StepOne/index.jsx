@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, FormGroup, Label, Input, InputGroup, InputGroupAddon } from 'reactstrap';
+import FontAwesome from 'react-fontawesome';
 import CurrencyInput from '_bundles/CoinExchanger/components/CurrencyInput';
 
 class StepOne extends Component {
@@ -16,7 +17,13 @@ class StepOne extends Component {
     return (
       <Form>
         <FormGroup>
-          <Label for="sendAmount">You send</Label>
+          <Label for="sendAmount">
+            <h5>
+              You send
+              {' '}
+              <FontAwesome name="info-circle" />
+            </h5>
+          </Label>
           <InputGroup>
             <Input
               name="sendAmount"
@@ -33,7 +40,13 @@ class StepOne extends Component {
           </InputGroup>
         </FormGroup>
         <FormGroup>
-          <Label for="receiveAmount">You receive</Label>
+          <Label for="receiveAmount">
+            <h5>
+              You receive
+              {' '}
+              <FontAwesome name="info-circle" />
+            </h5>
+          </Label>
           <InputGroup>
             <Input
               name="receiveAmount"

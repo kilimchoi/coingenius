@@ -35,7 +35,7 @@ class CoinExchanger extends Component {
   render() {
     return (
       <Container fluid>
-        <h2 className="mt-5">Coin Exchange</h2>
+        <h2 className="mt-3 mb-3">Coin Exchange</h2>
         <Wizard>
           <Steps>
             <Step path="stepOne">
