@@ -51,6 +51,7 @@ gem "sinatra", "~> 2.0"
 gem "slim"
 gem "uuid", require: false # For UUID validation
 gem "shapeshift_ruby"
+gem "statesman" # State machine implementation
 
 source "https://rails-assets.org" do
   gem "rails-assets-tether", ">= 1.1.0"
