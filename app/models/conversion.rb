@@ -1,4 +1,6 @@
 class Conversion < ApplicationRecord
+  include StateMachine
+
   belongs_to :receive_coin, class_name: "Coin"
   belongs_to :sending_coin, class_name: "Coin"
   belongs_to :user
