@@ -1,13 +1,23 @@
 {
   "dependencies": {
+    "@fortawesome/react-fontawesome": "^0.0.12",
     "@rails/webpacker": "^3.0.2",
     "coffeescript": "^2.0.2",
+    "deep-map-keys": "^1.2.0",
+    "es6-promise": "^4.1.1",
+    "lodash.camelcase": "^4.3.0",
     "prop-types": "^15.6.0",
     "react": "^16.1.1",
     "react-albus": "^1.1.0",
+    "react-bootstrap-typeahead": "^2.0.0",
     "react-dom": "^16.1.1",
+    "react-fontawesome": "^1.6.1",
     "react-on-rails": "^10.0.2",
-    "reactstrap": "^5.0.0-alpha.4"
+    "reactstrap": "^5.0.0-alpha.4",
+    "superagent": "^3.8.1",
+    "superagent-prefix": "^0.0.2",
+    "superagent-promise": "^1.1.0",
+    "webpack-merge": "^4.1.1"
   },
   "devDependencies": {
     "babel-eslint": "^8.0.2",

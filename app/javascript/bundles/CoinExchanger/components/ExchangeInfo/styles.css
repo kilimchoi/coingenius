@@ -2,19 +2,20 @@
   margin-bottom: 10px;
   height: 120px;
   width: 600px;
-  margin: 10px auto;
+  margin: 25  px auto;
 }
 
 .top {
   border: 1px solid;
   height: 70px;
+  position: relative;
 }
 
 .left {
   border-top: none;
   border: 1px solid;
   float: left;
-  height: 50px;
+  height: 70px;
   width: 50%;
 }
 
@@ -23,6 +24,17 @@
   border-top: none;
   border: 1px solid;
   float: right;
-  height: 50px;
+  height: 70px;
   width: 50%;
+}
+
+.summary {
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.item {
+  padding: 3px;
 }

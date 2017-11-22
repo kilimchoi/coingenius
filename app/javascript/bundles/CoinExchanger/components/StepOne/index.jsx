@@ -1,33 +1,51 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Form, FormGroup, Label, Input, InputGroup, InputGroupAddon } from 'reactstrap';
+import CurrencyInput from '_bundles/CoinExchanger/components/CurrencyInput';
 
 class StepOne extends Component {
   render() {
+    const {
+      onValueChange,
+      sendAmount,
+      receiveAmount,
+      sendCurrency,
+      receiveCurrency,
+    } = this.props;
+
     return (
       <Form>
         <FormGroup>
-          <Label for="sendValue">You send</Label>
+          <Label for="sendAmount">You send</Label>
           <InputGroup>
-            <Input name="sendValue" type="number" />
+            <Input
+              name="sendAmount"
+              type="number"
+              value={sendAmount}
+              onChange={event => onValueChange('sendAmount', event.target.value)}
+            />
             <InputGroupAddon>
-              <select name="sendCurrency">
-                <option value="btc">BTC</option>
-                <option value="eth">ETH</option>
-                <option value="ltc">LTC</option>
-              </select>
+              <CurrencyInput
+                value={sendCurrency}
+                onChange={([currency]) => onValueChange('sendCurrency', currency)}
+              />
             </InputGroupAddon>
           </InputGroup>
         </FormGroup>
         <FormGroup>
-          <Label for="receiveValue">You receive</Label>
+          <Label for="receiveAmount">You receive</Label>
           <InputGroup>
-            <Input name="receiveValue" type="number" />
+            <Input
+              name="receiveAmount"
+              type="number"
+              value={receiveAmount}
+              onChange={event => onValueChange('receiveAmount', event.target.value)}
+            />
             <InputGroupAddon>
-              <select name="receiveCurrency">
-                <option value="btc">BTC</option>
-                <option value="eth">ETH</option>
-                <option value="ltc">LTC</option>
-              </select>
+              <CurrencyInput
+                value={receiveCurrency}
+                onChange={([currency]) => onValueChange('receiveCurrency', currency)}
+              />
             </InputGroupAddon>
           </InputGroup>
         </FormGroup>
@@ -35,5 +53,9 @@ class StepOne extends Component {
     );
   }
 }
+
+StepOne.propTypes = {
+  onValueChange: PropTypes.func.isRequired,
+};
 
 export default StepOne;

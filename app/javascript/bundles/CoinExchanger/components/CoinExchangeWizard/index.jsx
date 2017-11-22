@@ -5,7 +5,33 @@ import StepOne from '_bundles/CoinExchanger/components/StepOne';
 import StepTwo from '_bundles/CoinExchanger/components/StepTwo';
 import StepThree from '_bundles/CoinExchanger/components/StepThree';
 
+const defaultCurrency = {
+  id: 0,
+  label: '',
+  symbol: '',
+  value: '',
+};
+
 class CoinExchanger extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      sendAmount: 0.0,
+      sendCurrency: { ...defaultCurrency },
+      sendAddress: '',
+      receiveAmount: 0.0,
+      receiveCurrency: { ...defaultCurrency },
+      refundAddress: '',
+    };
+  }
+
+  handleValueChange = (name, value) => {
+    this.setState({
+      [name]: value,
+    });
+  };
+
   render() {
     return (
       <Container fluid>
@@ -13,7 +39,7 @@ class CoinExchanger extends Component {
         <Wizard>
           <Steps>
             <Step path="stepOne">
-              <StepOne />
+              <StepOne {...this.state} onValueChange={this.handleValueChange} />
               <Navigation
                 render={({ next }) => (
                   <Button className="pull-right" size="lg" onClick={next}>
@@ -23,7 +49,7 @@ class CoinExchanger extends Component {
               />
             </Step>
             <Step path="stepTwo">
-              <StepTwo />
+              <StepTwo {...this.state} />
               <Navigation
                 render={({ next, previous }) => (
                   <div>
@@ -40,7 +66,7 @@ class CoinExchanger extends Component {
               />
             </Step>
             <Step path="stepThree">
-              <StepThree />
+              <StepThree {...this.state} />
             </Step>
           </Steps>
         </Wizard>

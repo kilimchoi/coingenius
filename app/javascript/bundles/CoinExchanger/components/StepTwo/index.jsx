@@ -4,21 +4,23 @@ import ExchangeInfo from '_bundles/CoinExchanger/components/ExchangeInfo';
 
 class StepTwo extends Component {
   render() {
+    const { sendCurrency, receiveCurrency } = this.props;
+
     return (
       <div>
-        <ExchangeInfo />
+        <ExchangeInfo {...this.props} />
         <Form>
           <FormGroup>
             <Label for="receiveAddress">Your receive address</Label>
             <InputGroup>
-              <InputGroupAddon>BTC</InputGroupAddon>
+              <InputGroupAddon>{sendCurrency.symbol}</InputGroupAddon>
               <Input name="receiveAddress" />
             </InputGroup>
           </FormGroup>
           <FormGroup>
             <Label for="refundAddress">Your refund address</Label>
             <InputGroup>
-              <InputGroupAddon>LTC</InputGroupAddon>
+              <InputGroupAddon>{receiveCurrency.symbol}</InputGroupAddon>
               <Input name="refundAddress" />
             </InputGroup>
           </FormGroup>
