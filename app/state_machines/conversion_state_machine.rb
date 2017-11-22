@@ -1,12 +1,17 @@
 class ConversionStateMachine
   include Statesman::Machine
 
+  COMPLETE_STATE = :complete
+  FAILED_STATE = :failed
+  ERROR_STATE = :error
+  FINAL_STATES = [COMPLETE_STATE, ERROR_STATE, FAILED_STATE]
+
   state :pending, initial: true
   state :received
-  state :complete
-  state :failed
-  state :error
+  state COMPLETE_STATE
+  state FAILED_STATE
+  state ERROR_STATE
 
-  transition from: :pending, to: %i(received complete failed error)
-  transition from: :received, to: %i(complete failed error)
+  transition from: :pending, to: FINAL_STATES + [:received]
+  transition from: :received, to: FINAL_STATES
 end

@@ -20,6 +20,8 @@ module Conversions
             deposit_address: shapeshift_deposit["deposit"],
             raw_data: shapeshift_deposit
           )
+
+          Conversions::UpdateStatusWorker.perform_async(conversion_id: conversion.id)
         end
       end
     end

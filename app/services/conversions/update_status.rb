@@ -4,6 +4,10 @@ module Conversions
 
     delegate :conversion, :transaction_status, to: :context
 
+    before do
+      context.fail! if conversion.in_state?(*ConversionStateMachine::FINAL_STATES)
+    end
+
     def call
       context.transaction_status = fetch_transaction_status
 
