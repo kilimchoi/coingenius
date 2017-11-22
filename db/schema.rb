@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171118181833) do
+ActiveRecord::Schema.define(version: 20171122193729) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -129,6 +129,18 @@ ActiveRecord::Schema.define(version: 20171118181833) do
   create_table "coins_exchanges", id: false, force: :cascade do |t|
     t.integer "coin_id"
     t.integer "exchange_id"
+  end
+
+  create_table "conversion_transitions", force: :cascade do |t|
+    t.string "to_state", null: false
+    t.jsonb "metadata", default: {}
+    t.integer "sort_key", null: false
+    t.integer "conversion_id", null: false
+    t.boolean "most_recent", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversion_id", "most_recent"], name: "index_conversion_transitions_parent_most_recent", unique: true, where: "most_recent"
+    t.index ["conversion_id", "sort_key"], name: "index_conversion_transitions_parent_sort", unique: true
   end
 
   create_table "conversions", force: :cascade do |t|
@@ -253,6 +265,7 @@ ActiveRecord::Schema.define(version: 20171118181833) do
   add_foreign_key "coinbase_sells", "transactions"
   add_foreign_key "coinbase_sents", "transactions"
   add_foreign_key "coinbase_withdrawals", "transactions"
+  add_foreign_key "conversion_transitions", "conversions"
   add_foreign_key "conversions", "coins", column: "receive_coin_id"
   add_foreign_key "conversions", "coins", column: "sending_coin_id"
   add_foreign_key "conversions", "users"
