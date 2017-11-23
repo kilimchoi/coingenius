@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171102092544) do
+ActiveRecord::Schema.define(version: 20171122193729) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -131,6 +131,38 @@ ActiveRecord::Schema.define(version: 20171102092544) do
     t.integer "exchange_id"
   end
 
+  create_table "conversion_transitions", force: :cascade do |t|
+    t.string "to_state", null: false
+    t.jsonb "metadata", default: {}
+    t.integer "sort_key", null: false
+    t.integer "conversion_id", null: false
+    t.boolean "most_recent", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversion_id", "most_recent"], name: "index_conversion_transitions_parent_most_recent", unique: true, where: "most_recent"
+    t.index ["conversion_id", "sort_key"], name: "index_conversion_transitions_parent_sort", unique: true
+  end
+
+  create_table "conversions", force: :cascade do |t|
+    t.integer "receive_coin_id"
+    t.integer "sending_coin_id"
+    t.bigint "user_id"
+    t.decimal "amount", null: false
+    t.decimal "rate", null: false
+    t.decimal "max_amount"
+    t.decimal "min_amount"
+    t.string "return_address", comment: "Address for refunding in case of failed conversion"
+    t.string "withdrawal_address", comment: "Address to send requested coin"
+    t.string "deposit_address", comment: "Address to send coin to"
+    t.jsonb "raw_data", comment: "Raw response from ShapeShift"
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["receive_coin_id"], name: "index_conversions_on_receive_coin_id"
+    t.index ["sending_coin_id"], name: "index_conversions_on_sending_coin_id"
+    t.index ["user_id"], name: "index_conversions_on_user_id"
+  end
+
   create_table "email_subscriptions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.boolean "enabled", default: false
@@ -233,6 +265,10 @@ ActiveRecord::Schema.define(version: 20171102092544) do
   add_foreign_key "coinbase_sells", "transactions"
   add_foreign_key "coinbase_sents", "transactions"
   add_foreign_key "coinbase_withdrawals", "transactions"
+  add_foreign_key "conversion_transitions", "conversions"
+  add_foreign_key "conversions", "coins", column: "receive_coin_id"
+  add_foreign_key "conversions", "coins", column: "sending_coin_id"
+  add_foreign_key "conversions", "users"
   add_foreign_key "email_subscriptions", "users"
   add_foreign_key "identities", "users"
   add_foreign_key "statistics_weekly_portfolios", "users"
