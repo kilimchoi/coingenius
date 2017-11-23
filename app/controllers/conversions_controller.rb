@@ -26,7 +26,7 @@ class ConversionsController < ApplicationController
     result = Conversions::Create.call(params: conversion_params, user: current_user)
     self.conversion = result.conversion
 
-    respond_with conversion, api_v1_conversion_url(conversion.id)
+    respond_with conversion, conversion_url(conversion.id)
   end
 
   private
