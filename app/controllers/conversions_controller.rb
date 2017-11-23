@@ -9,11 +9,11 @@ class ConversionsController < ApplicationController
   end
 
   def new
-    self.conversion = ConversionFactory.new(
+    self.conversion = Conversions::Build.call(
       receive_coin_id: params[:receive_coin_id],
       sending_coin_id: params[:sending_coin_id],
       user: current_user
-    ).build
+    ).conversion
 
     respond_with conversion
   end
