@@ -23,8 +23,7 @@ class ConversionsController < ApplicationController
   end
 
   def create
-    result = Conversions::Create.call(user: current_user, **conversion_params)
-    self.conversion = result.conversion
+    self.conversion = Conversions::Create.call(user: current_user, **conversion_params).conversion
 
     respond_with conversion, conversion_url(conversion.id)
   end
