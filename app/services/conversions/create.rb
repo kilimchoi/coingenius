@@ -1,56 +1,45 @@
 module Conversions
   class Create
-    include Interactor
+    include Interactor::Organizer
 
-    delegate :params, :user, to: :context
+    organize Conversions::Build
 
-    before do
-      context.params ||= {}
-      context.conversion = nil
-    end
+    delegate :conversion, to: :context
 
     def call
+      super
+
       Conversion.transaction do
         conversion.update(attributes)
 
-        if conversion.persisted?
-          Rails.logger.debug "[Conversions::Create] Created ShapeShift deposit: #{shapeshift_deposit}"
+        context.fail! if conversion.new_record?
 
-          conversion.update(
-            deposit_address: shapeshift_deposit["deposit"],
-            raw_data: shapeshift_deposit
-          )
+        conversion.update(
+          deposit_address: shapeshift_deposit["deposit"],
+          raw_data: shapeshift_deposit
+        )
 
-          Conversions::UpdateStatusWorker.perform_async(conversion_id: conversion.id)
-        end
+        Conversions::UpdateStatusWorker.perform_async(conversion_id: conversion.id)
       end
-    end
-
-    def conversion
-      context.conversion ||= ConversionFactory.new(
-        receive_coin_id: params[:receive_coin_id],
-        sending_coin_id: params[:sending_coin_id],
-        user: user
-      ).build
     end
 
     private
 
     def attributes
-      params.merge(user: user)
+      {
+        amount: context.amount,
+        return_address: context.return_address,
+        withdrawal_address: context.withdrawal_address,
+      }
     end
 
     def shapeshift_deposit
-      context.shapeshift_deposit ||= Container[:shapeshift_client].shift(
-        withdrawal: params[:withdrawal_address],
-        return_address: params[:return_address],
-        pair: pair,
-        api_key: ENV["SHAPESHIFT_PUBLIC_KEY"]
-      )
-    end
-
-    def pair
-      [conversion.sending_coin, conversion.receive_coin].map(&:symbol).map(&:downcase).join("_")
+       context.shapeshift_deposit ||= Container[:shapeshift_client].shift(
+         api_key: ENV["SHAPESHIFT_PUBLIC_KEY"],
+         pair: context.pair,
+         return_address: context.return_address,
+         withdrawal: context.withdrawal_address
+       )
     end
   end
 end
