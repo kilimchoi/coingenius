@@ -308,6 +308,7 @@ ActiveRecord::Schema.define(version: 20171122193729) do
                JOIN transactions ON ((date_trunc('week'::text, transactions.transaction_date) = weeks.week_starts_at)))
                JOIN users ON ((users.id = transactions.user_id)))
                LEFT JOIN coins ON ((coins.id = transactions.coin_id)))
+            WHERE (transactions.is_expired = false)
             GROUP BY weeks.week_number, weeks.week_starts_at, weeks.week_ends_at, users.id, coins.id, transactions.id, transactions.amount
             WINDOW week_user_coin AS (PARTITION BY weeks.week_starts_at, users.id, coins.id), user_and_coin AS (PARTITION BY users.id, coins.id ORDER BY weeks.week_starts_at)
             ORDER BY weeks.week_starts_at) transactions_subquery;
