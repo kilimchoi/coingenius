@@ -41,10 +41,11 @@ Rails.application.routes.draw do
 
   authenticated :user do
     resources :bittrex_orders_history_imports, only: %i[new create]
+    resource :coin_exchange, only: %i[show]
+    resources :conversions, only: %i[index new show create]
   end
 
   resources :exchanges
-  resource :coin_exchange, only: %i[show]
 
   # API section
   namespace :api do
@@ -56,7 +57,6 @@ Rails.application.routes.draw do
         resources :prices, only: :index, module: :coins
       end
 
-      resources :conversions, except: %i(update destroy)
       resources :transactions, except: :edit
     end
   end
