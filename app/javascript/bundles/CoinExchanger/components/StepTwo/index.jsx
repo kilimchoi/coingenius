@@ -12,22 +12,22 @@ class StepTwo extends Component {
         <ExchangeInfo {...this.props} />
         <Form>
           <FormGroup>
-            <Label for="receiveAddress">Your receive address</Label>
+            <Label for="withdrawalAddress">Your receive address</Label>
             <InputGroup>
               <InputGroupAddon>{sendingCoin.symbol}</InputGroupAddon>
               <Input
-                name="receiveAddress"
-                onChange={event => onValueChange('receiveAddress', event.target.value)}
+                name="withdrawalAddress"
+                onChange={event => onValueChange('withdrawalAddress', event.target.value)}
               />
             </InputGroup>
           </FormGroup>
           <FormGroup>
-            <Label for="refundAddress">Your refund address</Label>
+            <Label for="returnAddress">Your refund address</Label>
             <InputGroup>
               <InputGroupAddon>{receiveCoin.symbol}</InputGroupAddon>
               <Input
-                name="refundAddress"
-                onChange={event => onValueChange('refundAddress', event.target.value)}
+                name="returnAddress"
+                onChange={event => onValueChange('returnAddress', event.target.value)}
               />
             </InputGroup>
           </FormGroup>

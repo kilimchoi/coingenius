@@ -54,7 +54,7 @@ class Request {
       return request.attach('file', data).catch(errorsPrepare);
     }
 
-    return request.send({ data }).catch(errorsPrepare);
+    return request.send(data).catch(errorsPrepare);
   }
 
   update(url, data) {

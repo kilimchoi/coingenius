@@ -5,7 +5,7 @@ import FontAwesome from 'react-fontawesome';
 import { decamelizeKeys } from 'humps';
 import CurrencyInput from '_bundles/CoinExchanger/components/CurrencyInput';
 import propTypes from '_bundles/CoinExchanger/propTypes';
-import { createConvertion } from '_sources/convertions';
+import { buildConversion } from '_sources/convertions';
 
 class StepOne extends Component {
   handleCurrencyChange = (name, value) => {
@@ -22,7 +22,7 @@ class StepOne extends Component {
         sendingCoinId: sendingCoin.id,
       });
 
-      createConvertion(params).then(({ serializedBody: { rate } }) => {
+      buildConversion(params).then(({ serializedBody: { rate } }) => {
         onValueChange('rate', rate);
       });
     }

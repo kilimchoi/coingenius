@@ -7,7 +7,9 @@ const JAVASCRIPT_HREF = 'javascript:;';
 
 class StepThree extends Component {
   render() {
-    const { sendingCoin, sendAmount, refundAddress } = this.props;
+    const {
+      sendingCoin, sendAmount, returnAddress, status,
+    } = this.props;
 
     return (
       <div>
@@ -25,7 +27,7 @@ class StepThree extends Component {
           </ListGroupItem>
           <ListGroupItem>
             <Col xs={2}>To address</Col>
-            <Col xs={8}>{refundAddress}</Col>
+            <Col xs={8}>{returnAddress}</Col>
             <Col xs={2}>
               <a href={JAVASCRIPT_HREF}>
                 <FontAwesome name="clipboard" />
@@ -33,6 +35,7 @@ class StepThree extends Component {
             </Col>
           </ListGroupItem>
         </ListGroup>
+        <h3>{status}</h3>
       </div>
     );
   }
