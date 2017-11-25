@@ -9,6 +9,7 @@ class User < ApplicationRecord
 
   has_many :bittrex_orders_history_imports
   has_many :coins, through: :transactions
+  has_many :conversions
   has_many :email_subscriptions
   has_many :identities
   has_many :transactions

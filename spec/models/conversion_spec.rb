@@ -10,4 +10,5 @@ RSpec.describe Conversion, type: :model do
 
   it { is_expected.to belong_to(:receive_coin).class_name("Coin") }
   it { is_expected.to belong_to(:sending_coin).class_name("Coin") }
+  it { is_expected.to belong_to(:user) }
 end
