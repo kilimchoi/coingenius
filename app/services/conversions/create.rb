@@ -21,7 +21,7 @@ module Conversions
           withdrawal_address: context.withdrawal_address
         )
 
-        Conversions::UpdateStatusWorker.perform_async(conversion_id: conversion.id)
+        Conversions::UpdateStatusWorker.perform_async(conversion.id)
       end
     end
 

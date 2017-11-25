@@ -9,9 +9,9 @@ module Conversions
     end
 
     def call
-      Rails.logger.debug "[Conversions::UpdateStatus] Got ShapeShift transaction status: #{transaction_status}"
-
       context.transaction_status = fetch_transaction_status
+
+      Rails.logger.debug "[Conversions::UpdateStatus] Got ShapeShift transaction status: #{transaction_status}"
 
       conversion.update(raw_data: transaction_status) if transit
     end
