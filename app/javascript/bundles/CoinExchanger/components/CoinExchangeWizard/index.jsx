@@ -73,12 +73,14 @@ class CoinExchanger extends Component {
 
   createConversionAndSetId = () => {
     const {
+      sendAmount: amount,
       sendingCoin: { id: sendingCoinId },
       receiveCoin: { id: receiveCoinId },
       returnAddress,
       withdrawalAddress,
     } = this.state;
     const params = decamelizeKeys({
+      amount,
       sendingCoinId,
       receiveCoinId,
       returnAddress,

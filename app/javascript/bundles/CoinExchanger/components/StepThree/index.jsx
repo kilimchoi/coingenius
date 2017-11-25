@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
-import FontAwesome from 'react-fontawesome';
+import * as Clipboard from 'clipboard';
 import { Col, ListGroup, ListGroupItem } from 'reactstrap';
+import ClipboardLink from '_bundles/CoinExchanger/components/ClipboardLink';
 import propTypes from '_bundles/CoinExchanger/propTypes';
 
-const JAVASCRIPT_HREF = 'javascript:;';
-
 class StepThree extends Component {
+  constructor(props) {
+    super(props);
+
+    this.clipboard = new Clipboard('.copy-to-clipboard');
+  }
+
+  componentWillUnmount() {
+    this.clipboard.destroy();
+  }
+
   render() {
     const {
       sendingCoin, sendAmount, returnAddress, status,
@@ -16,22 +25,20 @@ class StepThree extends Component {
         <ListGroup>
           <ListGroupItem>
             <Col xs={2}>Amount</Col>
-            <Col xs={8}>
+            <Col xs={8} id="amount">
               {sendAmount} {sendingCoin.symbol}
             </Col>
             <Col xs={2}>
-              <a href={JAVASCRIPT_HREF}>
-                <FontAwesome name="clipboard" />
-              </a>
+              <ClipboardLink target="#amount" />
             </Col>
           </ListGroupItem>
           <ListGroupItem>
             <Col xs={2}>To address</Col>
-            <Col xs={8}>{returnAddress}</Col>
+            <Col xs={8} id="return-address">
+              {returnAddress}
+            </Col>
             <Col xs={2}>
-              <a href={JAVASCRIPT_HREF}>
-                <FontAwesome name="clipboard" />
-              </a>
+              <ClipboardLink target="#return-address" />
             </Col>
           </ListGroupItem>
         </ListGroup>
