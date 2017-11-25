@@ -1,39 +1,25 @@
 .wrapper {
-  margin-bottom: 10px;
-  height: 120px;
-  width: 600px;
-  margin: 20px auto 50px auto;
+  background-color: #d4d4d4;
+  color: #000000;
+  margin: 20px auto 30px auto;
+  min-height: 140px;
+}
+
+.borderBottom {
+  border-bottom: 1px solid;
+}
+
+.borderRight {
+  border-right: 1px solid;
 }
 
 .pane {
-  border: 1px solid;
   height: 70px;
-  position: relative;
-}
-
-.left {
-  border-top: none;
-  float: left;
-  width: 50%;
-}
-
-.right {
-  border-left: none;
-  border-top: none;
-  float: right;
-  width: 50%;
-}
-
-.centered {
-  left: 50%;
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  line-height: 4px;
 }
 
 .bottomInnerWrapper {
   line-height: 4px;
-  padding-top: 5px;
 }
 
 .item {

@@ -1,16 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, FormGroup, Label, Input, InputGroup, InputGroupAddon } from 'reactstrap';
-import FontAwesome from 'react-fontawesome';
 import { decamelizeKeys } from 'humps';
 import CurrencyInput from '_bundles/CoinExchanger/components/CurrencyInput';
+import InfoLabel from '_bundles/CoinExchanger/components/InfoLabel';
 import propTypes from '_bundles/CoinExchanger/propTypes';
 import { buildConversion } from '_sources/convertions';
+import { disabledInput } from './styles.css';
 
 class StepOne extends Component {
-  handleCurrencyChange = (name, value) => {
-    this.props.onValueChange(name, value);
+  constructor(props) {
+    super(props);
+
     this.fetchRate();
+  }
+
+  handleCurrencyChange = (name, value) => {
+    if (value) {
+      this.props.onValueChange(name, value);
+      this.fetchRate();
+    }
   };
 
   fetchRate = () => {
@@ -43,9 +52,7 @@ class StepOne extends Component {
       <Form>
         <FormGroup>
           <Label for="sendAmount">
-            <h5>
-              You send <FontAwesome name="info-circle" />
-            </h5>
+            <InfoLabel>You send</InfoLabel>
           </Label>
           <InputGroup>
             <Input
@@ -65,13 +72,12 @@ class StepOne extends Component {
         </FormGroup>
         <FormGroup>
           <Label for="receiveAmount">
-            <h5>
-              You receive <FontAwesome name="info-circle" />
-            </h5>
+            <InfoLabel>You receive</InfoLabel>
           </Label>
           <InputGroup>
             <Input
               disabled
+              className={disabledInput}
               name="receiveAmount"
               type="number"
               step="0.01"

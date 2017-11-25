@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Col, Container } from 'reactstrap';
+import { Button, Col, Row } from 'reactstrap';
 import { Wizard, Step, Steps, Navigation } from 'react-albus';
 import { decamelizeKeys } from 'humps';
 import promisePoller from 'promise-poller';
@@ -8,12 +8,6 @@ import StepOne from '_bundles/CoinExchanger/components/StepOne';
 import StepTwo from '_bundles/CoinExchanger/components/StepTwo';
 import StepThree from '_bundles/CoinExchanger/components/StepThree';
 
-const defaultCoin = {
-  id: 0,
-  label: '',
-  symbol: '',
-  value: '',
-};
 const passThrough = value => value;
 const coerceToFloat = value => parseFloat(value);
 const coercions = {
@@ -31,12 +25,27 @@ class CoinExchanger extends Component {
 
     this.state = {
       rate: 1.0,
-      sendAmount: 0.0,
-      sendingCoin: { ...defaultCoin },
-      receiveCoin: { ...defaultCoin },
+      sendAmount: 0.01,
+      sendingCoin: {
+        id: 1,
+        label: 'Bitcoin (BTC)',
+        symbol: 'BTC',
+        value: 'Bitcoin (BTC)',
+      },
+      receiveCoin: {
+        id: 2,
+        label: 'Ethereum (ETH)',
+        symbol: 'ETH',
+        value: 'Ethereum (ETH)',
+      },
       withdrawalAddress: '',
       returnAddress: '',
+      status: 'no_deposits',
     };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    this.switchCoins(prevState);
   }
 
   handleValueChange = (name, value) => {
@@ -47,8 +56,7 @@ class CoinExchanger extends Component {
 
   handleExchange = (next) => {
     next();
-    this.createConversionAndSetId();
-    this.pollTransactionStatus();
+    this.createConversionAndSetId().then(this.pollConversionStatus());
   };
 
   isStepOneNextDisabled = () => {
@@ -64,31 +72,51 @@ class CoinExchanger extends Component {
   };
 
   createConversionAndSetId = () => {
-    const { withdrawalAddress, returnAddress } = this.state;
-    const params = decamelizeKeys({
-      returnAddress: withdrawalAddress,
+    const {
+      sendingCoin: { id: sendingCoinId },
+      receiveCoin: { id: receiveCoinId },
       returnAddress,
+      withdrawalAddress,
+    } = this.state;
+    const params = decamelizeKeys({
+      sendingCoinId,
+      receiveCoinId,
+      returnAddress,
+      withdrawalAddress,
     });
-    createConversion(params).then(({ serializedBody: { id } }) => {
+
+    return createConversion(params).then(({ serializedBody: { id } }) => {
       this.setState({ conversionId: id });
     });
   };
 
-  pollTransactionStatus = () => {
-    const id = this.state.conversionId;
-    const taskFn = fetchConversion({ id }).then(({ serializedBody: { status } }) => {
-      this.setState({ status });
+  pollConversionStatus = () => {
+    const { conversionId } = this.state;
 
-      return status;
-    });
+    if (conversionId) {
+      const taskFn = fetchConversion(conversionId).then(({ serializedBody: { status } }) => {
+        this.setState({ status });
 
-    promisePoller({
-      taskFn,
-      shouldContinue: (error, status) => error || TERMINAL_STATUSES.includes(status),
-      interval: 500,
-      retries: 3,
-    });
+        return status;
+      });
+
+      promisePoller({
+        interval: 500,
+        retries: 3,
+        shouldContinue: (error, status) => error || TERMINAL_STATUSES.includes(status),
+        taskFn,
+      });
+    }
   };
+
+  switchCoins(prevState) {
+    const { sendingCoin, receiveCoin } = this.state;
+    const areCoinsEqual = sendingCoin && receiveCoin && sendingCoin.id === receiveCoin.id;
+
+    if (areCoinsEqual) {
+      this.setState({ sendingCoin: prevState.receiveCoin });
+    }
+  }
 
   render() {
     const { sendAmount, rate, status } = this.state;
@@ -100,7 +128,7 @@ class CoinExchanger extends Component {
     };
 
     return (
-      <Container fluid>
+      <Row className="justify-content-center">
         <Col md={9}>
           <h2 className="mt-3 mb-3">Coin Exchange</h2>
           <Wizard>
@@ -109,14 +137,16 @@ class CoinExchanger extends Component {
                 <StepOne {...params} />
                 <Navigation
                   render={({ next }) => (
-                    <Button
-                      disabled={this.isStepOneNextDisabled()}
-                      className="pull-right"
-                      size="lg"
-                      onClick={next}
-                    >
-                      Next
-                    </Button>
+                    <div>
+                      <Button
+                        className="w-100"
+                        disabled={this.isStepOneNextDisabled()}
+                        size="lg"
+                        onClick={next}
+                      >
+                        Next
+                      </Button>
+                    </div>
                   )}
                 />
               </Step>
@@ -124,20 +154,23 @@ class CoinExchanger extends Component {
                 <StepTwo {...params} />
                 <Navigation
                   render={({ next, previous }) => (
-                    <div>
-                      <div className="pull-right">
-                        <Button size="lg" onClick={previous}>
+                    <Row>
+                      <Col xs={6}>
+                        <Button className="w-100" size="lg" onClick={previous}>
                           Previous
-                        </Button>{' '}
+                        </Button>
+                      </Col>
+                      <Col xs={6}>
                         <Button
                           size="lg"
+                          className="w-100"
                           disabled={this.isStepTwoNextDisabled()}
                           onClick={() => this.handleExchange(next)}
                         >
                           Next
                         </Button>
-                      </div>
-                    </div>
+                      </Col>
+                    </Row>
                   )}
                 />
               </Step>
@@ -147,7 +180,7 @@ class CoinExchanger extends Component {
             </Steps>
           </Wizard>
         </Col>
-      </Container>
+      </Row>
     );
   }
 }
