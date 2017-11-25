@@ -25,7 +25,7 @@ class ConversionsController < ApplicationController
   def create
     self.conversion = Conversions::Create.call(**create_params).conversion
 
-    respond_with conversion, location: conversion_url(conversion.id)
+    respond_with conversion, location: -> { conversion_url(conversion.id) }
   end
 
   private
