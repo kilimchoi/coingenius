@@ -12,9 +12,11 @@ class Conversion < ApplicationRecord
             :max_amount,
             :min_amount,
             :rate,
-            :return_address,
-            :withdrawal_address,
             presence: true
 
-  validates :deposit_address, presence: true, on: :update
+  validates :deposit_address,
+            :return_address,
+            :withdrawal_address,
+            presence: true,
+            on: :update
 end

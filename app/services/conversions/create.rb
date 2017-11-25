@@ -27,13 +27,6 @@ module Conversions
 
     private
 
-    def attributes
-      {
-        amount: context.amount,
-
-      }
-    end
-
     def shapeshift_deposit
        context.shapeshift_deposit ||= create_shapeshift_deposit
     end
