@@ -18,7 +18,7 @@ class StepTwo extends Component {
               <InfoLabel>Your receive address</InfoLabel>
             </Label>
             <InputGroup>
-              <InputGroupAddon>{sendingCoin.symbol}</InputGroupAddon>
+              <InputGroupAddon>{receiveCoin.symbol}</InputGroupAddon>
               <Input
                 className={increasedHeightInput}
                 name="withdrawalAddress"
@@ -31,7 +31,7 @@ class StepTwo extends Component {
               <InfoLabel>Your refund address</InfoLabel>
             </Label>
             <InputGroup>
-              <InputGroupAddon>{receiveCoin.symbol}</InputGroupAddon>
+              <InputGroupAddon>{sendingCoin.symbol}</InputGroupAddon>
               <Input
                 className={increasedHeightInput}
                 name="returnAddress"

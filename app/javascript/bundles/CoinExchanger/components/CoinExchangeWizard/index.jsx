@@ -40,7 +40,7 @@ class CoinExchanger extends Component {
       },
       withdrawalAddress: '',
       returnAddress: '',
-      status: 'no_deposits',
+      currentState: 'pending',
     };
   }
 
@@ -56,7 +56,7 @@ class CoinExchanger extends Component {
 
   handleExchange = (next) => {
     next();
-    this.createConversionAndSetId().then(this.pollConversionStatus());
+    this.createConversionAndSetId().then(this.pollConversionStatus);
   };
 
   isStepOneNextDisabled = () => {
@@ -96,16 +96,17 @@ class CoinExchanger extends Component {
     const { conversionId } = this.state;
 
     if (conversionId) {
-      const taskFn = fetchConversion(conversionId).then(({ serializedBody: { status } }) => {
-        this.setState({ status });
+      const taskFn = () =>
+        fetchConversion(conversionId).then(({ serializedBody: { currentState } }) => {
+          this.setState({ currentState });
 
-        return status;
-      });
+          return currentState;
+        });
 
       promisePoller({
         interval: 500,
         retries: 3,
-        shouldContinue: (error, status) => error || TERMINAL_STATUSES.includes(status),
+        shouldContinue: (error, status) => error || !status || TERMINAL_STATUSES.includes(status),
         taskFn,
       });
     }
@@ -121,7 +122,7 @@ class CoinExchanger extends Component {
   }
 
   render() {
-    const { sendAmount, rate, status } = this.state;
+    const { currentState, sendAmount, rate } = this.state;
     const receiveAmount = sendAmount * rate;
     const params = {
       onValueChange: this.handleValueChange,
@@ -177,7 +178,7 @@ class CoinExchanger extends Component {
                 />
               </Step>
               <Step path="stepThree">
-                <StepThree {...params} status={status} />
+                <StepThree {...params} currentState={currentState} />
               </Step>
             </Steps>
           </Wizard>

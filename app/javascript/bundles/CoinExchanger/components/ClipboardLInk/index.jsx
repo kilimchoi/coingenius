@@ -5,7 +5,7 @@ import FontAwesome from 'react-fontawesome';
 const JAVASCRIPT_HREF = 'javascript:;';
 
 const ClipboardLink = ({ target }) => (
-  <a href={JAVASCRIPT_HREF} className=".copy-to-clipboard" data-clipboard-target={target}>
+  <a href={JAVASCRIPT_HREF} className="copy-to-clipboard" data-clipboard-target={target}>
     <FontAwesome name="clipboard" />
   </a>
 );

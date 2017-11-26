@@ -2,6 +2,7 @@
   "dependencies": {
     "@fortawesome/react-fontawesome": "^0.0.12",
     "@rails/webpacker": "^3.0.2",
+    "classnames": "^2.2.5",
     "clipboard": "^1.7.1",
     "coffeescript": "^2.0.2",
     "es6-promise": "^4.1.1",

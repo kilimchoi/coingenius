@@ -31,7 +31,9 @@ class ExchangeInfo extends Component {
             1 {sendingCoin.symbol} = {rate} {receiveCoin.symbol}
           </Col>
           <Col xs={6} className="text-center pt-4 h-100">
-            <p>FEE (INC)</p>
+            <p>
+              <strong>FEE (INC)</strong>
+            </p>
             0.5%
           </Col>
         </Row>
