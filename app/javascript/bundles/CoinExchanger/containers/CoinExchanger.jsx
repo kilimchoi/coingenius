@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Col, Row } from 'reactstrap';
-import { Wizard, Step, Steps, Navigation } from 'react-albus';
+import { Col, Row } from 'reactstrap';
+import { Wizard, Step, Steps } from 'react-albus';
 import { decamelizeKeys } from 'humps';
 import promisePoller from 'promise-poller';
 import { createConversion, fetchConversion } from '_sources/convertions';
@@ -59,18 +59,6 @@ class CoinExchanger extends Component {
     this.createConversionAndSetId().then(this.pollConversionStatus);
   };
 
-  isStepOneNextDisabled = () => {
-    const { sendAmount, sendingCoin, receiveCoin } = this.state;
-
-    return !(sendAmount && sendingCoin && receiveCoin && sendingCoin.id && receiveCoin.id);
-  };
-
-  isStepTwoNextDisabled = () => {
-    const { withdrawalAddress, returnAddress } = this.state;
-
-    return !(withdrawalAddress && returnAddress);
-  };
-
   createConversionAndSetId = () => {
     const {
       sendAmount: amount,
@@ -106,7 +94,7 @@ class CoinExchanger extends Component {
       promisePoller({
         interval: 500,
         retries: 3,
-        shouldContinue: (error, status) => error || !status || TERMINAL_STATUSES.includes(status),
+        shouldContinue: (error, status) => error || TERMINAL_STATUSES.includes(status),
         taskFn,
       });
     }
@@ -138,44 +126,9 @@ class CoinExchanger extends Component {
             <Steps>
               <Step path="stepOne">
                 <StepOne {...params} />
-                <Navigation
-                  render={({ next }) => (
-                    <div>
-                      <Button
-                        className="w-100"
-                        disabled={this.isStepOneNextDisabled()}
-                        size="lg"
-                        onClick={next}
-                      >
-                        Next
-                      </Button>
-                    </div>
-                  )}
-                />
               </Step>
               <Step path="stepTwo">
-                <StepTwo {...params} />
-                <Navigation
-                  render={({ next, previous }) => (
-                    <Row>
-                      <Col xs={6}>
-                        <Button className="w-100" size="lg" onClick={previous}>
-                          Previous
-                        </Button>
-                      </Col>
-                      <Col xs={6}>
-                        <Button
-                          size="lg"
-                          className="w-100"
-                          disabled={this.isStepTwoNextDisabled()}
-                          onClick={() => this.handleExchange(next)}
-                        >
-                          Next
-                        </Button>
-                      </Col>
-                    </Row>
-                  )}
-                />
+                <StepTwo {...params} onExchange={this.handleExchange} />
               </Step>
               <Step path="stepThree">
                 <StepThree {...params} currentState={currentState} />

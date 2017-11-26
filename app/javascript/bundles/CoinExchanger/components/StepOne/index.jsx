@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form, FormGroup, Label, Input, InputGroup, InputGroupAddon } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 import { decamelizeKeys } from 'humps';
+import { Navigation } from 'react-albus';
 import CurrencyInput from '_bundles/CoinExchanger/components/CurrencyInput';
 import InfoLabel from '_bundles/CoinExchanger/components/InfoLabel';
 import propTypes from '_bundles/CoinExchanger/propTypes';
@@ -43,56 +44,73 @@ class StepOne extends Component {
     return sendingCoin && receiveCoin;
   };
 
+  isNextEnabled = () => {
+    const { sendAmount, sendingCoin, receiveCoin } = this.props;
+
+    return !(sendAmount && sendingCoin && receiveCoin && sendingCoin.id && receiveCoin.id);
+  };
+
   render() {
     const {
       onValueChange, sendAmount, sendingCoin, receiveCoin, receiveAmount,
     } = this.props;
 
     return (
-      <Form>
-        <FormGroup>
-          <Label for="sendAmount">
-            <InfoLabel>You send</InfoLabel>
-          </Label>
-          <InputGroup>
-            <Input
-              name="sendAmount"
-              type="number"
-              step="0.01"
-              value={sendAmount}
-              onChange={event => onValueChange('sendAmount', event.target.value)}
-            />
-            <InputGroupAddon>
-              <CurrencyInput
-                value={sendingCoin}
-                onChange={([currency]) => this.handleCurrencyChange('sendingCoin', currency)}
+      <div>
+        <Form>
+          <FormGroup>
+            <Label for="sendAmount">
+              <InfoLabel>You send</InfoLabel>
+            </Label>
+            <InputGroup>
+              <Input
+                name="sendAmount"
+                type="number"
+                step="0.01"
+                value={sendAmount}
+                onChange={event => onValueChange('sendAmount', event.target.value)}
               />
-            </InputGroupAddon>
-          </InputGroup>
-        </FormGroup>
-        <FormGroup>
-          <Label for="receiveAmount">
-            <InfoLabel>You receive</InfoLabel>
-          </Label>
-          <InputGroup>
-            <Input
-              disabled
-              className={disabledInput}
-              name="receiveAmount"
-              type="number"
-              step="0.01"
-              value={receiveAmount}
-              onChange={event => onValueChange('receiveAmount', event.target.value)}
-            />
-            <InputGroupAddon>
-              <CurrencyInput
-                value={receiveCoin}
-                onChange={([currency]) => this.handleCurrencyChange('receiveCoin', currency)}
+              <InputGroupAddon>
+                <CurrencyInput
+                  value={sendingCoin}
+                  onChange={([currency]) => this.handleCurrencyChange('sendingCoin', currency)}
+                />
+              </InputGroupAddon>
+            </InputGroup>
+          </FormGroup>
+          <FormGroup>
+            <Label for="receiveAmount">
+              <InfoLabel>You receive</InfoLabel>
+            </Label>
+            <InputGroup>
+              <Input
+                disabled
+                className={disabledInput}
+                name="receiveAmount"
+                type="number"
+                step="0.01"
+                value={receiveAmount}
+                onChange={event => onValueChange('receiveAmount', event.target.value)}
               />
-            </InputGroupAddon>
-          </InputGroup>
-        </FormGroup>
-      </Form>
+              <InputGroupAddon>
+                <CurrencyInput
+                  value={receiveCoin}
+                  onChange={([currency]) => this.handleCurrencyChange('receiveCoin', currency)}
+                />
+              </InputGroupAddon>
+            </InputGroup>
+          </FormGroup>
+        </Form>
+        <Navigation
+          render={({ next }) => (
+            <div>
+              <Button className="w-100" disabled={this.isNextEnabled()} size="lg" onClick={next}>
+                Next
+              </Button>
+            </div>
+          )}
+        />
+      </div>
     );
   }
 }
