@@ -47,6 +47,7 @@ class Portfolio::PortfolioController < ApplicationController
         end
       end
     end
+    render layout: 'landing_page_application'
   end
 
   private
