@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171122193729) do
+ActiveRecord::Schema.define(version: 20171127195625) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -123,6 +123,7 @@ ActiveRecord::Schema.define(version: 20171122193729) do
     t.string "name"
     t.text "cons"
     t.string "image_url"
+    t.boolean "shapeshift_convertible", default: false, null: false
     t.index ["symbol"], name: "index_coins_on_symbol", unique: true
   end
 
