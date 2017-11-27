@@ -16,7 +16,9 @@ class CurrencyInput extends Component {
 
   onSearch = (term) => {
     this.setState({ isLoading: true });
-    getCoinNames(term).then(({ serializedBody: options }) => {
+    getCoinNames(term).then(({ serializedBody: allOptions }) => {
+      const options = allOptions.filter(({ shapeshiftConvertible }) => shapeshiftConvertible);
+
       this.setState({ options });
     });
   };

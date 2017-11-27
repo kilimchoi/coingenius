@@ -11,7 +11,7 @@ class Portfolio::TransactionsController < ApplicationController
     else
       {}
     end
-    extra_data = [:symbol]
+    extra_data = %i[symbol shapeshift_convertible]
     display_value = :name_and_symbol
     render json: json_for_autocomplete(items, display_value, extra_data)
   end
