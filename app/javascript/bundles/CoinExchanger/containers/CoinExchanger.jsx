@@ -4,6 +4,7 @@ import { Wizard, Step, Steps } from 'react-albus';
 import { decamelizeKeys } from 'humps';
 import promisePoller from 'promise-poller';
 import { createConversion, fetchConversion } from '_sources/convertions';
+import { getCoins } from '_sources/coins';
 import StepOne from '_bundles/CoinExchanger/components/StepOne';
 import StepTwo from '_bundles/CoinExchanger/components/StepTwo';
 import StepThree from '_bundles/CoinExchanger/components/StepThree';
@@ -28,20 +29,27 @@ class CoinExchanger extends Component {
       sendAmount: 0.01,
       sendingCoin: {
         id: 1,
-        label: 'Bitcoin (BTC)',
+        name: 'Bitcoin',
         symbol: 'BTC',
-        value: 'Bitcoin (BTC)',
+        shapeshiftConvertible: true,
       },
       receiveCoin: {
         id: 2,
-        label: 'Ethereum (ETH)',
+        name: 'Ethereum',
         symbol: 'ETH',
-        value: 'Ethereum (ETH)',
+        shapeshiftConvertible: true,
       },
       withdrawalAddress: '',
       returnAddress: '',
       currentState: 'pending',
+      coins: [],
     };
+
+    getCoins().then(({ serializedBody: allOptions }) => {
+      const coins = allOptions.filter(({ shapeshiftConvertible }) => shapeshiftConvertible);
+
+      this.state.coins = coins;
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -110,7 +118,9 @@ class CoinExchanger extends Component {
   }
 
   render() {
-    const { currentState, sendAmount, rate } = this.state;
+    const {
+      currentState, sendAmount, rate, coins,
+    } = this.state;
     const receiveAmount = sendAmount * rate;
     const params = {
       onValueChange: this.handleValueChange,
@@ -125,7 +135,7 @@ class CoinExchanger extends Component {
           <Wizard>
             <Steps>
               <Step path="stepOne">
-                <StepOne {...params} />
+                <StepOne {...params} coins={coins} />
               </Step>
               <Step path="stepTwo">
                 <StepTwo {...params} onExchange={this.handleExchange} />

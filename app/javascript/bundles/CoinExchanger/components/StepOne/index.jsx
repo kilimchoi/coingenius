@@ -17,7 +17,7 @@ class StepOne extends Component {
   }
 
   handleCurrencyChange = (name, value) => {
-    if (value) {
+    if (value && this.props[name] !== value) {
       this.props.onValueChange(name, value);
       this.fetchRate();
     }
@@ -52,7 +52,12 @@ class StepOne extends Component {
 
   render() {
     const {
-      onValueChange, sendAmount, sendingCoin, receiveCoin, receiveAmount,
+      coins,
+      onValueChange,
+      sendAmount,
+      sendingCoin,
+      receiveCoin,
+      receiveAmount,
     } = this.props;
 
     return (
@@ -73,6 +78,7 @@ class StepOne extends Component {
               <InputGroupAddon>
                 <CurrencyInput
                   value={sendingCoin}
+                  options={coins}
                   onChange={([currency]) => this.handleCurrencyChange('sendingCoin', currency)}
                 />
               </InputGroupAddon>
@@ -95,6 +101,7 @@ class StepOne extends Component {
               <InputGroupAddon>
                 <CurrencyInput
                   value={receiveCoin}
+                  options={coins}
                   onChange={([currency]) => this.handleCurrencyChange('receiveCoin', currency)}
                 />
               </InputGroupAddon>
@@ -117,6 +124,7 @@ class StepOne extends Component {
 
 StepOne.propTypes = {
   onValueChange: PropTypes.func.isRequired,
+  coins: PropTypes.array.isRequired,
   ...propTypes,
 };
 
