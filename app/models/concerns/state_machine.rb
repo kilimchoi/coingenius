@@ -6,11 +6,11 @@ module StateMachine
 
     # Optionally delegate some methods
     delegate :can_transition_to?,
-             :current_state,
-             :in_state?,
-             :transition_to,
-             :transition_to!,
-             to: :state_machine
+      :current_state,
+      :in_state?,
+      :transition_to,
+      :transition_to!,
+      to: :state_machine
   end
 
   # Initialize the state machine

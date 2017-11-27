@@ -4,7 +4,7 @@ class ConversionStateMachine
   COMPLETE_STATE = :complete
   FAILED_STATE = :failed
   ERROR_STATE = :error
-  FINAL_STATES = [COMPLETE_STATE, ERROR_STATE, FAILED_STATE]
+  FINAL_STATES = [COMPLETE_STATE, ERROR_STATE, FAILED_STATE].freeze
 
   state :pending, initial: true
   state :received

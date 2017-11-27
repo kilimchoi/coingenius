@@ -28,7 +28,7 @@ module Conversions
     private
 
     def shapeshift_deposit
-       context.shapeshift_deposit ||= create_shapeshift_deposit
+      context.shapeshift_deposit ||= create_shapeshift_deposit
     end
 
     def create_shapeshift_deposit

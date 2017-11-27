@@ -23,7 +23,7 @@ module Conversions
     end
 
     def fetch_transaction_status
-       Container[:shapeshift_client]
+      Container[:shapeshift_client]
         .transaction_status(deposit_address: conversion.deposit_address)
     end
   end

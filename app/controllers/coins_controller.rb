@@ -37,7 +37,7 @@ class CoinsController < ApplicationController
       coin.price = api_coin[:price_usd]
       coin.percent_change = api_coin[:percent_change_24h]
       coin.market_cap = api_coin[:market_cap_usd]
-      self.coins << coin
+      coins << coin
     end
   end
 end

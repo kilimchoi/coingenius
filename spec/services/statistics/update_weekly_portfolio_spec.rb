@@ -6,7 +6,7 @@ describe Statistics::UpdateWeeklyPortfolio do
     let(:transaction_date) { 1.week.ago }
     let(:week_number) { FormattedYearAndWeek.new(transaction_date).value }
     let!(:transaction) do
-      Transaction.skip_callback :commit, :after,:update_weekly_portfolio
+      Transaction.skip_callback :commit, :after, :update_weekly_portfolio
 
       create(:transaction, :bought, user: user, transaction_date: transaction_date).tap do
         Transaction.set_callback :commit, :after, :update_weekly_portfolio

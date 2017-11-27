@@ -46,13 +46,13 @@ gem "rinku"
 gem "scenic"
 gem "sdoc", "~> 0.4.0", group: :doc
 gem "select2-rails"
+gem "shapeshift_ruby"
 gem "sidecloq"
 gem "sidekiq", "~>4.0.1"
 gem "sinatra", "~> 2.0"
 gem "slim"
-gem "uuid", require: false # For UUID validation
-gem "shapeshift_ruby"
 gem "statesman" # State machine implementation
+gem "uuid", require: false # For UUID validation
 gem "webpacker", "~> 3.0"
 
 source "https://rails-assets.org" do
@@ -89,4 +89,4 @@ group :test do
   gem "timecop"
 end
 
-gem 'mini_racer', platforms: :ruby
+gem "mini_racer", platforms: :ruby

@@ -5,7 +5,7 @@ module Conversions
     delegate :receive_coin_id, :sending_coin_id, :user, to: :context
 
     def call
-      conversion.tap do |c|
+      conversion.tap do |_c|
         conversion.rate = market_info["rate"]
         conversion.max_amount = market_info["limit"]
         conversion.min_amount = market_info["minimum"]
