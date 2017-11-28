@@ -19,37 +19,39 @@ const coerceProxy = new Proxy(coercions, {
   get: (target, name) => target[name] || passThrough,
 });
 const TERMINAL_STATUSES = ['complete', 'failed'];
+const initialState = {
+  rate: 1.0,
+  sendAmount: 0.01,
+  sendingCoin: {
+    id: 1,
+    name: 'Bitcoin',
+    symbol: 'BTC',
+    shapeshiftConvertible: true,
+  },
+  receiveCoin: {
+    id: 2,
+    name: 'Ethereum',
+    symbol: 'ETH',
+    shapeshiftConvertible: true,
+  },
+  withdrawalAddress: '',
+  returnAddress: '',
+  currentState: 'pending',
+  coins: [],
+};
 
 class CoinExchanger extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      rate: 1.0,
-      sendAmount: 0.01,
-      sendingCoin: {
-        id: 1,
-        name: 'Bitcoin',
-        symbol: 'BTC',
-        shapeshiftConvertible: true,
-      },
-      receiveCoin: {
-        id: 2,
-        name: 'Ethereum',
-        symbol: 'ETH',
-        shapeshiftConvertible: true,
-      },
-      withdrawalAddress: '',
-      returnAddress: '',
-      currentState: 'pending',
-      coins: [],
-    };
+    this.state = initialState;
+  }
 
-    getCoins().then(({ serializedBody: allOptions }) => {
-      const coins = allOptions.filter(({ shapeshiftConvertible }) => shapeshiftConvertible);
-
-      this.state.coins = coins;
-    });
+  componentDidMount() {
+    getCoins()
+      .then(({ serializedBody: options }) =>
+        options.filter(({ shapeshiftConvertible }) => shapeshiftConvertible))
+      .then(coins => this.setState({ coins }));
   }
 
   componentDidUpdate(prevProps, prevState) {
