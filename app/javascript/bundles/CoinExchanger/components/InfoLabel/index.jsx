@@ -1,14 +1,16 @@
-import React, { Component } from 'react';
-import FontAwesome from 'react-fontawesome';
+import React, { Component } from "react";
+import { UncontrolledTooltip } from "reactstrap";
+import FontAwesome from "react-fontawesome";
 
 class InfoLabel extends Component {
   render() {
-    const { children } = this.props;
-    return (
-      <h5>
-        {children} <FontAwesome name="info-circle" />
-      </h5>
-    );
+    const { children, iconId, tooltipText } = this.props;
+    return <h5>
+        {children} <FontAwesome name="info-circle" id={iconId} />
+        <UncontrolledTooltip placement="right" target={iconId}>
+          {tooltipText}
+        </UncontrolledTooltip>
+      </h5>;
   }
 }
 
