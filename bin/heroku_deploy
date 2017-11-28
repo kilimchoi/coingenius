@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+require "pathname"
+require "fileutils"
+include FileUtils
+
+# path to your application root.
+APP_ROOT = Pathname.new File.expand_path("../../", __FILE__)
+
+def system!(*args)
+  system(*args) || abort("\n== Command #{args} failed ==")
+end
+
+def heroku_branch
+  {
+    production: "heroku",
+    staging: "heroku-staging"
+  }[ARGV.first.to_sym] || "heroku-staging"
+end
+
+chdir APP_ROOT do
+  puts "deploying"
+  puts "git push #{heroku_branch} master"
+  system! "git push #{heroku_branch} master"
+
+  puts "\nrunning migrations"
+  system! "heroku run rake db:migrate"
+
+  puts "\nDone!"
+end
