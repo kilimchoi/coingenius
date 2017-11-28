@@ -12,6 +12,9 @@ class Portfolio::PortfolioController < ApplicationController
 
     @coins = Coin.all
     @transaction = Transaction.new
+    if !current_user
+      render layout: 'landing_page_application'
+    end
     if current_user
       @transactions = current_user.transactions.order(created_at: :desc)
       @holdings, @total = current_user.holdings if current_user
