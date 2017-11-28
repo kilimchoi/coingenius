@@ -1,0 +1,32 @@
+.circle {
+  background-color: grey;
+  border-radius: 50%;
+  border: 1px solid;
+  display: inline-block;
+  height: 70px;
+  position: relative;
+  width: 70px;
+}
+
+.enabled {
+  background-color: transparent;
+}
+
+.spinnerFix {
+  left: 30% !important;
+  top: 30% !important;
+}
+
+.center {
+  left:50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.angleRightWrapper {
+  display: inline-block;
+  height: 50%;
+  position: relative;
+  width: 120px;
+}

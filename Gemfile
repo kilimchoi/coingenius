@@ -29,7 +29,7 @@ gem "bootstrap", "~> 4.0.0.alpha6"
 gem "bugsnag"
 gem "decent_exposure", "3.0.0"
 gem "devise"
-gem "dotenv-rails", groups: %i[development test]
+gem "dry-container"
 gem "dry-matcher"
 gem "friendly_id", "~> 5.1.0"
 gem "httparty"
@@ -40,16 +40,20 @@ gem "meta-tags"
 gem "omniauth-coinbase", git: "https://github.com/kilimchoi/omniauth-coinbase.git"
 gem "puma", "~> 3.10"
 gem "rails-jquery-autocomplete"
+gem "react_on_rails", "10.0.2"
 gem "redis", "~>3.2"
 gem "rinku"
 gem "scenic"
 gem "sdoc", "~> 0.4.0", group: :doc
 gem "select2-rails"
+gem "shapeshift_ruby"
 gem "sidecloq"
 gem "sidekiq", "~>4.0.1"
 gem "sinatra", "~> 2.0"
 gem "slim"
+gem "statesman" # State machine implementation
 gem "uuid", require: false # For UUID validation
+gem "webpacker", "~> 3.0"
 
 source "https://rails-assets.org" do
   gem "rails-assets-tether", ">= 1.1.0"
@@ -60,6 +64,7 @@ group :production do
 end
 
 group :development, :test do
+  gem "dotenv-rails"
   gem "factory_girl_rails"
   gem "ffaker"
   gem "pry-byebug"
@@ -83,3 +88,5 @@ group :test do
   gem "simplecov", require: false
   gem "timecop"
 end
+
+gem "mini_racer", platforms: :ruby

@@ -41,6 +41,8 @@ Rails.application.routes.draw do
 
   authenticated :user do
     resources :bittrex_orders_history_imports, only: %i[new create]
+    resource :coin_exchange, only: %i[show]
+    resources :conversions, only: %i[index new show create]
   end
 
   resources :exchanges

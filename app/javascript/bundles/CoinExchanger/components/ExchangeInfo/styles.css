@@ -1,0 +1,27 @@
+.wrapper {
+  background-color: #d4d4d4;
+  color: #000000;
+  margin: 20px auto 30px auto;
+  min-height: 140px;
+}
+
+.borderBottom {
+  border-bottom: 1px solid;
+}
+
+.borderRight {
+  border-right: 1px solid;
+}
+
+.pane {
+  height: 70px;
+  line-height: 4px;
+}
+
+.bottomInnerWrapper {
+  line-height: 4px;
+}
+
+.item {
+  padding: 3px;
+}
