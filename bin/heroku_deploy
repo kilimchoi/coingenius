@@ -17,13 +17,20 @@ def heroku_branch
   }[ARGV.first.to_sym] || "heroku-staging"
 end
 
+def heroku_app
+  {
+    production: "coingenius",
+    staging: "coingenius-staging-app"
+  }[ARGV.first.to_sym] || "heroku-staging"
+end
+
 chdir APP_ROOT do
   puts "deploying"
   puts "git push #{heroku_branch} master"
   system! "git push #{heroku_branch} master"
 
   puts "\nrunning migrations"
-  system! "heroku run rake db:migrate"
+  system! "heroku run rake db:migrate --app #{heroku_app}"
 
-  puts "\nDone!"
+  puts "\n=============== Done! ==============="
 end
