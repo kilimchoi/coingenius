@@ -1,10 +1,10 @@
 {
   "dependencies": {
-    "@fortawesome/react-fontawesome": "^0.0.12",
     "@rails/webpacker": "^3.0.2",
+    "babel-preset-react": "^6.24.1",
     "classnames": "^2.2.5",
     "clipboard": "^1.7.1",
-    "coffeescript": "^2.0.2",
+    "coffeescript": "1.12.7",
     "es6-promise": "^4.1.1",
     "humps": "^2.0.1",
     "promise-poller": "^1.6.0",
@@ -23,12 +23,11 @@
   },
   "devDependencies": {
     "babel-eslint": "^8.0.2",
-    "babel-preset-react": "^6.24.1",
     "eslint": "^4.11.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.5.1",
-    "webpack-dev-server": "^2.9.4"
+    "webpack-dev-server": "^2.9.5"
   }
 }

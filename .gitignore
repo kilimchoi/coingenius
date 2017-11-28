@@ -19,6 +19,7 @@
 dump.rdb
 .env
 coverage
+/public/assets
 /public/packs
 /public/packs-test
 /node_modules
