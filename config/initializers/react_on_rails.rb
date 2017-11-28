@@ -1,6 +1,4 @@
 ReactOnRails.configure do |config|
-  config.node_modules_location = "app/javascript"
-
   config.generated_assets_dir = File.join(%w[public webpack], Rails.env)
 
   # Define the files for we need to check for webpack compilation when running tests
@@ -15,11 +13,11 @@ ReactOnRails.configure do |config|
   # If you are using the ReactOnRails::TestHelper.configure_rspec_to_compile_assets(config)
   # with rspec then this controls what npm command is run
   # to automatically refresh your webpack assets on every test run.
-  config.build_test_command = "RAILS_ENV=production bin/webpack"
+  config.build_test_command = "RAILS_ENV=production #{Rails.root.join('bin', 'webpack')}"
 
   # This configures the script to run to build the production assets by webpack. Set this to nil
   # if you don't want react_on_rails building this file for you.
-  config.build_production_command = "RAILS_ENV=production bin/webpack"
+  config.build_production_command = "RAILS_ENV=production #{Rails.root.join('bin', 'webpack')}"
 
   ################################################################################
   # CLIENT RENDERING OPTIONS
