@@ -104,7 +104,7 @@ class CoinExchanger extends Component {
       promisePoller({
         interval: 500,
         retries: 3,
-        shouldContinue: (error, status) => error || TERMINAL_STATUSES.includes(status),
+        shouldContinue: (error, status) => error || !TERMINAL_STATUSES.includes(status),
         taskFn,
       });
     }
@@ -115,7 +115,7 @@ class CoinExchanger extends Component {
     const areCoinsEqual = sendingCoin && receiveCoin && sendingCoin.id === receiveCoin.id;
 
     if (areCoinsEqual) {
-      this.setState({ sendingCoin: prevState.receiveCoin });
+      this.setState({ sendingCoin: prevState.receiveCoin, receiveCoin: prevState.sendingCoin });
     }
   }
 
