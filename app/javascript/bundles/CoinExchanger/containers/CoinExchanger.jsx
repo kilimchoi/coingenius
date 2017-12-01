@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import { Col, Row } from 'reactstrap';
 import { Wizard, Step, Steps } from 'react-albus';
 import { decamelizeKeys } from 'humps';
+import debounce from 'lodash.debounce';
 import promisePoller from 'promise-poller';
-import { createConversion, fetchConversion } from '_sources/convertions';
+import { createConversion, buildConversion, fetchConversion } from '_sources/convertions';
 import { getCoins } from '_sources/coins';
 import StepOne from '_bundles/CoinExchanger/components/StepOne';
 import StepTwo from '_bundles/CoinExchanger/components/StepTwo';
@@ -40,7 +41,7 @@ const initialState = {
   coins: [],
 };
 
-class CoinExchanger extends Component {
+class CoinExchanger extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -48,14 +49,17 @@ class CoinExchanger extends Component {
   }
 
   componentDidMount() {
-    getCoins()
-      .then(({ serializedBody: options }) =>
-        options.filter(({ shapeshiftConvertible }) => shapeshiftConvertible))
-      .then(coins => this.setState({ coins }));
+    this.fetchCoins().then(this.fetchRate);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    this.switchCoins(prevState);
+    if (this.areCoinsEqual()) {
+      this.switchCoins(prevState);
+    }
+
+    if (this.areCoinsChanged(prevState)) {
+      this.fetchRate();
+    }
   }
 
   handleValueChange = (name, value) => {
@@ -68,6 +72,31 @@ class CoinExchanger extends Component {
     next();
     this.createConversionAndSetId().then(this.pollConversionStatus);
   };
+
+  fetchCoins = () =>
+    getCoins()
+      .then(({ serializedBody: options }) =>
+        options.filter(({ shapeshiftConvertible }) => shapeshiftConvertible))
+      .then(coins => this.setState({ coins }));
+
+  fetchRate = debounce(() => {
+    const { sendingCoin, receiveCoin } = this.state;
+
+    if (sendingCoin.id && receiveCoin.id) {
+      const params = decamelizeKeys({
+        receiveCoinId: receiveCoin.id,
+        sendingCoinId: sendingCoin.id,
+      });
+
+      buildConversion(params).then(({ serializedBody: { rate, maxAmount, minAmount } }) => {
+        this.setState({
+          rate,
+          maxAmount,
+          minAmount,
+        });
+      });
+    }
+  }, 300);
 
   createConversionAndSetId = () => {
     const {
@@ -111,17 +140,25 @@ class CoinExchanger extends Component {
   };
 
   switchCoins(prevState) {
-    const { sendingCoin, receiveCoin } = this.state;
-    const areCoinsEqual = sendingCoin && receiveCoin && sendingCoin.id === receiveCoin.id;
-
-    if (areCoinsEqual) {
-      this.setState({ sendingCoin: prevState.receiveCoin, receiveCoin: prevState.sendingCoin });
-    }
+    this.setState(
+      { sendingCoin: prevState.receiveCoin, receiveCoin: prevState.sendingCoin },
+      this.fetchRate,
+    );
   }
+
+  areCoinsChanged = prevState =>
+    this.state.sendingCoin.id !== this.state.receiveCoin.id &&
+    (prevState.sendingCoin.id !== this.state.sendingCoin.id ||
+      prevState.receiveCoin.id !== this.state.receiveCoin.id);
+
+  areCoinsEqual = () => {
+    const { sendingCoin, receiveCoin } = this.state;
+    return sendingCoin && receiveCoin && sendingCoin.id === receiveCoin.id;
+  };
 
   render() {
     const {
-      currentState, sendAmount, rate, coins,
+      currentState, sendAmount, rate, coins, maxAmount, minAmount,
     } = this.state;
     const receiveAmount = sendAmount * rate;
     const params = {
@@ -137,7 +174,7 @@ class CoinExchanger extends Component {
           <Wizard>
             <Steps>
               <Step path="stepOne">
-                <StepOne {...params} coins={coins} />
+                <StepOne {...params} coins={coins} maxAmount={maxAmount} minAmount={minAmount} />
               </Step>
               <Step path="stepTwo">
                 <StepTwo {...params} onExchange={this.handleExchange} />
