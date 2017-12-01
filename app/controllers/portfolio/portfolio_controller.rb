@@ -1,5 +1,10 @@
 class Portfolio::PortfolioController < ApplicationController
   include DatesHelper
+  layout :current_layout # on top of the controller
+
+  def current_layout
+    current_user ? 'application' : 'landing_page_application'
+  end
 
   def index
     description = "Create your cryptocurrency portfolio to track your investment returns."
@@ -12,9 +17,7 @@ class Portfolio::PortfolioController < ApplicationController
 
     @coins = Coin.all
     @transaction = Transaction.new
-    if !current_user
-      render layout: 'landing_page_application'
-    end
+
     if current_user
       @transactions = current_user.transactions.order(created_at: :desc)
       @holdings, @total = current_user.holdings if current_user
