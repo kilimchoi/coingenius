@@ -15,6 +15,7 @@
     "react-bootstrap-typeahead": "^2.0.0",
     "react-dom": "^16.1.1",
     "react-fontawesome": "^1.6.1",
+    "react-loader-advanced": "^1.7.1",
     "react-on-rails": "^10.0.2",
     "reactstrap": "^5.0.0-alpha.4",
     "superagent": "^3.8.1",

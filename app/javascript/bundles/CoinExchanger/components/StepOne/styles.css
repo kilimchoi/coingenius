@@ -1,3 +1,7 @@
 .disabledInput {
   background-color: grey !important;
 }
+
+.error {
+  color: red;
+}

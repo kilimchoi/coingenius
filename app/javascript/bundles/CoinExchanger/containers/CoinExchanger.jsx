@@ -1,6 +1,7 @@
-import React, { Component, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import { Col, Row } from 'reactstrap';
 import { Wizard, Step, Steps } from 'react-albus';
+import Loader from 'react-loader-advanced';
 import { decamelizeKeys } from 'humps';
 import debounce from 'lodash.debounce';
 import promisePoller from 'promise-poller';
@@ -13,15 +14,16 @@ import StepThree from '_bundles/CoinExchanger/components/StepThree';
 const passThrough = value => value;
 const coerceToFloat = value => parseFloat(value);
 const coercions = {
-  sendAmount: coerceToFloat,
+  maxAmount: coerceToFloat,
+  minAmount: coerceToFloat,
   rate: coerceToFloat,
+  sendAmount: coerceToFloat,
 };
 const coerceProxy = new Proxy(coercions, {
   get: (target, name) => target[name] || passThrough,
 });
 const TERMINAL_STATUSES = ['complete', 'failed'];
 const initialState = {
-  rate: 1.0,
   sendAmount: 0.01,
   sendingCoin: {
     id: 1,
@@ -63,9 +65,11 @@ class CoinExchanger extends PureComponent {
   }
 
   handleValueChange = (name, value) => {
-    this.setState({
-      [name]: coerceProxy[name](value),
-    });
+    if (value) {
+      this.setState({
+        [name]: coerceProxy[name](value),
+      });
+    }
   };
 
   handleExchange = (next) => {
@@ -168,24 +172,31 @@ class CoinExchanger extends PureComponent {
     };
 
     return (
-      <Row className="justify-content-center">
-        <Col md={9}>
-          <h2 className="mt-3 mb-3">Coin Exchange</h2>
-          <Wizard>
-            <Steps>
-              <Step path="stepOne">
-                <StepOne {...params} coins={coins} maxAmount={maxAmount} minAmount={minAmount} />
-              </Step>
-              <Step path="stepTwo">
-                <StepTwo {...params} onExchange={this.handleExchange} />
-              </Step>
-              <Step path="stepThree">
-                <StepThree {...params} currentState={currentState} />
-              </Step>
-            </Steps>
-          </Wizard>
-        </Col>
-      </Row>
+      <Loader
+        contentBlur={3}
+        show={!rate}
+        message="Fetching current rate..."
+        backgroundStyle={{ backgroundColor: 'transparent' }}
+      >
+        <Row className="justify-content-center">
+          <Col md={9}>
+            <h2 className="mt-3 mb-3">Coin Exchange</h2>
+            <Wizard>
+              <Steps>
+                <Step path="stepOne">
+                  <StepOne {...params} coins={coins} maxAmount={maxAmount} minAmount={minAmount} />
+                </Step>
+                <Step path="stepTwo">
+                  <StepTwo {...params} onExchange={this.handleExchange} />
+                </Step>
+                <Step path="stepThree">
+                  <StepThree {...params} currentState={currentState} />
+                </Step>
+              </Steps>
+            </Wizard>
+          </Col>
+        </Row>
+      </Loader>
     );
   }
 }

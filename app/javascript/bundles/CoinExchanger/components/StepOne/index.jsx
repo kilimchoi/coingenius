@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
-import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-import { Button, Form, FormGroup, Label, Input, InputGroup, InputGroupAddon } from 'reactstrap';
+import {
+  Button,
+  Form,
+  FormGroup,
+  FormFeedback,
+  Label,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+} from 'reactstrap';
 import { Navigation } from 'react-albus';
 import CurrencyInput from '_bundles/CoinExchanger/components/CurrencyInput';
 import InfoLabel from '_bundles/CoinExchanger/components/InfoLabel';
 import propTypes from '_bundles/CoinExchanger/propTypes';
-import { disabledInput } from './styles.css';
+import { error, disabledInput } from './styles.css';
 
 class StepOne extends Component {
-  constructor(props) {
-    super(props);
-
-    this.sendAmountInput = null;
-  }
-
   handleCurrencyChange = (name, value) => {
     if (value && this.props[name] !== value) {
       this.props.onValueChange(name, value);
@@ -33,7 +35,11 @@ class StepOne extends Component {
     return sendAmount && sendingCoin && receiveCoin && sendingCoin.id && receiveCoin.id;
   };
 
-  isSendInputValid = () => this.sendAmountInput && this.sendAmountInput.checkValidity();
+  isSendInputValid = () => {
+    const { sendAmount, maxAmount, minAmount } = this.props;
+
+    return !maxAmount || (sendAmount >= minAmount && sendAmount <= maxAmount);
+  };
 
   isNextDisabled = () => !this.areCoinsPresent() || !this.isSendInputValid();
 
@@ -64,21 +70,22 @@ class StepOne extends Component {
               </InfoLabel>
             </Label>
             <div className="pull-right">
-              Min {minAmount}
+              Min {minAmount || 'N/A'}
               {' | '}
-              Max {maxAmount}
+              Max {maxAmount || 'N/A'}
             </div>
             <InputGroup>
               <Input
                 {...inputConstraints}
+                valid={this.isSendInputValid()}
                 name="sendAmount"
                 type="number"
                 step="0.0001"
                 value={sendAmount}
-                ref={(input) => {
-                  this.sendAmountInput = findDOMNode(input);
+                onChange={(event) => {
+                  onValueChange('sendAmount', event.target.value);
+                  this.isSendInputValid();
                 }}
-                onChange={event => onValueChange('sendAmount', event.target.value)}
               />
               <InputGroupAddon>
                 <CurrencyInput
@@ -88,6 +95,11 @@ class StepOne extends Component {
                 />
               </InputGroupAddon>
             </InputGroup>
+            {!this.isSendInputValid() && (
+              <FormFeedback className={`mt-1 ${error}`}>
+                Send amount should be in range between {minAmount} and {maxAmount}
+              </FormFeedback>
+            )}
           </FormGroup>
           <FormGroup>
             <Label for="receiveAmount">
@@ -105,7 +117,7 @@ class StepOne extends Component {
                 name="receiveAmount"
                 type="number"
                 step="0.01"
-                value={receiveAmount}
+                value={receiveAmount || sendAmount}
                 onChange={event => onValueChange('receiveAmount', event.target.value)}
               />
               <InputGroupAddon>
