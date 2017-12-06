@@ -31,13 +31,18 @@ module Conversions
       context.shapeshift_deposit ||= create_shapeshift_deposit
     end
 
-    def create_shapeshift_deposit
-      Container[:shapeshift_client].shift(
+    def shapeshift_params
+      {
         api_key: ENV["SHAPESHIFT_PUBLIC_KEY"],
         pair: context.pair,
+        payment_id: context.payment_id,
         return_address: context.return_address,
         withdrawal: context.withdrawal_address
-      )
+      }.compact
+    end
+
+    def create_shapeshift_deposit
+      Container[:shapeshift_client].shift(shapeshift_params)
     rescue RestClient::InternalServerError
       {}
     end

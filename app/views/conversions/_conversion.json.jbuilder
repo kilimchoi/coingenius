@@ -1,4 +1,5 @@
 json.extract! conversion,
+  :deposit_address,
   :max_amount,
   :min_amount,
   :rate,

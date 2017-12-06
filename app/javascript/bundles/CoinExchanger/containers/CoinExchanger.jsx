@@ -41,6 +41,7 @@ const initialState = {
   returnAddress: '',
   currentState: 'pending',
   coins: [],
+  paymentId: null,
 };
 
 class CoinExchanger extends PureComponent {
@@ -104,10 +105,11 @@ class CoinExchanger extends PureComponent {
 
   createConversionAndSetId = () => {
     const {
-      sendAmount: amount,
-      sendingCoin: { id: sendingCoinId },
+      paymentId,
       receiveCoin: { id: receiveCoinId },
       returnAddress,
+      sendAmount: amount,
+      sendingCoin: { id: sendingCoinId },
       withdrawalAddress,
     } = this.state;
     const params = decamelizeKeys({
@@ -115,11 +117,12 @@ class CoinExchanger extends PureComponent {
       sendingCoinId,
       receiveCoinId,
       returnAddress,
+      paymentId,
       withdrawalAddress,
     });
 
-    return createConversion(params).then(({ serializedBody: { id } }) => {
-      this.setState({ conversionId: id });
+    return createConversion(params).then(({ serializedBody: { id, depositAddress } }) => {
+      this.setState({ conversionId: id, depositAddress });
     });
   };
 

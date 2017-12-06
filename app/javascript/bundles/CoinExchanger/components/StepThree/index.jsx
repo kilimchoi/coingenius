@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import * as Clipboard from 'clipboard';
 import { Col, ListGroup, ListGroupItem, Row } from 'reactstrap';
+import FontAwesome from 'react-fontawesome';
 import ClipboardLink from '_bundles/CoinExchanger/components/ClipboardLink';
 import StatusProgress from '_bundles/CoinExchanger/components/StatusProgress';
 import propTypes from '_bundles/CoinExchanger/propTypes';
@@ -22,7 +23,7 @@ class StepThree extends Component {
       sendingCoin,
       sendAmount,
       receiveAmount,
-      returnAddress,
+      depositAddress,
       receiveCoin,
     } = this.props;
 
@@ -41,7 +42,7 @@ class StepThree extends Component {
           <ListGroupItem>
             <Col xs={3}>To address</Col>
             <Col xs={7} id="return-address">
-              {returnAddress}
+              {depositAddress || <FontAwesome name="spinner" spin />}
             </Col>
             <Col xs={2}>
               <ClipboardLink target="#return-address" />
@@ -53,9 +54,7 @@ class StepThree extends Component {
             <h5>
               Approximately {receiveAmount} {receiveCoin.symbol} will be sent to yor wallet.
             </h5>
-            <p className="text-center">
-              Depending on current exchange rate
-            </p>
+            <p className="text-center">Depending on current exchange rate</p>
           </Col>
         </Row>
         <Row className="mt-3 justify-content-center">
