@@ -14,7 +14,7 @@ ShapeShiftRuby::Client.class_eval do
                   returnAddress: return_address,
                   destTag: dest_tag,
                   rsAddress: rs_address,
-                  payment_id: payment_id,
+                  paymentId: payment_id,
                   apiKey: api_key
                 })
   end
