@@ -42,7 +42,7 @@ module Conversions
     end
 
     def create_shapeshift_deposit
-      Container[:shapeshift_client].shift(shapeshift_params)
+      Container[:shapeshift_client].fixed_amount_transaction(shapeshift_params)
     rescue RestClient::InternalServerError
       {}
     end
