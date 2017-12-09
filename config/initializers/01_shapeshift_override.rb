@@ -20,4 +20,10 @@ ShapeShiftRuby::Client.class_eval do
 
     api_request(url: url("sendamount"), method: "post", params: params)
   end
+
+  def quote_transaction(amount:, pair:)
+    params = { amount: amount, pair: pair}
+
+    api_request(url: url("sendamount"), method: "post", params: params)
+  end
 end
