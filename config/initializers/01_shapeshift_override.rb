@@ -7,9 +7,7 @@ ShapeShiftRuby::Client.class_eval do
                                payment_id: "",
                                return_address: "",
                                rs_address: "",
-                               withdrawal:
-  )
-
+                               withdrawal:)
     amount_params_key = deposit_amount ? "depositAmount" : "amount"
 
     params = {
@@ -29,7 +27,7 @@ ShapeShiftRuby::Client.class_eval do
   def quote_transaction(amount:, deposit_amount: false, pair:)
     amount_params_key = deposit_amount ? "depositAmount" : "amount"
 
-    params = { amount_params_key => amount, pair: pair}
+    params = { amount_params_key => amount, pair: pair }
 
     api_request(url: url("sendamount"), method: "post", params: params)
   end
