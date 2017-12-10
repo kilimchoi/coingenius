@@ -1,3 +1,7 @@
 json.id conversion.id
-json.partial! "conversion",
-  conversion: conversion
+
+json.deposit_amount conversion.raw_data["depositAmount"]
+json.rate_expiration conversion.raw_data["expiration"]
+json.withdrawal_amount conversion.raw_data["withdrawalAmount"]
+
+json.partial! "conversion", conversion: conversion
