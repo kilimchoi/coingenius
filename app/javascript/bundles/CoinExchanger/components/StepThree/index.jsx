@@ -17,6 +17,12 @@ class StepThree extends Component {
     this.clipboard.destroy();
   }
 
+  rateExpireAt() {
+    const { rateExpiration } = this.props;
+
+    return rateExpiration && new Date(rateExpiration).toLocaleString();
+  }
+
   render() {
     const {
       currentState,
@@ -26,6 +32,8 @@ class StepThree extends Component {
       depositAddress,
       receiveCoin,
     } = this.props;
+
+    const rateExpireAt = this.rateExpireAt();
 
     return (
       <div>
@@ -52,9 +60,13 @@ class StepThree extends Component {
         <Row className="mt-3 text-center">
           <Col xs={12}>
             <h5>
-              Approximately {receiveAmount} {receiveCoin.symbol} will be sent to yor wallet.
+              {receiveAmount} {receiveCoin.symbol} will be sent to yor wallet.
             </h5>
-            <p className="text-center">Depending on current exchange rate</p>
+            {rateExpireAt && (
+              <p className="text-center">
+                Current exchange rate will expire at {rateExpireAt}
+              </p>
+            )}
           </Col>
         </Row>
         <Row className="mt-3 justify-content-center">

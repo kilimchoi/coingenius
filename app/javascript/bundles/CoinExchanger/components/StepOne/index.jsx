@@ -60,6 +60,9 @@ class StepOne extends Component {
     return (
       <div>
         <Form>
+          <p>
+            Note: This is an approximate rate, you will see the precise amount on the final step.
+          </p>
           <FormGroup>
             <Label for="sendAmount">
               <InfoLabel

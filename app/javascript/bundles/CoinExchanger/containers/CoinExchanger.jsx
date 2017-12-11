@@ -121,9 +121,14 @@ class CoinExchanger extends PureComponent {
       withdrawalAddress,
     });
 
-    return createConversion(params).then(({ serializedBody: { id, depositAddress } }) => {
-      this.setState({ conversionId: id, depositAddress });
-    });
+    return createConversion(params)
+      .then(({ serializedBody: { id, depositAddress, rateExpiration } }) => {
+        this.setState({
+          conversionId: id,
+          depositAddress,
+          rateExpiration,
+        });
+      });
   };
 
   pollConversionStatus = () => {
