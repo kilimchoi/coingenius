@@ -17,6 +17,8 @@ import InfoLabel from '_bundles/CoinExchanger/components/InfoLabel';
 import propTypes from '_bundles/CoinExchanger/propTypes';
 import { increasedHeightInput } from './styles.css';
 
+const COINS_WITH_PAYMENT_ID = ['XMR'];
+
 class StepTwo extends Component {
   isNextDisabled = () => {
     const { withdrawalAddress, returnAddress } = this.props;
@@ -33,6 +35,8 @@ class StepTwo extends Component {
     const {
       sendingCoin, receiveCoin, onValueChange, onExchange,
     } = this.props;
+
+    const requiresPaymentId = COINS_WITH_PAYMENT_ID.includes(receiveCoin.symbol);
 
     return (
       <div>
@@ -64,6 +68,21 @@ class StepTwo extends Component {
               />
             </InputGroup>
           </FormGroup>
+          {requiresPaymentId && (
+            <FormGroup>
+              <Label for="paymentId">
+                <h5>Payment Id (optional)</h5>
+              </Label>
+              <InputGroup>
+                <Input
+                  className={increasedHeightInput}
+                  name="paymentId"
+                  placeholder="Some exchanges require you to provide Payment Id"
+                  onChange={event => onValueChange('paymentId', event.target.value)}
+                />
+              </InputGroup>
+            </FormGroup>
+          )}
         </Form>
         <Navigation
           render={({ next, previous }) => (

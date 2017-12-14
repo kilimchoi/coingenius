@@ -40,6 +40,6 @@ class ConversionsController < ApplicationController
   def conversion_params
     params
       .require(:conversion)
-      .permit(:amount, :sending_coin_id, :receive_coin_id, :return_address, :withdrawal_address)
+      .permit(:amount, :payment_id, :sending_coin_id, :receive_coin_id, :return_address, :withdrawal_address)
   end
 end
