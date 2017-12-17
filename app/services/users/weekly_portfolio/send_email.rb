@@ -25,7 +25,6 @@ module Users
       end
 
       def call
-        puts 'enters!!'
         return unless previous_portfolio
 
         send_email
