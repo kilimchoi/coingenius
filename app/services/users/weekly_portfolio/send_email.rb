@@ -8,6 +8,16 @@ module Users
       delegate :total, to: :previous_portfolio, prefix: :previous
 
       before do
+        ActionMailer::Base.smtp_settings = {
+          address:   "smtp.mandrillapp.com",
+          port:      587,
+          user_name: ENV["MANDRILL_USERNAME"],
+          password:  ENV["MANDRILL_API_KEY"],
+          domain:    Rails.application.config.full_host
+        }
+
+        ActionMailer::Base.delivery_method = :smtp
+    
         context.previous_portfolio = Statistics::WeeklyPortfolio.find_by(
           user: user,
           week_number: FormattedYearAndWeek.new(weekly_portfolio.created_at).previous
