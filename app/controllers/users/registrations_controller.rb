@@ -6,7 +6,7 @@ module Users
 
     # Skip password confirmation on user account update
     def update_resource(resource, params)
-      resource.update_without_password(params)
+      resource.update_with_password(params)
     end
 
     def configure_permitted_parameters
@@ -17,7 +17,7 @@ module Users
 
       devise_parameter_sanitizer.permit(
         :account_update,
-        keys: %i[bittrex_api_key bittrex_api_secret username]
+        keys: %i[bittrex_api_key bittrex_api_secret username password password_confirmation current_password]
       )
     end
   end
