@@ -20,7 +20,7 @@ class User < ApplicationRecord
 
   def holdings
     holdings = {}
-    total = 0
+    total = 0.0
     # we need to process buy transactions first and sell transactions next to cancel each other out. otherwise, order is random.
     merged = TransactionTypeQuery.new(transactions).all
     merged.each do |transaction|
@@ -68,6 +68,7 @@ class User < ApplicationRecord
     holdings.each do |_key, holding|
       holding[:percent] = holding[:total] / total if total > 0
     end
+    total = total.round(2)
     [holdings.values, total]
   end
 

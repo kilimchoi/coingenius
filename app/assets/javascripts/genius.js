@@ -1,4 +1,76 @@
 $(document).ready(function() {
+  var select = document.querySelector("#currency");
+  var lastSelected = localStorage.getItem('currency');
+  var symToCurrencyName = {
+    "$": "USD", 
+    "€": "EUR",
+    "£": "GBP",
+    "C$": "CAD", 
+    "฿": "BTC"
+  }
+  var currencyNameToSym = {
+    "USD": "$", 
+    "EUR": "€",
+    "GBP": "£",
+    "CAD": "C$",
+    "BTC": "฿"
+  }
+  if (lastSelected) {
+    select.value = lastSelected; 
+    var dollarAmount = $("#total").data('total');
+    var toCurrencyName = $("#currency").val();
+    if (toCurrencyName == "BTC") {
+      $.ajax({
+        url: "https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=BTC",
+        type: "get", 
+        dataType: "json",
+      }).done(function (data) {
+        var totalAmount = dollarAmount * data["BTC"];
+        $("#total").text(currencyNameToSym[toCurrencyName] + "" + totalAmount.toFixed(2));
+      })
+    } else if (toCurrencyName != "USD") {
+      $.ajax({
+        url: "https://api.fixer.io/latest?base=USD&symbols="+toCurrencyName,
+        type: 'get',
+        dataType: 'json',
+      }).done(function (data) {
+        var totalAmount = dollarAmount * data["rates"][toCurrencyName];
+        $("#total").text(currencyNameToSym[toCurrencyName] + "" + totalAmount.toFixed(2));
+      })
+    } else {
+      var t = parseFloat($("#total").data('total')).toFixed(2);
+      $("#total").text("$" + t);
+    }
+  }
+
+  $("#currency").on("change", function() {
+    localStorage.setItem('currency', $("#currency").val());
+    var dollarAmount = $("#total").data('total');
+    var toCurrencyName = $("#currency").val();
+    if (toCurrencyName == "BTC") {
+      $.ajax({
+        url: "https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=BTC",
+        type: "get", 
+        dataType: "json",
+      }).done(function (data) {
+        var totalAmount = dollarAmount * data["BTC"];
+        $("#total").text(currencyNameToSym[toCurrencyName] + "" + totalAmount.toFixed(2));
+      })
+    } else if (toCurrencyName != "USD") {
+      $.ajax({
+        url: "https://api.fixer.io/latest?base=USD&symbols="+toCurrencyName,
+        type: 'get',
+        dataType: 'json',
+      }).done(function (data) {
+        var totalAmount = dollarAmount * data["rates"][toCurrencyName];
+        $("#total").text(currencyNameToSym[toCurrencyName] + "" + totalAmount.toFixed(2));
+      }) 
+    } else {
+      var t = parseFloat($("#total").data('total')).toFixed(2);
+      $("#total").text("$" + t);
+    }
+  });
+
   var linechart;
   $('.dropdown-toggle').dropdown()
 
