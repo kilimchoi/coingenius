@@ -4,7 +4,16 @@
 - else
   h2.dashhead-title.mt-5 My Portfolio
 
-  h3.text-center=number_to_currency(@total)
+  h3#total.text-center data-total=@total
+    = number_to_currency(@total)
+  .text-center
+    select#currency
+      option value="None"  -- Select --
+      option value="USD"  USD
+      option value="EUR"  EUR
+      option value="GBP"  GBP
+      option value="CAD"  CAD
+      option value="BTC"  BTC
   #bittrex-modal-window.modal.hide aria-hidden="true" aria-labelledby="bittrexModal" role="dialog" 
   #modal-window.modal.hide aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" 
   - if @total && @total > 0
