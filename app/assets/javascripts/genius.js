@@ -43,16 +43,16 @@ $(document).ready(function() {
         var matching = document.getElementsByClassName("coinPrice");
         for (var i = 0; i < matching.length; i++) {
           var converted = matching[i].dataset.coinprice * data["BTC"];
-          matching[i].innerHTML = currencyNameToSym[toCurrencyName] + "" + converted.toFixed(2);
+          matching[i].innerHTML = currencyNameToSym[toCurrencyName] + "" + converted.toFixed(8);
         }
 
         var matching2 = document.getElementsByClassName("holdingTotal");
         for (var i = 0; i < matching2.length; i++) {
           var converted2 = matching2[i].dataset.holdingtotal * data["BTC"];
-          matching2[i].innerHTML = currencyNameToSym[toCurrencyName] + "" + converted2.toFixed(2);
+          matching2[i].innerHTML = currencyNameToSym[toCurrencyName] + "" + converted2.toFixed(8);
         }
 
-        $("#total").text(currencyNameToSym[toCurrencyName] + "" + totalAmount.toFixed(2));
+        $("#total").text(currencyNameToSym[toCurrencyName] + "" + totalAmount.toFixed(8));
         
         $('[data-chart]').each(function () {
           dataSetinLastSelectedCurrency = [];
@@ -158,17 +158,17 @@ $(document).ready(function() {
             matching[i].innerHTML = currencyNameToSym[toCurrencyName] + "1.00";
           } else {
             var converted = matching[i].dataset.coinprice * data["BTC"];
-            matching[i].innerHTML = currencyNameToSym[toCurrencyName] + "" + converted.toFixed(2);
+            matching[i].innerHTML = currencyNameToSym[toCurrencyName] + "" + converted.toFixed(8);
           }
         }
 
         var matching2 = document.getElementsByClassName("holdingTotal");
         for (var i = 0; i < matching2.length; i++) {
           var converted2 = matching2[i].dataset.holdingtotal * data["BTC"];
-          matching2[i].innerHTML = currencyNameToSym[toCurrencyName] + "" + converted2.toFixed(2);
+          matching2[i].innerHTML = currencyNameToSym[toCurrencyName] + "" + converted2.toFixed(8);
         }
 
-        $("#total").text(currencyNameToSym[toCurrencyName] + "" + totalAmount.toFixed(2));
+        $("#total").text(currencyNameToSym[toCurrencyName] + "" + totalAmount.toFixed(8));
         
         $('[data-chart]').each(function () {
           dataSetinLastSelectedCurrency = [];
