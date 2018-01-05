@@ -39,6 +39,7 @@ gem "statesman" # State machine implementation
 gem "uglifier", ">= 1.3.0"
 gem "uuid", require: false # For UUID validation
 gem "webpacker", "~> 3.0"
+gem "binance" # Binance client
 
 source "https://rails-assets.org" do
   gem "rails-assets-tether", ">= 1.1.0"
