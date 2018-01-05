@@ -8,7 +8,6 @@
     = number_to_currency(@total)
   .text-center
     select#currency
-      option value="None"  -- Select --
       option value="USD"  USD
       option value="EUR"  EUR
       option value="GBP"  GBP
@@ -52,9 +51,9 @@
             -if holding[:total] > 0 
               tbody
                 tr 
-                  td
+                  td.coinname data-coinname=holding[:coin].name
                     = "#{holding[:coin].name} (#{holding[:coin].symbol})"
-                  td
+                  td#coinPrice.coinPrice data-coinprice=holding[:price]
                     = number_to_currency(holding[:price], precision: 5)
                   td 
                     - if holding[:percent_change].to_f > 0
@@ -67,7 +66,7 @@
                         = number_to_percentage(holding[:percent_change], precision: 2)  
                   td
                     = "#{holding[:amount]} #{holding[:coin].symbol}" 
-                  td
+                  td#holdingTotal.holdingTotal data-holdingtotal=holding[:total]
                     = "#{number_to_currency(holding[:total])}"
                   td.text-center
                     = link_to portfolio_transactions_path(id: holding[:coin].id), "data-turbolinks": "false"

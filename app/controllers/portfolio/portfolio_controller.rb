@@ -5,6 +5,14 @@ class Portfolio::PortfolioController < ApplicationController
   def current_layout
     current_user ? 'application' : 'landing_page_application'
   end
+  
+  def update_default_currency 
+    current_user.user_currency = params[:currency]
+    current_user.save!
+    respond_to do |format|
+      format.json { head :ok }
+    end
+  end
 
   def index
     description = "Create your cryptocurrency portfolio to track your investment returns."

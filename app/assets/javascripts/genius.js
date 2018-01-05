@@ -1,6 +1,8 @@
 $(document).ready(function() {
   var select = document.querySelector("#currency");
   var lastSelected = localStorage.getItem('currency');
+  var dataSetinLastSelectedCurrency = [];
+  var setLength = 365;
   var symToCurrencyName = {
     "$": "USD", 
     "€": "EUR",
@@ -15,10 +17,22 @@ $(document).ready(function() {
     "CAD": "C$",
     "BTC": "฿"
   }
+
+  function updateDefaultCurrency(currency){
+    $.ajax({
+      url: '/portfolio/update_default_currency',
+      type: 'post',
+      data: {'currency':currency},
+      dataType: 'json'
+    });
+  }
+
   if (lastSelected) {
     select.value = lastSelected; 
     var dollarAmount = $("#total").data('total');
     var toCurrencyName = $("#currency").val();
+    var currHoldingTotal = $("#holdingTotal").data('holdingtotal');
+    var coinPrice = $("#coinPrice").data('coinprice');
     if (toCurrencyName == "BTC") {
       $.ajax({
         url: "https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=BTC",
@@ -26,7 +40,39 @@ $(document).ready(function() {
         dataType: "json",
       }).done(function (data) {
         var totalAmount = dollarAmount * data["BTC"];
+        var matching = document.getElementsByClassName("coinPrice");
+        for (var i = 0; i < matching.length; i++) {
+          var converted = matching[i].dataset.coinprice * data["BTC"];
+          matching[i].innerHTML = currencyNameToSym[toCurrencyName] + "" + converted.toFixed(2);
+        }
+
+        var matching2 = document.getElementsByClassName("holdingTotal");
+        for (var i = 0; i < matching2.length; i++) {
+          var converted2 = matching2[i].dataset.holdingtotal * data["BTC"];
+          matching2[i].innerHTML = currencyNameToSym[toCurrencyName] + "" + converted2.toFixed(2);
+        }
+
         $("#total").text(currencyNameToSym[toCurrencyName] + "" + totalAmount.toFixed(2));
+        
+        $('[data-chart]').each(function () {
+          dataSetinLastSelectedCurrency = [];
+          var yearlydataset = $(this).data().yearlydataset[0];
+          for (var i = yearlydataset.length-1; i >= 0; i--) {
+            var d = yearlydataset[i];
+            dataSetinLastSelectedCurrency.push(d * data["BTC"]);
+          }
+        });
+
+        dataSetinLastSelectedCurrency.reverse();
+        var idName = $('.nav-link.active').attr("id");
+        if (idName == "weekly") {
+          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(setLength-7, setLength)
+        } else if (idName == "monthly") {
+          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(setLength-30, setLength)
+        } else {
+          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency
+        }
+        window.lineChart.update();
       })
     } else if (toCurrencyName != "USD") {
       $.ajax({
@@ -34,19 +80,70 @@ $(document).ready(function() {
         type: 'get',
         dataType: 'json',
       }).done(function (data) {
+        var matching = document.getElementsByClassName("coinPrice");
+        for (var i = 0; i < matching.length; i++) {
+          var converted = matching[i].dataset.coinprice * data["rates"][toCurrencyName];
+          matching[i].innerHTML = currencyNameToSym[toCurrencyName] + "" + converted.toFixed(2);
+        }
+
+        var matching2 = document.getElementsByClassName("holdingTotal");
+        for (var i = 0; i < matching2.length; i++) {
+          var converted2 = matching2[i].dataset.holdingtotal * data["rates"][toCurrencyName];
+          matching2[i].innerHTML = currencyNameToSym[toCurrencyName] + "" + converted2.toFixed(2);
+        }
+
         var totalAmount = dollarAmount * data["rates"][toCurrencyName];
+        
         $("#total").text(currencyNameToSym[toCurrencyName] + "" + totalAmount.toFixed(2));
+        
+        $('[data-chart]').each(function () {
+          dataSetinLastSelectedCurrency = [];
+          var yearlydataset = $(this).data().yearlydataset[0];
+          for (var i = yearlydataset.length-1; i >= 0; i--) {
+            var d = yearlydataset[i];
+            dataSetinLastSelectedCurrency.push(d * data["rates"][toCurrencyName]);
+          }
+        });
+
+        dataSetinLastSelectedCurrency.reverse();
+        var idName = $('.nav-link.active').attr("id");
+        if (idName == "weekly") {
+          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(setLength-7, setLength)
+        } else if (idName == "monthly") {
+          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(setLength-30, setLength)
+        } else {
+          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency
+        }
+        window.lineChart.update();
       })
     } else {
       var t = parseFloat($("#total").data('total')).toFixed(2);
+      var holdingTotal = parseFloat($("#holdingTotal").data('holdingtotal')).toFixed(2);
+      var coinPrice = parseFloat($("#coinPrice").data("coinprice")).toFixed(2);
+      
       $("#total").text("$" + t);
+
+      var matching = document.getElementsByClassName("coinPrice");
+      for (var i = 0; i < matching.length; i++) {
+        var converted = matching[i].dataset.coinprice;
+        matching[i].innerHTML = "$" + converted;
+      }
+
+      var matching2 = document.getElementsByClassName("holdingTotal");
+      for (var i = 0; i < matching2.length; i++) {
+        var converted2 = matching2[i].dataset.holdingtotal;
+        matching2[i].innerHTML = "$" + converted2;
+      }
     }
   }
 
   $("#currency").on("change", function() {
     localStorage.setItem('currency', $("#currency").val());
+    updateDefaultCurrency($("#currency").val());
     var dollarAmount = $("#total").data('total');
     var toCurrencyName = $("#currency").val();
+    var currHoldingTotal = $("#holdingTotal").data('holdingtotal');
+    var coinPrice = $("#coinPrice").data('coinprice');
     if (toCurrencyName == "BTC") {
       $.ajax({
         url: "https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=BTC",
@@ -54,7 +151,44 @@ $(document).ready(function() {
         dataType: "json",
       }).done(function (data) {
         var totalAmount = dollarAmount * data["BTC"];
+        var matching = document.getElementsByClassName("coinPrice");
+        var matchingCoinName = document.getElementsByClassName("coinname");
+        for (var i = 0; i < matching.length; i++) {
+          if (matchingCoinName[i].dataset.coinname == "Bitcoin") {
+            matching[i].innerHTML = currencyNameToSym[toCurrencyName] + "1.00";
+          } else {
+            var converted = matching[i].dataset.coinprice * data["BTC"];
+            matching[i].innerHTML = currencyNameToSym[toCurrencyName] + "" + converted.toFixed(2);
+          }
+        }
+
+        var matching2 = document.getElementsByClassName("holdingTotal");
+        for (var i = 0; i < matching2.length; i++) {
+          var converted2 = matching2[i].dataset.holdingtotal * data["BTC"];
+          matching2[i].innerHTML = currencyNameToSym[toCurrencyName] + "" + converted2.toFixed(2);
+        }
+
         $("#total").text(currencyNameToSym[toCurrencyName] + "" + totalAmount.toFixed(2));
+        
+        $('[data-chart]').each(function () {
+          dataSetinLastSelectedCurrency = [];
+          var yearlydataset = $(this).data().yearlydataset[0];
+          for (var i = yearlydataset.length-1; i >= 0; i--) {
+            var d = yearlydataset[i];
+            dataSetinLastSelectedCurrency.push(d * data["BTC"]);
+          }
+        });
+
+        dataSetinLastSelectedCurrency.reverse();
+        var idName = $('.nav-link.active').attr("id");
+        if (idName == "weekly") {
+          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(setLength-7, setLength)
+        } else if (idName == "monthly") {
+          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(setLength-30, setLength)
+        } else {
+          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency
+        }
+        window.lineChart.update();
       })
     } else if (toCurrencyName != "USD") {
       $.ajax({
@@ -62,12 +196,70 @@ $(document).ready(function() {
         type: 'get',
         dataType: 'json',
       }).done(function (data) {
+        var matching = document.getElementsByClassName("coinPrice");
+        for (var i = 0; i < matching.length; i++) {
+          var converted = matching[i].dataset.coinprice * data["rates"][toCurrencyName];
+          matching[i].innerHTML = currencyNameToSym[toCurrencyName] + "" + converted.toFixed(2);
+        }
+
+        var matching2 = document.getElementsByClassName("holdingTotal");
+        for (var i = 0; i < matching2.length; i++) {
+          var converted2 = matching2[i].dataset.holdingtotal * data["rates"][toCurrencyName];
+          matching2[i].innerHTML = currencyNameToSym[toCurrencyName] + "" + converted2.toFixed(2);
+        }
+
         var totalAmount = dollarAmount * data["rates"][toCurrencyName];
+        
         $("#total").text(currencyNameToSym[toCurrencyName] + "" + totalAmount.toFixed(2));
+        
+        $('[data-chart]').each(function () {
+          dataSetinLastSelectedCurrency = [];
+          var yearlydataset = $(this).data().yearlydataset[0];
+          for (var i = yearlydataset.length-1; i >= 0; i--) {
+            var d = yearlydataset[i];
+            dataSetinLastSelectedCurrency.push(d * data["rates"][toCurrencyName]);
+          }
+        });
+
+        dataSetinLastSelectedCurrency.reverse();
+        var idName = $('.nav-link.active').attr("id");
+        if (idName == "weekly") {
+          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(setLength-7, setLength)
+        } else if (idName == "monthly") {
+          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(setLength-30, setLength)
+        } else {
+          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency
+        }
+        window.lineChart.update();
       }) 
     } else {
       var t = parseFloat($("#total").data('total')).toFixed(2);
+      var holdingTotal = parseFloat($("#holdingTotal").data('holdingtotal')).toFixed(2);
+      var coinPrice = parseFloat($("#coinPrice").data("coinprice")).toFixed(2);
+      $('[data-chart]').each(function () {
+        var yearlyDataset = $(this).data().yearlydataset[0];
+        var idName = $('.nav-link.active').attr("id");
+        if (idName == "weekly") {
+          window.lineChart.data.datasets[0].data = yearlyDataset.slice(setLength-7, setLength)
+        } else if (idName == "monthly") {
+          window.lineChart.data.datasets[0].data = yearlyDataset.slice(setLength-30, setLength)
+        } else {
+          window.lineChart.data.datasets[0].data = yearlyDataset
+        }
+        window.lineChart.update();
+      });
       $("#total").text("$" + t);
+      var matching = document.getElementsByClassName("coinPrice");
+      for (var i = 0; i < matching.length; i++) {
+        var converted = matching[i].dataset.coinprice;
+        matching[i].innerHTML = "$" + converted;
+      }
+
+      var matching2 = document.getElementsByClassName("holdingTotal");
+      for (var i = 0; i < matching2.length; i++) {
+        var converted2 = matching2[i].dataset.holdingtotal;
+        matching2[i].innerHTML = "$" + converted2;
+      }
     }
   });
 
@@ -77,35 +269,48 @@ $(document).ready(function() {
   $('.nav-link').on('click', function() {
     $('.nav-link').removeClass('active');
     $(this).addClass('active');
-    if($(this).attr('id') == "daily") {
-      $('[data-chart]').each(function () {
-        var labels = $(this).data().dailylabels;
-        window.lineChart.data.labels = labels;
-        window.lineChart.data.datasets[0].data = $(this).data().dataset[0]
-        window.lineChart.update();
-      });
-    }
+    
     if($(this).attr('id') == "weekly") {
       $('[data-chart]').each(function () {
         var labels = $(this).data().weeklylabels;
+        var n = $(this).data().yearlydataset[0].length
+        var lastSelected = localStorage.getItem('currency');
         window.lineChart.data.labels = labels;
-        window.lineChart.data.datasets[0].data = $(this).data().weeklydataset[0]
+        if (lastSelected && lastSelected != "USD") {
+          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(n-7, n)
+        } else {
+          window.lineChart.data.datasets[0].data = $(this).data().yearlydataset[0].slice(n-7, n)
+        }
+        
         window.lineChart.update();
       });
     }
+
     if($(this).attr('id') == "monthly") {
       $('[data-chart]').each(function () {
         var labels = $(this).data().monthlylabels;
+        var n = $(this).data().yearlydataset[0].length
+        var lastSelected = localStorage.getItem('currency');
         window.lineChart.data.labels = labels;
-        window.lineChart.data.datasets[0].data = $(this).data().monthlydataset[0]
+        if (lastSelected && lastSelected != "USD") {
+          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(n-30, n)
+        } else {
+          window.lineChart.data.datasets[0].data = $(this).data().yearlydataset[0].slice(n-30, n)
+        }
         window.lineChart.update();
       });
     }
+
     if($(this).attr('id') == "yearly") {
       $('[data-chart]').each(function () {
         var labels = $(this).data().yearlylabels;
+        var lastSelected = localStorage.getItem('currency');
         window.lineChart.data.labels = labels;
-        window.lineChart.data.datasets[0].data = $(this).data().yearlydataset[0]
+        if (lastSelected && lastSelected != "USD") {
+          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency
+        } else {
+          window.lineChart.data.datasets[0].data = $(this).data().yearlydataset[0]
+        }
         window.lineChart.update();
       });
     }
@@ -197,7 +402,8 @@ $(document).ready(function() {
               callbacks: {
                 title: function () { return "Total" },
                 label: function(tooltipItem, data) {
-                  return tooltipItem.xLabel + ": $" + tooltipItem.yLabel.toFixed(2);
+                  var lastSelected = localStorage.getItem('currency');
+                  return tooltipItem.xLabel + ": " + currencyNameToSym[lastSelected] + "" + tooltipItem.yLabel.toFixed(2);
                 }
               }
             }
