@@ -19,8 +19,9 @@ $(document).ready(function() {
   }
 
   function updateDefaultCurrency(currency){
+    //TODO: fix the url
     $.ajax({
-      url: '/portfolio/update_default_currency',
+      url: 'https://coingenius.co/portfolio/update_default_currency',
       type: 'post',
       data: {'currency':currency},
       dataType: 'json'
