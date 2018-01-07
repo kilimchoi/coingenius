@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180107163645) do
+ActiveRecord::Schema.define(version: 20180107205044) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,17 @@ ActiveRecord::Schema.define(version: 20180107163645) do
     t.datetime "updated_at", null: false
     t.index ["transaction_id"], name: "index_binance_orders_on_transaction_id"
     t.index ["uuid"], name: "index_binance_orders_on_uuid"
+  end
+
+  create_table "binance_withdrawals", force: :cascade do |t|
+    t.string "uuid"
+    t.datetime "executed_at"
+    t.jsonb "raw_data"
+    t.bigint "transaction_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["transaction_id"], name: "index_binance_withdrawals_on_transaction_id"
+    t.index ["uuid"], name: "index_binance_withdrawals_on_uuid", unique: true
   end
 
   create_table "bittrex_orders", id: :serial, force: :cascade do |t|
