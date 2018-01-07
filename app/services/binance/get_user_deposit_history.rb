@@ -5,7 +5,7 @@ module Binance
     delegate :user, to: :context
 
     def call
-      context.deposit_history = DepositHistory.new(client.deposit_history["depositList"])
+      context.deposit_history = Binance::DepositHistory.new(client.deposit_history["depositList"])
     end
 
     private
