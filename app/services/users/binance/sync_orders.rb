@@ -14,7 +14,7 @@ module Users
       private
 
       def orders
-        context.orders ||= Users::Binance::FetchOrders.call(symbols: user_symbols, user: user).orders
+        context.orders ||= Users::Binance::FetchOrders.call(symbols: user_symbols, user: user, skip_existing: true).orders
       end
 
       def user_symbols
