@@ -53,7 +53,7 @@ module Users
       end
 
       def transaction_type
-        order["side"] ? :sold : :bought
+        order["side"] == "SELL" ? :sold : :bought
       end
     end
   end
