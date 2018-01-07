@@ -1,7 +1,7 @@
-module Binance
-  module Orders
+module Users
+  module Binance
     # This service creates an Binance::Order along with a transaction from the JSON object returned via Binance API.
-    class Create
+    class CreateTransactionFromOrder
       include Interactor
 
       delegate :order, :user, to: :context
@@ -36,7 +36,7 @@ module Binance
       end
 
       def already_exists?
-        Binance::Order.exists?(uuid: order["orderId"])
+        ::Binance::Order.exists?(uuid: order["orderId"])
       end
 
       def coin
