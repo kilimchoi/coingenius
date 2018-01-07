@@ -4,6 +4,7 @@ class CreateBinanceDeposits < ActiveRecord::Migration[5.1]
       t.jsonb :raw_data
       t.datetime :executed_at
       t.string :uuid, index: true, unique: true
+      t.belongs_to :transaction, index: true
 
       t.timestamps
     end
