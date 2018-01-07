@@ -32,7 +32,7 @@ class CoinsController < ApplicationController
     api_coins = JSON.parse(response.body)
     api_coins.each do |api_coin|
       api_coin = api_coin.with_indifferent_access
-      coin = Coin.where(symbol: api_coin[:symbol]).first || Coin.create(symbol: api_coin[:symbol], name: api_coin[:name])
+      coin = Coin.find_by(symbol: api_coin[:symbol]) || Coin.create(symbol: api_coin[:symbol], name: api_coin[:name])
       next unless coin.pros
       coin.price = api_coin[:price_usd]
       coin.percent_change = api_coin[:percent_change_24h]
