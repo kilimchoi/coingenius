@@ -51,8 +51,10 @@ ActiveRecord::Schema.define(version: 20180107163645) do
     t.jsonb "raw_data"
     t.datetime "executed_at"
     t.string "uuid"
+    t.bigint "transaction_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["transaction_id"], name: "index_binance_deposits_on_transaction_id"
     t.index ["uuid"], name: "index_binance_deposits_on_uuid"
   end
 
