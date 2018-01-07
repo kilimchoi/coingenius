@@ -1,3 +1,20 @@
+# Binance
+users_binance_sync_deposits_for_all_users:
+  class: Users::Binance::SyncDepositsForAllUsersWorker
+  cron: "0 0 * * *"
+  queue: "binance"
+
+users_binance_sync_orders_for_all_users:
+  class: Users::Binance::SyncOrdersForAllUsersWorker
+  cron: "0 0 * * *"
+  queue: "binance"
+
+users_binance_sync_withdrawals_for_all_users:
+  class: Users::Binance::SyncWithdrawalsForAllUsersWorker
+  cron: "0 0 * * *"
+  queue: "binance"
+
+# Bittrex
 users_bittrex_sync_orders_for_all_users:
   class: Users::Bittrex::SyncOrdersForAllUsersWorker
   cron: "0 0 * * *"
