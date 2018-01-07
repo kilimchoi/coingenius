@@ -1,0 +1,30 @@
+.modal-dialog.modal-lg role="document" 
+  .modal-content
+    .modal-header
+      h5#binance-modal-label.modal-title Binance Integration
+      button.close aria-label="Close" data-dismiss="modal" type="button" 
+        span aria-hidden="true"  &times;
+    .modal-body.p-3
+      div role="tabpanel" 
+        /! Nav tabs
+        ul.nav.nav-tabs role="tablist" 
+          li.nav-item
+            a.nav-link.tab-link.active data-toggle="tab" href="#api-import" role="tab"  From Binance API
+        /! Tab panes
+        .tab-content
+          #api-import.tab-pane.active role="tabpanel"
+            h2 Read the following to create a Binance api job
+            p 1. Login to your binance account
+            p 2. Visit #{link_to("https://www.binance.com/userCenter/createApi.html")}
+            p 3. Name your key and press submit (Note: You will need to enable 2FA before this)
+            p 4. Copy your API key and secret
+            p 5. Press edit and then press on the checkbox just to the left of the "Read info"
+            p 6. Click "Save"
+            = form_for(current_user, url: binance_integrations_path, html: { method: :post }) do |f|
+              .form-group.mt-3
+                = f.label :binance_api_key
+                = f.text_field :binance_api_key, class: 'form-control'
+              .form-group
+                = f.label :binance_api_secret
+                = f.text_field :binance_api_secret, class: 'form-control'
+              = f.submit "Save", class: 'btn btn-primary float-right', data: { disable_with: "Saving..." }

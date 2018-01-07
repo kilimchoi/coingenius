@@ -14,7 +14,10 @@
       option value="CAD"  CAD
       option value="AUD"  AUD
       option value="BTC"  BTC
-  #bittrex-modal-window.modal.hide aria-hidden="true" aria-labelledby="bittrexModal" role="dialog" 
+
+  #binance-modal-window.modal.hide aria-hidden="true" aria-labelledby="binanceModal" role="dialog"
+  #bittrex-modal-window.modal.hide aria-hidden="true" aria-labelledby="bittrexModal" role="dialog"
+
   #modal-window.modal.hide aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" 
   - if @total && @total > 0
     .dropdown.float-right
@@ -23,6 +26,8 @@
         = link_to "+ Add transaction", new_portfolio_transaction_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "dropdown-item"}
         = link_to "Connect to Coinbase", 
         user_coinbase_omniauth_authorize_path,  class:"dropdown-item"
+        = link_to "Import from Binance",
+                new_binance_integration_path, { remote: true, "data-toggle": "modal", "data-target": "#binance-modal-window", "data-animation": "false", "data-turbolinks": "false", class: "dropdown-item" }
         = link_to "Import from Bittrex", 
         new_bittrex_integration_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#bittrex-modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "dropdown-item"}
 
@@ -87,5 +92,7 @@
               = link_to "Manually", new_portfolio_transaction_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "dropdown-item"}
               = link_to "From Coinbase", 
               user_coinbase_omniauth_authorize_path,  class:"dropdown-item"
+              = link_to "Import from Binance",
+                      new_binance_integration_path, { remote: true, "data-toggle": "modal", "data-target": "#binance-modal-window", "data-animation": "false", "data-turbolinks": "false", class: "dropdown-item" }
               = link_to "From Bittrex", 
               new_bittrex_integration_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#bittrex-modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "dropdown-item"}
