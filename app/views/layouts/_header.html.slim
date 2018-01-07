@@ -15,7 +15,6 @@ nav.navbar.navbar-inverse.bg-inverse.fixed-top.navbar-toggleable-md
           = nav_link 'Create your portfolio', '/portfolio'
         = nav_link 'Top Coins', coins_path
         = nav_link 'Top Exchanges', exchanges_path
-        = nav_link 'Coin Exchange', coin_exchange_path
       ul.nav.navbar-nav.float-xs-left.float-md-right
         - if user_signed_in?
           li.nav-item.dropdown

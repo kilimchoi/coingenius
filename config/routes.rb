@@ -15,6 +15,8 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => "/sidekiq"
     devise_for :admin_users, ActiveAdmin::Devise.config
     ActiveAdmin.routes(self)
+    resource :coin_exchange, only: %i[show]
+    resources :conversions, only: %i[index new show create]
   end
 
   devise_for :users, controllers:
@@ -44,8 +46,6 @@ Rails.application.routes.draw do
 
   authenticated :user do
     resources :bittrex_orders_history_imports, only: %i[new create]
-    resource :coin_exchange, only: %i[show]
-    resources :conversions, only: %i[index new show create]
   end
 
   resources :exchanges
