@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180105172427) do
+ActiveRecord::Schema.define(version: 20180106164339) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,17 @@ ActiveRecord::Schema.define(version: 20180105172427) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "binance_orders", force: :cascade do |t|
+    t.bigint "transaction_id"
+    t.string "uuid"
+    t.jsonb "raw_data"
+    t.datetime "executed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["transaction_id"], name: "index_binance_orders_on_transaction_id"
+    t.index ["uuid"], name: "index_binance_orders_on_uuid"
   end
 
   create_table "bittrex_orders", id: :serial, force: :cascade do |t|
@@ -260,6 +271,7 @@ ActiveRecord::Schema.define(version: 20180105172427) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "binance_orders", "transactions"
   add_foreign_key "bittrex_orders", "bittrex_orders_history_imports"
   add_foreign_key "bittrex_orders", "transactions"
   add_foreign_key "bittrex_orders_history_imports", "users"
