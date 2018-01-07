@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root to: redirect("/portfolio")
   resources :bittrex_integrations
+  resources :binance_integrations, only: %i(new create)
   resources :coins
   namespace :portfolio do
     root to: "portfolio#index"
