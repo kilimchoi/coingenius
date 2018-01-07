@@ -10,7 +10,8 @@ module Users
         Rails.logger.debug("[#{self.class.name}]: Creating Binance::Order from #{order.inspect}")
 
         context.fail!(message: "Order status is not FILLED") if order["status"] != "FILLED"
-        context.fail!(message: "Already exists") if already_exists? || coin.nil?
+        context.fail!(message: "Already exists") if already_exists?
+        context.fail!(message: "Coin is not supported") if coin.nil?
       end
 
       def call
