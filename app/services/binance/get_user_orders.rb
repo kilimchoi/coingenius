@@ -7,7 +7,7 @@ module Binance
     def call
       context.orders = applicable_symbol_pairs.map do |symbol_pair|
         client.all_orders(symbol: symbol_pair)
-      end.reject(&:empty?)
+      end.flatten
     end
 
     private
