@@ -10,6 +10,7 @@ class Transaction < ApplicationRecord
     has_one :coinbase_sent, class_name: "Coinbase::Sent"
     has_one :coinbase_received, class_name: "Coinbase::Received"
     has_one :bittrex_order
+    has_one :binance_order, :class_name => 'Binance::Order'
   end
 
   enum transaction_type: %i[bought sold withdrawal deposit received sent]
