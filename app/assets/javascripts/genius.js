@@ -7,7 +7,8 @@ $(document).ready(function() {
     "$": "USD", 
     "€": "EUR",
     "£": "GBP",
-    "C$": "CAD", 
+    "C$": "CAD",
+    "A$": "AUD", 
     "฿": "BTC"
   }
   var currencyNameToSym = {
@@ -15,6 +16,7 @@ $(document).ready(function() {
     "EUR": "€",
     "GBP": "£",
     "CAD": "C$",
+    "AUD": "A$", 
     "BTC": "฿"
   }
 
