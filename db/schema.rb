@@ -19,10 +19,10 @@ ActiveRecord::Schema.define(version: 20180104064739) do
   create_table "active_admin_comments", id: :serial, force: :cascade do |t|
     t.string "namespace"
     t.text "body"
-    t.string "resource_type"
     t.integer "resource_id"
-    t.string "author_type"
+    t.string "resource_type"
     t.integer "author_id"
+    t.string "author_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
@@ -156,6 +156,7 @@ ActiveRecord::Schema.define(version: 20180104064739) do
     t.string "withdrawal_address", comment: "Address to send requested coin"
     t.string "deposit_address", comment: "Address to send coin to"
     t.jsonb "raw_data", comment: "Raw response from ShapeShift"
+    t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["receive_coin_id"], name: "index_conversions_on_receive_coin_id"
@@ -217,12 +218,6 @@ ActiveRecord::Schema.define(version: 20180104064739) do
     t.decimal "btc_price"
     t.datetime "transaction_date"
     t.boolean "is_expired", default: false
-    t.string "from_address"
-    t.string "to_address"
-    t.integer "from_coin_id"
-    t.integer "from_coin_amount"
-    t.integer "to_coin_amount"
-    t.string "xmr_pay_id"
     t.index ["coin_id"], name: "index_transactions_on_coin_id"
     t.index ["transaction_type"], name: "index_transactions_on_transaction_type"
     t.index ["user_id"], name: "index_transactions_on_user_id"
