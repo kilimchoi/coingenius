@@ -1,16 +1,6 @@
 # Binance
-users_binance_sync_deposits_for_all_users:
-  class: Users::Binance::SyncDepositsForAllUsersWorker
-  cron: "0 0 * * *"
-  queue: "binance"
-
-users_binance_sync_orders_for_all_users:
-  class: Users::Binance::SyncOrdersForAllUsersWorker
-  cron: "0 0 * * *"
-  queue: "binance"
-
-users_binance_sync_withdrawals_for_all_users:
-  class: Users::Binance::SyncWithdrawalsForAllUsersWorker
+users_binance_sync_data_for_all_users:
+  class: Users::Binance::SyncDataForAllUsersWorker
   cron: "0 0 * * *"
   queue: "binance"
 
