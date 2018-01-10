@@ -17,20 +17,8 @@ module Users
 
       devise_parameter_sanitizer.permit(
         :account_update,
-        keys: account_update_attributes
+        keys: %i[bittrex_api_key bittrex_api_secret username password password_confirmation current_password]
       )
-    end
-
-    def account_update_attributes
-      user_api_attributes + user_standard_attributes
-    end
-
-    def user_api_attributes
-      %i[binance_api_key binance_api_secret bittrex_api_key bittrex_api_secret]
-    end
-
-    def user_standard_attributes
-      %i[username password password_confirmation current_password]
     end
   end
 end
