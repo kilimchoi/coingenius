@@ -3,33 +3,8 @@ users_bittrex_sync_orders_for_all_users:
   cron: "0 0 * * *"
   queue: "bittrex"
 
-users_coinbase_sync_buys_for_all_users:
-  class: Users::Coinbase::SyncBuysForAllUsersWorker
-  cron: "0 0 * * *"
-  queue: "coinbase"
-
-users_coinbase_sync_sells_for_all_users:
-  class: Users::Coinbase::SyncSellsForAllUsersWorker
-  cron: "0 0 * * *"
-  queue: "coinbase"
-
-users_coinbase_sync_sent_for_all_users:
-  class: Users::Coinbase::SyncSentForAllUsersWorker
-  cron: "0 0 * * *"
-  queue: "coinbase"
-
-users_coinbase_sync_received_for_all_users:
-  class: Users::Coinbase::SyncReceivedForAllUsersWorker
-  cron: "0 0 * * *"
-  queue: "coinbase"
-
-users_coinbase_sync_deposits_for_all_users:
-  class: Users::Coinbase::SyncDepositsForAllUsersWorker
-  cron: "0 0 * * *"
-  queue: "coinbase"
-
-users_coinbase_sync_withdrawals_for_all_users:
-  class: Users::Coinbase::SyncWithdrawalsForAllUsersWorker
+users_coinbase_sync_data_for_all_users:
+  class: Users::Coinbase::SyncDataForAllUsersWorker
   cron: "0 0 * * *"
   queue: "coinbase"
 
