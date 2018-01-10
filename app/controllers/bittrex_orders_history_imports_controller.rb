@@ -10,10 +10,14 @@ class BittrexOrdersHistoryImportsController < ApplicationController
     bittrex_orders_history_import = current_user.bittrex_orders_history_imports.create!(
       file_content: bittrex_orders_history_import_params[:history_file].read.gsub!(/\0/, "")
     )
+    if bittrex_orders_history_import.file_content.nil?
+      flash[:error] = "File is nil. Please click load all button on bittrex and try again."
+      redirect_back fallback_location: root_path
+    else
+      BittrexOrdersHistoryImports::ProcessWorker.perform_async(bittrex_orders_history_import.id)
 
-    BittrexOrdersHistoryImports::ProcessWorker.perform_async(bittrex_orders_history_import.id)
-
-    redirect_to portfolio_root_path, notice: "Your Bittrex orders history file will be processed soon"
+      redirect_to portfolio_root_path, notice: "Your Bittrex orders history file will be processed soon"
+    end
   end
 
   private
