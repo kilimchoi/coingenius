@@ -18,14 +18,6 @@
       .form-group
         = f.label :bittrex_api_secret
         = f.text_field :bittrex_api_secret, class: 'form-control'
-
-      .form-group
-        = f.label :binance_api_key
-        = f.text_field :binance_api_key, class: 'form-control'
-      .form-group
-        = f.label :binance_api_secret
-        = f.text_field :binance_api_secret, class: 'form-control'
-
       - if devise_mapping.confirmable? && resource.pending_reconfirmation?
         small.form-text.text-muted Currently waiting confirmation for: #{resource.unconfirmed_email}
       .form-group
