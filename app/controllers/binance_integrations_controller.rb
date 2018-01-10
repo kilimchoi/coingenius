@@ -14,7 +14,7 @@ class BinanceIntegrationsController < ApplicationController
     elsif current_user.update(binance_params)
       flash[:success] = "You successfully integrated with Binance. We will be pulling transactions from Binance."
 
-      Users::Binance::SyncOrdersWorker.perform_async(current_user.id)
+      Users::Binance::SyncDataWorker.perform_async(current_user.id)
     else
       flash[:error] = current_user.errors.full_messages.join(", ")
     end
