@@ -35,7 +35,7 @@ class User < ApplicationRecord
         monthly_data = yearly_data.last(30)
         weekly_data = yearly_data.last(7)
       end
-      if transaction.bought? || transaction.withdrawal? || transaction.received?
+      if transaction.bought? || transaction.deposit? || transaction.received?
         amount_change = transaction.amount
         total_change = (transaction.amount * weekly_data.last.to_f)
       else
