@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180107205044) do
+ActiveRecord::Schema.define(version: 20180111203733) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -248,10 +248,12 @@ ActiveRecord::Schema.define(version: 20180107205044) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.decimal "btc_price"
+    t.decimal "converted_coin_price"
     t.datetime "transaction_date"
     t.boolean "is_expired", default: false
+    t.bigint "converted_coin_id"
     t.index ["coin_id"], name: "index_transactions_on_coin_id"
+    t.index ["converted_coin_id"], name: "index_transactions_on_converted_coin_id"
     t.index ["transaction_type"], name: "index_transactions_on_transaction_type"
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end
@@ -310,6 +312,7 @@ ActiveRecord::Schema.define(version: 20180107205044) do
   add_foreign_key "email_subscriptions", "users"
   add_foreign_key "identities", "users"
   add_foreign_key "statistics_weekly_portfolios", "users"
+  add_foreign_key "transactions", "coins", column: "converted_coin_id"
   add_foreign_key "user_api_credentials", "users"
 
   create_view "weekly_user_transactions_groups", materialized: true,  sql_definition: <<-SQL
