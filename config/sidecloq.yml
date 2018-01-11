@@ -10,7 +10,7 @@ users_coinbase_sync_data_for_all_users:
 
 user_coinbase_refresh_access_tokens:
   class: Users::Coinbase::RefreshAccessTokens
-  cron: "0 * * * *"
+  cron: "0 0 * * *"
   queue: "coinbase"
 
 coins_sync_daily_prices_for_coins:
