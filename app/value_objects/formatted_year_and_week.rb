@@ -1,29 +1,23 @@
 class FormattedYearAndWeek
-  WEEK_FORMAT = "%V".freeze
-  PREPEND_ZERO_FORMAT = "%02d".freeze
+  FORMAT = "%G-%V".freeze
 
   def initialize(time = Time.zone.now)
-    @year = time.year
-    @week = time.strftime(WEEK_FORMAT).to_i
+    @time = time
   end
 
   def value
-    @value ||= "#{year}-#{formatted_week(week)}"
+    @value ||= time.strftime(FORMAT)
   end
 
   def next
-    @next ||= "#{year}-#{formatted_week(week.next)}"
+    @next ||= (time + 1.week).strftime(FORMAT)
   end
 
   def previous
-    @previous ||= "#{year}-#{formatted_week(week.pred)}"
+    @previous ||= (time - 1.week).strftime(FORMAT)
   end
 
   private
 
-  attr_reader :year, :week
-
-  def formatted_week(week)
-    format(PREPEND_ZERO_FORMAT, week)
-  end
+  attr_reader :time
 end
