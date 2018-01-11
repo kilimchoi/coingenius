@@ -252,8 +252,10 @@ ActiveRecord::Schema.define(version: 20180111203733) do
     t.datetime "transaction_date"
     t.boolean "is_expired", default: false
     t.bigint "converted_coin_id"
+    t.bigint "linked_transaction_id"
     t.index ["coin_id"], name: "index_transactions_on_coin_id"
     t.index ["converted_coin_id"], name: "index_transactions_on_converted_coin_id"
+    t.index ["linked_transaction_id"], name: "index_transactions_on_linked_transaction_id"
     t.index ["transaction_type"], name: "index_transactions_on_transaction_type"
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end
@@ -313,6 +315,7 @@ ActiveRecord::Schema.define(version: 20180111203733) do
   add_foreign_key "identities", "users"
   add_foreign_key "statistics_weekly_portfolios", "users"
   add_foreign_key "transactions", "coins", column: "converted_coin_id"
+  add_foreign_key "transactions", "transactions", column: "linked_transaction_id"
   add_foreign_key "user_api_credentials", "users"
 
   create_view "weekly_user_transactions_groups", materialized: true,  sql_definition: <<-SQL
