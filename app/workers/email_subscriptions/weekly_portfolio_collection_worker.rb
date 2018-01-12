@@ -2,6 +2,8 @@ module EmailSubscriptions
   class WeeklyPortfolioCollectionWorker
     include Sidekiq::Worker
 
+    sidekiq_options queue: 'email_subscriptions', retry: 5
+
     def perform
       WeeklyUserTransactionsGroup.refresh
 

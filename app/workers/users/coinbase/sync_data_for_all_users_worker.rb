@@ -2,8 +2,8 @@ module Users
   module Coinbase
     class SyncDataForAllUsersWorker
       include Sidekiq::Worker
-      
-      sidekiq_options retry: 5
+
+      sidekiq_options queue: 'coinbase', retry: 5
       
       def perform
         User.find_each do |user|
