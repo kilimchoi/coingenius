@@ -3,7 +3,7 @@ module Users
     class SyncOrdersForUserWorker
       include Sidekiq::Worker
 
-      sidekiq_options retry: 5
+      sidekiq_options queue: 'bittrex', retry: 5
 
       def perform(user_id)
         user = User.find_by(id: user_id)
