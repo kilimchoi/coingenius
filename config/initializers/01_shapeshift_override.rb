@@ -1,13 +1,13 @@
 ShapeShiftRuby::Client.class_eval do
   def fixed_amount_transaction(amount:,
-                               api_key: "",
-                               deposit_amount: false,
-                               dest_tag: "",
-                               pair:,
-                               payment_id: "",
-                               return_address: "",
-                               rs_address: "",
-                               withdrawal:)
+    api_key: "",
+    deposit_amount: false,
+    dest_tag: "",
+    pair:,
+    payment_id: "",
+    return_address: "",
+    rs_address: "",
+    withdrawal:)
     amount_params_key = deposit_amount ? "depositAmount" : "amount"
 
     params = {

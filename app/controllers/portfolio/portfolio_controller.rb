@@ -3,10 +3,10 @@ class Portfolio::PortfolioController < ApplicationController
   layout :current_layout # on top of the controller
 
   def current_layout
-    current_user ? 'application' : 'landing_page_application'
+    current_user ? "application" : "landing_page_application"
   end
-  
-  def update_default_currency 
+
+  def update_default_currency
     current_user.user_currency = params[:currency]
     current_user.save!
     respond_to do |format|
