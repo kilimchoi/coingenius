@@ -5,6 +5,10 @@ module Users
 
       delegate :symbols, :user, to: :context
 
+      before do
+        context.symbols ||= []
+      end
+
       def call
         latest_order_id = context.skip_existing ? (::Binance::Order.last&.id || 0) : 0
 
