@@ -7,6 +7,7 @@ gem "rails", "~> 5.1"
 
 gem "activeadmin", github: "activeadmin"
 gem "attr_encrypted", "~> 3.0" # Encrypt sensitive data
+gem "binance" # Binance client
 gem "bootstrap", "~> 4.0.0.alpha6"
 gem "bugsnag"
 gem "decent_exposure", "3.0.0"
@@ -39,7 +40,6 @@ gem "statesman" # State machine implementation
 gem "uglifier", ">= 1.3.0"
 gem "uuid", require: false # For UUID validation
 gem "webpacker", "~> 3.0"
-gem "binance" # Binance client
 
 source "https://rails-assets.org" do
   gem "rails-assets-tether", ">= 1.1.0"
