@@ -19,9 +19,23 @@ module Users
           context.transaction = user.transactions.create!(
             amount: amount,
             coin: coin,
+            converted_coin: Coin.find_by(symbol: converted_coin_symbol),
+            converted_coin_price: price,
             transaction_date: executed_at,
             transaction_type: transaction_type
           )
+
+          context.linked_transaction = user.transactions.create!(
+            amount: converted_coin_amount,
+            coin: converted_coin,
+            converted_coin: coin,
+            converted_coin_price: converted_coin_price,
+            linked_transaction: context.transaction,
+            transaction_date: executed_at,
+            transaction_type: linked_transaction_type
+          )
+
+          context.transaction.update!(linked_transaction: context.linked_transaction)
 
           context.binance_order = context.transaction.create_binance_order!(
             executed_at: executed_at,
@@ -33,8 +47,12 @@ module Users
 
       private
 
+      def price
+        @price ||= BigDecimal.new(order["price"], 12)
+      end
+
       def amount
-        BigDecimal.new(order["origQty"], 12)
+        @amount ||= BigDecimal.new(order["origQty"], 12)
       end
 
       def already_exists?
@@ -55,6 +73,28 @@ module Users
 
       def transaction_type
         order["side"] == "SELL" ? :sold : :bought
+      end
+
+      # Converted coin methods
+
+      def converted_coin
+        Coin.find_by(symbol: converted_coin_symbol)
+      end
+
+      def converted_coin_amount
+        @converted_coin_amount ||= amount * price
+      end
+
+      def converted_coin_symbol
+        Coin.pluck(:symbol).find { |symbol| order["symbol"].end_with?(symbol) }
+      end
+
+      def converted_coin_price
+        amount / converted_coin_amount
+      end
+
+      def linked_transaction_type
+        order["side"] == "SELL" ? :bought : :sold
       end
     end
   end
