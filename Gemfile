@@ -2,56 +2,41 @@ source "https://rubygems.org"
 
 ruby "2.3.1"
 
-# Bundle edge Rails instead: gem "rails", github: "rails/rails"
-gem "rails", "~> 5.1"
-# Use sqlite3 as the database for Active Record
 gem "pg"
-# Use SCSS for stylesheets
-gem "sass-rails", "~> 5.0"
-# Use Uglifier as compressor for JavaScript assets
-gem "uglifier", ">= 1.3.0"
-# Use CoffeeScript for .coffee assets and views
-gem "coffee-rails", "~> 4.2.0"
-# See https://github.com/rails/execjs#readme for more supported runtimes
-# gem "therubyracer", platforms: :ruby
+gem "rails", "~> 5.1"
 
-# Use jquery as the JavaScript library
-gem "jquery-rails"
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem "turbolinks"
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem "jbuilder", "~> 2.0"
-# bundle exec rake doc:rails generates the API under doc/api.
 gem "activeadmin", github: "activeadmin"
 gem "attr_encrypted", "~> 3.0" # Encrypt sensitive data
-gem "awesome_print"
 gem "bootstrap", "~> 4.0.0.alpha6"
 gem "bugsnag"
 gem "decent_exposure", "3.0.0"
 gem "devise"
 gem "dry-container"
 gem "dry-matcher"
-gem "friendly_id", "~> 5.1.0"
 gem "httparty"
 gem "interactor-rails"
+gem "jbuilder", "~> 2.0"
+gem "jquery-rails"
 gem "mandrill-rails"
 gem "mandrill_mailer"
 gem "meta-tags"
+gem "mini_racer", platforms: :ruby
 gem "omniauth-coinbase", git: "https://github.com/kilimchoi/omniauth-coinbase.git"
 gem "puma", "~> 3.10"
 gem "rails-jquery-autocomplete"
 gem "react_on_rails", "10.0.2"
-gem "redis", "~>3.2"
-gem "rinku"
+gem "redis", "~> 3.2"
+gem "sass-rails", "~> 5.0"
 gem "scenic"
 gem "sdoc", "~> 0.4.0", group: :doc
 gem "select2-rails"
 gem "shapeshift_ruby"
 gem "sidecloq"
-gem "sidekiq", "~>4.0.1"
+gem "sidekiq", "< 6"
 gem "sinatra", "~> 2.0"
 gem "slim"
 gem "statesman" # State machine implementation
+gem "uglifier", ">= 1.3.0"
 gem "uuid", require: false # For UUID validation
 gem "webpacker", "~> 3.0"
 
@@ -64,6 +49,7 @@ group :production do
 end
 
 group :development, :test do
+  gem "awesome_print"
   gem "dotenv-rails"
   gem "factory_girl_rails"
   gem "ffaker"
@@ -78,7 +64,6 @@ group :development do
   gem "rubocop-rspec"
   gem "scout_apm" # Dev profiling
   gem "spring"
-  gem "sqlite3"
 end
 
 group :test do
@@ -88,5 +73,3 @@ group :test do
   gem "simplecov", require: false
   gem "timecop"
 end
-
-gem "mini_racer", platforms: :ruby

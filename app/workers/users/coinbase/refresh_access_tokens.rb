@@ -2,8 +2,8 @@ module Users
   module Coinbase
     class RefreshAccessTokens
       include Sidekiq::Worker
-      
-      sidekiq_options queue: 'coinbase', retry: 5
+
+      sidekiq_options queue: "coinbase", retry: 5
 
       def perform
         Identity.where(provider: :coinbase).find_each do |identity|

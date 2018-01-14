@@ -11,6 +11,7 @@ AllCops:
     - db/**/*
     - vendor/**/*
     - tmp/**/*
+    - node_modules/**/*
 
 Rails/HasAndBelongsToMany:
   Enabled: false

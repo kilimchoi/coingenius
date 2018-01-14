@@ -35,7 +35,7 @@ Rails.application.routes.draw do
   resources :coins
   namespace :portfolio do
     root to: "portfolio#index"
-    authenticated :user do 
+    authenticated :user do
       post "/update_default_currency/", to: "portfolio#update_default_currency"
     end
 

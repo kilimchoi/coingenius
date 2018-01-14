@@ -3,8 +3,8 @@ module Users
     class SyncDataForAllUsersWorker
       include Sidekiq::Worker
 
-      sidekiq_options queue: 'coinbase', retry: 5
-      
+      sidekiq_options queue: "coinbase", retry: 5
+
       def perform
         User.find_each do |user|
           Users::Coinbase::SyncBuysForUserWorker.perform_async(user.id)
