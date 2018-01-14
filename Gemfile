@@ -32,7 +32,7 @@ gem "sdoc", "~> 0.4.0", group: :doc
 gem "select2-rails"
 gem "shapeshift_ruby"
 gem "sidecloq"
-gem "sidekiq", "~> 4.0.1"
+gem "sidekiq", "< 6"
 gem "sinatra", "~> 2.0"
 gem "slim"
 gem "statesman" # State machine implementation
