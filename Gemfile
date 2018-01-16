@@ -33,7 +33,7 @@ gem "sdoc", "~> 0.4.0", group: :doc
 gem "select2-rails"
 gem "shapeshift_ruby"
 gem "sidecloq"
-gem "sidekiq", "< 6"
+gem "sidekiq", github: "mperham/sidekiq" # We will use master until 5.1 released "~> 5.1"
 gem "sinatra", "~> 2.0"
 gem "slim"
 gem "statesman" # State machine implementation
