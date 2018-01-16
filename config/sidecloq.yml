@@ -1,10 +1,8 @@
-# Binance
 users_binance_sync_data_for_all_users:
   class: Users::Binance::SyncDataForAllUsersWorker
   cron: "0 0 * * *"
   queue: "binance"
 
-# Bittrex
 users_bittrex_sync_orders_for_all_users:
   class: Users::Bittrex::SyncOrdersForAllUsersWorker
   cron: "0 0 * * *"

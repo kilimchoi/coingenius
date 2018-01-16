@@ -3,7 +3,7 @@ module Users
     class SyncDataWorker
       include Sidekiq::Worker
 
-      sidekiq_options retry: 5
+      sidekiq_options queue: "binance", retry: 5
 
       def perform(user_id)
         Users::Binance::SyncDepositsWorker.perform_async(user_id)
