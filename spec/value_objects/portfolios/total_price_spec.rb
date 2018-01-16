@@ -1,9 +1,11 @@
 require "rails_helper"
 
-describe WeeklyUserTransactionsGroups::TotalPrice do
+describe Portfolios::TotalMoneyPrice do
   let(:transactions_group) { WeeklyUserTransactionsGroup.last }
   let(:datetime) { Time.zone.now }
-  let(:value_object) { described_class.new(transactions_group: transactions_group, datetime: datetime) }
+  let(:value_object) do
+    described_class.new(coin: transactions_group.coin, total_amount: transactions_group.total_amount, datetime: datetime)
+  end
 
   before do
     allow(Coins::GetCachedPriceHistory)

@@ -1,14 +1,14 @@
-module WeeklyUserTransactionsGroups
-  class TotalPrice
+module Portfolios
+  class TotalMoneyPrice < ::BaseValueObject
     DEFAULT_CURRENCY = "USD".freeze
 
-    attr_reader :transactions_group, :datetime
+    attr_reader :coin, :total_amount, :datetime, :currency
 
-    delegate :coin, :total_amount, to: :transactions_group
-
-    def initialize(transactions_group:, datetime:)
-      @transactions_group = transactions_group
+    def initialize(coin:, total_amount:, datetime: Time.zone.now, currency: DEFAULT_CURRENCY)
+      @coin = coin
+      @total_amount = total_amount
       @datetime = datetime
+      @currency = currency
     end
 
     def value
@@ -25,7 +25,7 @@ module WeeklyUserTransactionsGroups
       Coins::GetCachedPriceHistory.call(
         coin: coin,
         days: days,
-        price_currency: DEFAULT_CURRENCY
+        price_currency: currency
       ).results
     end
 

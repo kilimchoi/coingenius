@@ -24,7 +24,7 @@ module Statistics
     end
 
     def transactions_group
-      WeeklyUserTransactionsGroup.find_by(
+      context.transactions_group ||= WeeklyUserTransactionsGroup.find_by(
         coin: coin,
         user: user,
         week_number: formatted_week_number
@@ -32,10 +32,11 @@ module Statistics
     end
 
     def total_price
-      WeeklyUserTransactionsGroups::TotalPrice.new(
-        transactions_group: transactions_group,
+      Portfolios::TotalMoneyPrice.calculate(
+        coin: coin,
+        total_amount: transactions_group.total_amount,
         datetime: transaction_date
-      ).value
+      )
     end
 
     def update_portfolio

@@ -1,34 +1,37 @@
 - provide(:title, "Cryptocurrency Portfolio Tracker")
-- if current_user.nil? 
+- if current_user.nil?
   = render partial: "landing_page"
 - else
   h2.dashhead-title.mt-5 My Portfolio
 
-  h3#total.text-center data-total=@total
-    = number_to_currency(@total)
+  .portfolio-changes-data*{ data: { weekly: @weekly_changes,
+    monthly: @monthly_changes, yearly: @yearly_changes } }
   .text-center
-    select#currency
-      option value="USD"  USD
-      option value="EUR"  EUR
-      option value="GBP"  GBP
-      option value="CAD"  CAD
-      option value="AUD"  AUD
-      option value="BTC"  BTC
-
+    h3#total data-total=@total
+      = number_to_currency(@total)
+    h5.portfolio-changes
+      = @weekly_changes
+    .text-center
+      select#currency
+        option value="USD"  USD
+        option value="EUR"  EUR
+        option value="GBP"  GBP
+        option value="CAD"  CAD
+        option value="AUD"  AUD
+        option value="BTC"  BTC
   #binance-modal-window.modal.hide aria-hidden="true" aria-labelledby="binanceModal" role="dialog"
   #bittrex-modal-window.modal.hide aria-hidden="true" aria-labelledby="bittrexModal" role="dialog"
-
-  #modal-window.modal.hide aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" 
+  #modal-window.modal.hide aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
   - if @total && @total > 0
     .dropdown.float-right
-      button.btn.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" type="button" 
+      button.btn.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" type="button"
       .dropdown-menu.dropdown-menu-right
         = link_to "+ Add transaction", new_portfolio_transaction_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "dropdown-item"}
-        = link_to "Connect to Coinbase", 
+        = link_to "Connect to Coinbase",
         user_coinbase_omniauth_authorize_path,  class:"dropdown-item"
         = link_to "Import from Binance",
                 new_binance_integration_path, { remote: true, "data-toggle": "modal", "data-target": "#binance-modal-window", "data-animation": "false", "data-turbolinks": "false", class: "dropdown-item" }
-        = link_to "Import from Bittrex", 
+        = link_to "Import from Bittrex",
         new_bittrex_integration_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#bittrex-modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "dropdown-item"}
 
     .hr-divider.mt-5.mb-3
@@ -54,24 +57,24 @@
               th Value
               th.text-center Edit Transactions
           - @holdings.each do |holding|
-            -if holding[:total] > 0 
+            -if holding[:total] > 0
               tbody
-                tr 
+                tr
                   td.coinname data-coinname=holding[:coin].name
                     = "#{holding[:coin].name} (#{holding[:coin].symbol})"
                   td#coinPrice.coinPrice data-coinprice=holding[:price]
                     = number_to_currency(holding[:price], precision: 5)
-                  td 
+                  td
                     - if holding[:percent_change].to_f > 0
-                      .positive-change 
+                      .positive-change
                         = number_to_percentage(holding[:percent_change], precision: 2)
                     - elsif holding[:percent_change].to_f == 0
                       = number_to_percentage(holding[:percent_change], precision: 2)
                     - else
                       .negative-change
-                        = number_to_percentage(holding[:percent_change], precision: 2)  
+                        = number_to_percentage(holding[:percent_change], precision: 2)
                   td
-                    = "#{holding[:amount]} #{holding[:coin].symbol}" 
+                    = "#{holding[:amount]} #{holding[:coin].symbol}"
                   td#holdingTotal.holdingTotal data-holdingtotal=holding[:total]
                     = "#{number_to_currency(holding[:total])}"
                   td.text-center
@@ -79,14 +82,14 @@
                       i.fa.fa-pencil aria-hidden="true"
 
 
-    - elsif @total == 0 && user_signed_in? 
+    - elsif @total == 0 && user_signed_in?
       .mt-4.w-20.mx-auto
         = image_tag "empty_portfolio.png", class: "empty-portfolio rounded mx-auto img-fluid"
         br
         .mx-auto
           p Please add coins to your portfolio
           .dropdown
-            button.btn.btn-primary.dropdown-toggle.btn-lg.coin-button aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" type="button" 
+            button.btn.btn-primary.dropdown-toggle.btn-lg.coin-button aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" type="button"
               | Add
             .dropdown-menu.dropdown-menu-right.coin-button
               = link_to "Manually", new_portfolio_transaction_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "dropdown-item"}

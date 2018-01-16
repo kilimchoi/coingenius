@@ -18,12 +18,17 @@ describe Statistics::UpdateWeeklyPortfolio do
       create(:statistics_weekly_portfolio,
         user: user, total: 100.0, created_at: transaction_date, week_number: week_number)
     end
-    let(:total) { instance_double("WeeklyUserTransactionsGroups::TotalPrice", value: 5000.0) }
+    let(:total) { instance_double("Portfolios::TotalMoneyPrice", value: 5000.0) }
+    let(:transactions_group) { user.weekly_user_transactions_groups.last }
 
     it "creates weekly portfolio record" do
-      expect(WeeklyUserTransactionsGroups::TotalPrice)
+      expect(Portfolios::TotalMoneyPrice)
         .to receive(:new)
-        .with(transactions_group: user.weekly_user_transactions_groups.last, datetime: transaction_date)
+        .with(
+          coin: transactions_group.coin,
+          total_amount: transactions_group.total_amount,
+          datetime: transaction_date
+        )
         .and_return(total)
 
       expect(service_call).to be_success

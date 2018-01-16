@@ -1,37 +1,45 @@
-$(document).ready(function() {
+$(document).ready(function () {
   var select = document.querySelector("#currency");
   var lastSelected = localStorage.getItem('currency');
   var dataSetinLastSelectedCurrency = [];
   var setLength = 365;
   var symToCurrencyName = {
-    "$": "USD", 
+    "$": "USD",
     "€": "EUR",
     "£": "GBP",
     "C$": "CAD",
-    "A$": "AUD", 
+    "A$": "AUD",
     "฿": "BTC"
   }
   var currencyNameToSym = {
-    "USD": "$", 
+    "USD": "$",
     "EUR": "€",
     "GBP": "£",
     "CAD": "C$",
-    "AUD": "A$", 
+    "AUD": "A$",
     "BTC": "฿"
   }
 
-  function updateDefaultCurrency(currency){
+  function updatePortfolioChange(range) {
+    var changeValue = $(".portfolio-changes-data").data(range);
+
+    return $(".portfolio-changes").text(changeValue);
+  }
+
+  function updateDefaultCurrency(currency) {
     //TODO: fix the url
     $.ajax({
       url: 'https://coingenius.co/portfolio/update_default_currency',
       type: 'post',
-      data: {'currency':currency},
+      data: {
+        'currency': currency
+      },
       dataType: 'json'
     });
   }
 
   if (lastSelected) {
-    select.value = lastSelected; 
+    select.value = lastSelected;
     var dollarAmount = $("#total").data('total');
     var toCurrencyName = $("#currency").val();
     var currHoldingTotal = $("#holdingTotal").data('holdingtotal');
@@ -39,7 +47,7 @@ $(document).ready(function() {
     if (toCurrencyName == "BTC") {
       $.ajax({
         url: "https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=BTC",
-        type: "get", 
+        type: "get",
         dataType: "json",
       }).done(function (data) {
         var totalAmount = dollarAmount * data["BTC"];
@@ -56,11 +64,11 @@ $(document).ready(function() {
         }
 
         $("#total").text(currencyNameToSym[toCurrencyName] + "" + totalAmount.toFixed(8));
-        
+
         $('[data-chart]').each(function () {
           dataSetinLastSelectedCurrency = [];
           var yearlydataset = $(this).data().yearlydataset[0];
-          for (var i = yearlydataset.length-1; i >= 0; i--) {
+          for (var i = yearlydataset.length - 1; i >= 0; i--) {
             var d = yearlydataset[i];
             dataSetinLastSelectedCurrency.push(d * data["BTC"]);
           }
@@ -69,9 +77,9 @@ $(document).ready(function() {
         dataSetinLastSelectedCurrency.reverse();
         var idName = $('.nav-link.active').attr("id");
         if (idName == "weekly") {
-          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(setLength-7, setLength)
+          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(setLength - 7, setLength)
         } else if (idName == "monthly") {
-          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(setLength-30, setLength)
+          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(setLength - 30, setLength)
         } else {
           window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency
         }
@@ -79,7 +87,7 @@ $(document).ready(function() {
       })
     } else if (toCurrencyName != "USD") {
       $.ajax({
-        url: "https://api.fixer.io/latest?base=USD&symbols="+toCurrencyName,
+        url: "https://api.fixer.io/latest?base=USD&symbols=" + toCurrencyName,
         type: 'get',
         dataType: 'json',
       }).done(function (data) {
@@ -96,13 +104,13 @@ $(document).ready(function() {
         }
 
         var totalAmount = dollarAmount * data["rates"][toCurrencyName];
-        
+
         $("#total").text(currencyNameToSym[toCurrencyName] + "" + totalAmount.toFixed(2));
-        
+
         $('[data-chart]').each(function () {
           dataSetinLastSelectedCurrency = [];
           var yearlydataset = $(this).data().yearlydataset[0];
-          for (var i = yearlydataset.length-1; i >= 0; i--) {
+          for (var i = yearlydataset.length - 1; i >= 0; i--) {
             var d = yearlydataset[i];
             dataSetinLastSelectedCurrency.push(d * data["rates"][toCurrencyName]);
           }
@@ -111,9 +119,9 @@ $(document).ready(function() {
         dataSetinLastSelectedCurrency.reverse();
         var idName = $('.nav-link.active').attr("id");
         if (idName == "weekly") {
-          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(setLength-7, setLength)
+          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(setLength - 7, setLength)
         } else if (idName == "monthly") {
-          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(setLength-30, setLength)
+          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(setLength - 30, setLength)
         } else {
           window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency
         }
@@ -123,7 +131,7 @@ $(document).ready(function() {
       var t = parseFloat($("#total").data('total')).toFixed(2);
       var holdingTotal = parseFloat($("#holdingTotal").data('holdingtotal')).toFixed(2);
       var coinPrice = parseFloat($("#coinPrice").data("coinprice")).toFixed(2);
-      
+
       $("#total").text("$" + t);
 
       var matching = document.getElementsByClassName("coinPrice");
@@ -140,7 +148,7 @@ $(document).ready(function() {
     }
   }
 
-  $("#currency").on("change", function() {
+  $("#currency").on("change", function () {
     localStorage.setItem('currency', $("#currency").val());
     updateDefaultCurrency($("#currency").val());
     var dollarAmount = $("#total").data('total');
@@ -150,7 +158,7 @@ $(document).ready(function() {
     if (toCurrencyName == "BTC") {
       $.ajax({
         url: "https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=BTC",
-        type: "get", 
+        type: "get",
         dataType: "json",
       }).done(function (data) {
         var totalAmount = dollarAmount * data["BTC"];
@@ -172,11 +180,11 @@ $(document).ready(function() {
         }
 
         $("#total").text(currencyNameToSym[toCurrencyName] + "" + totalAmount.toFixed(8));
-        
+
         $('[data-chart]').each(function () {
           dataSetinLastSelectedCurrency = [];
           var yearlydataset = $(this).data().yearlydataset[0];
-          for (var i = yearlydataset.length-1; i >= 0; i--) {
+          for (var i = yearlydataset.length - 1; i >= 0; i--) {
             var d = yearlydataset[i];
             dataSetinLastSelectedCurrency.push(d * data["BTC"]);
           }
@@ -185,9 +193,9 @@ $(document).ready(function() {
         dataSetinLastSelectedCurrency.reverse();
         var idName = $('.nav-link.active').attr("id");
         if (idName == "weekly") {
-          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(setLength-7, setLength)
+          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(setLength - 7, setLength)
         } else if (idName == "monthly") {
-          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(setLength-30, setLength)
+          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(setLength - 30, setLength)
         } else {
           window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency
         }
@@ -195,7 +203,7 @@ $(document).ready(function() {
       })
     } else if (toCurrencyName != "USD") {
       $.ajax({
-        url: "https://api.fixer.io/latest?base=USD&symbols="+toCurrencyName,
+        url: "https://api.fixer.io/latest?base=USD&symbols=" + toCurrencyName,
         type: 'get',
         dataType: 'json',
       }).done(function (data) {
@@ -212,13 +220,13 @@ $(document).ready(function() {
         }
 
         var totalAmount = dollarAmount * data["rates"][toCurrencyName];
-        
+
         $("#total").text(currencyNameToSym[toCurrencyName] + "" + totalAmount.toFixed(2));
-        
+
         $('[data-chart]').each(function () {
           dataSetinLastSelectedCurrency = [];
           var yearlydataset = $(this).data().yearlydataset[0];
-          for (var i = yearlydataset.length-1; i >= 0; i--) {
+          for (var i = yearlydataset.length - 1; i >= 0; i--) {
             var d = yearlydataset[i];
             dataSetinLastSelectedCurrency.push(d * data["rates"][toCurrencyName]);
           }
@@ -227,14 +235,14 @@ $(document).ready(function() {
         dataSetinLastSelectedCurrency.reverse();
         var idName = $('.nav-link.active').attr("id");
         if (idName == "weekly") {
-          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(setLength-7, setLength)
+          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(setLength - 7, setLength)
         } else if (idName == "monthly") {
-          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(setLength-30, setLength)
+          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(setLength - 30, setLength)
         } else {
           window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency
         }
         window.lineChart.update();
-      }) 
+      })
     } else {
       var t = parseFloat($("#total").data('total')).toFixed(2);
       var holdingTotal = parseFloat($("#holdingTotal").data('holdingtotal')).toFixed(2);
@@ -243,9 +251,9 @@ $(document).ready(function() {
         var yearlyDataset = $(this).data().yearlydataset[0];
         var idName = $('.nav-link.active').attr("id");
         if (idName == "weekly") {
-          window.lineChart.data.datasets[0].data = yearlyDataset.slice(setLength-7, setLength)
+          window.lineChart.data.datasets[0].data = yearlyDataset.slice(setLength - 7, setLength)
         } else if (idName == "monthly") {
-          window.lineChart.data.datasets[0].data = yearlyDataset.slice(setLength-30, setLength)
+          window.lineChart.data.datasets[0].data = yearlyDataset.slice(setLength - 30, setLength)
         } else {
           window.lineChart.data.datasets[0].data = yearlyDataset
         }
@@ -269,42 +277,46 @@ $(document).ready(function() {
   var linechart;
   $('.dropdown-toggle').dropdown()
 
-  $('.nav-link').on('click', function() {
+  $('.nav-link').on('click', function () {
     $('.nav-link').removeClass('active');
     $(this).addClass('active');
-    
-    if($(this).attr('id') == "weekly") {
+
+    var range = $(this).attr('id');
+
+    updatePortfolioChange(range);
+
+    if (range == "weekly") {
       $('[data-chart]').each(function () {
         var labels = $(this).data().weeklylabels;
         var n = $(this).data().yearlydataset[0].length
         var lastSelected = localStorage.getItem('currency');
         window.lineChart.data.labels = labels;
         if (lastSelected && lastSelected != "USD") {
-          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(n-7, n)
+          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(n - 7, n)
         } else {
-          window.lineChart.data.datasets[0].data = $(this).data().yearlydataset[0].slice(n-7, n)
+          window.lineChart.data.datasets[0].data = $(this).data().yearlydataset[0].slice(n - 7, n)
         }
-        
+
         window.lineChart.update();
       });
     }
 
-    if($(this).attr('id') == "monthly") {
+    if (range == "monthly") {
       $('[data-chart]').each(function () {
         var labels = $(this).data().monthlylabels;
         var n = $(this).data().yearlydataset[0].length
         var lastSelected = localStorage.getItem('currency');
         window.lineChart.data.labels = labels;
         if (lastSelected && lastSelected != "USD") {
-          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(n-30, n)
+          window.lineChart.data.datasets[0].data = dataSetinLastSelectedCurrency.slice(n - 30, n)
         } else {
-          window.lineChart.data.datasets[0].data = $(this).data().yearlydataset[0].slice(n-30, n)
+          window.lineChart.data.datasets[0].data = $(this).data().yearlydataset[0].slice(n - 30, n)
         }
         window.lineChart.update();
       });
     }
 
-    if($(this).attr('id') == "yearly") {
+    if (range == "yearly") {
       $('[data-chart]').each(function () {
         var labels = $(this).data().yearlylabels;
         var lastSelected = localStorage.getItem('currency');
@@ -324,18 +336,18 @@ $(document).ready(function() {
       $('[data-chart]').each(function () {
         var originalLineController = Chart.controllers.line;
         Chart.controllers.line = Chart.controllers.line.extend({
-          
-          draw: function(ease) {
+
+          draw: function (ease) {
             originalLineController.prototype.draw.call(this, ease);
 
             var originalShowTooltip = this.showTooltip;
-            
+
             if (this.chart.tooltip._active && this.chart.tooltip._active.length) {
               var activePoint = this.chart.tooltip._active[0],
-                   ctx = this.chart.ctx,
-                   x = activePoint.tooltipPosition().x,
-                   topY = this.chart.scales['y-axis-0'].top,
-                   bottomY = this.chart.scales['y-axis-0'].bottom;
+                ctx = this.chart.ctx,
+                x = activePoint.tooltipPosition().x,
+                topY = this.chart.scales['y-axis-0'].top,
+                bottomY = this.chart.scales['y-axis-0'].bottom;
 
               // draw line
               ctx.save();
@@ -352,22 +364,22 @@ $(document).ready(function() {
         if ($(this).is(':visible') && !$(this).hasClass('js-chart-drawn')) {
           var element = $(this);
           var attrData = $.extend({}, element.data())
-          var data           = attrData.dataset ? eval(attrData.weeklydataset) : []
+          var data = attrData.dataset ? eval(attrData.weeklydataset) : []
           var datasetOptions = attrData.datasetOptions ? eval(attrData.datasetOptions) : []
-          var labels         = attrData.weeklylabels ? eval(attrData.weeklylabels) : {}
-          var options     = attrData.options        ? eval('(' + attrData.options + ')') : {}
-          var isDark         = !!attrData.dark
-          
+          var labels = attrData.weeklylabels ? eval(attrData.weeklylabels) : {}
+          var options = attrData.options ? eval('(' + attrData.options + ')') : {}
+          var isDark = !!attrData.dark
+
           var data = {
-            labels   : labels,
-            datasets : data.map(function (set, i) {
+            labels: labels,
+            datasets: data.map(function (set, i) {
               return $.extend({
                 data: set,
                 fill: true,
                 backgroundColor: 'rgba(255,255,255,.3)',
                 borderColor: '#fff',
                 pointBorderColor: '#fff',
-                lineTension : 0.25,
+                lineTension: 0.25,
                 pointRadius: 0,
                 pointHoverRadius: 0,
                 pointHitRadius: 20
@@ -392,10 +404,10 @@ $(document).ready(function() {
                 ticks: {
                   beginAtZero: false,
                   fontColor: isDark ? '#a2a2a2' : 'rgba(0,0,0,.4)',
-                  fontSize: 14, 
+                  fontSize: 14,
                   stacked: false,
                   steps: 20,
-                }, 
+                },
               }]
             },
             tooltips: {
@@ -403,8 +415,10 @@ $(document).ready(function() {
               intersect: false,
               bodyFontSize: 14,
               callbacks: {
-                title: function () { return "Total" },
-                label: function(tooltipItem, data) {
+                title: function () {
+                  return "Total"
+                },
+                label: function (tooltipItem, data) {
                   var lastSelected = localStorage.getItem('currency');
                   return tooltipItem.xLabel + ": " + currencyNameToSym[lastSelected] + "" + tooltipItem.yLabel.toFixed(2);
                 }
@@ -412,11 +426,11 @@ $(document).ready(function() {
             }
           }, options)
           var ctx = this.getContext("2d");
-          
+
           window.lineChart = new Chart(ctx, {
-              type: 'line', 
-              data: data,
-              options: options
+            type: 'line',
+            data: data,
+            options: options
           });
           $(this).addClass('js-chart-drawn')
         }

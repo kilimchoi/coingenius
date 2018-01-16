@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180111203733) do
+ActiveRecord::Schema.define(version: 20180114125700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -361,5 +361,17 @@ ActiveRecord::Schema.define(version: 20180111203733) do
   add_index "weekly_user_transactions_groups", ["coin_id"], name: "weekly_user_transactions_groups_coin_id_idx"
   add_index "weekly_user_transactions_groups", ["user_id"], name: "weekly_user_transactions_groups_user_id_idx"
   add_index "weekly_user_transactions_groups", ["week_number"], name: "weekly_user_transactions_groups_week_number_idx"
+
+  create_view "statistics_portfolio_totals",  sql_definition: <<-SQL
+      SELECT DISTINCT ON (coins.id) users.id AS user_id,
+      coins.id AS coin_id,
+      max(transactions.transaction_date) AS last_created_at,
+      sum(transactions.amount) AS total_amount
+     FROM ((transactions
+       JOIN users ON ((users.id = transactions.user_id)))
+       LEFT JOIN coins ON ((coins.id = transactions.coin_id)))
+    WHERE (transactions.is_expired = false)
+    GROUP BY users.id, coins.id, transactions.amount, transactions.transaction_date;
+  SQL
 
 end

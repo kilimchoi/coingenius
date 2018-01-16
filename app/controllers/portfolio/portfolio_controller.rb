@@ -2,6 +2,8 @@ class Portfolio::PortfolioController < ApplicationController
   include DatesHelper
   layout :current_layout # on top of the controller
 
+  before_action :prepare_portfolio_changes, only: %i[index]
+
   def current_layout
     current_user ? "application" : "landing_page_application"
   end
@@ -71,5 +73,11 @@ class Portfolio::PortfolioController < ApplicationController
       a << (Time.now - i.hour).strftime("%Y-%m-%d %H:%M%p")
     end
     a
+  end
+
+  def prepare_portfolio_changes
+    @weekly_changes, @monthly_changes, @yearly_changes = Statistics::CollectPortfolioTotalChanges.call(
+      user: current_user
+    ).results.map { |change| "#{change.difference} (#{change.percentage_difference}%)" }
   end
 end

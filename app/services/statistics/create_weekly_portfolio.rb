@@ -24,10 +24,11 @@ module Statistics
         .includes(:coin)
         .recent_by_coin
         .sum do |group|
-          WeeklyUserTransactionsGroups::TotalPrice.new(
-            transactions_group: group,
+          Portfolios::TotalMoneyPrice.calculate(
+            coin: group.coin,
+            total_amount: group.total_amount,
             datetime: datetime
-          ).value
+          )
         end
     end
   end
