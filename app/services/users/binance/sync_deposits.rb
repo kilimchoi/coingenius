@@ -7,7 +7,9 @@ module Users
 
       def call
         deposits.each do |deposit|
-          Users::Binance::CreateTransactionFromDeposit.call(deposit: deposit, user: user)
+          result = Users::Binance::CreateTransactionFromDeposit.call(deposit: deposit, user: user)
+
+          Rails.logger.warn("[#{self.class.name}]: Error - #{result.message}") if result.failure?
         end
       end
 
