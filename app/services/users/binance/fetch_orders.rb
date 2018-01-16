@@ -13,6 +13,8 @@ module Users
         latest_order_id = context.skip_existing ? (::Binance::Order.last&.id || 0) : 0
 
         context.orders = applicable_symbol_pairs.map do |symbol_pair|
+          Rails.logger.debug("#{[self.class.name]}: Fetching User##{user.id} orders for symbol pair #{symbol_pair}")
+
           client.all_orders(symbol: symbol_pair, orderId: latest_order_id)
         end.flatten
       end
