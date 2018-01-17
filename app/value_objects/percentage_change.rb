@@ -1,4 +1,4 @@
-class PercentageChange
+class PercentageChange < BaseValueObject
   attr_reader :previous, :current
 
   def initialize(previous:, current:)

@@ -22,8 +22,15 @@ $(document).ready(function () {
 
   function updatePortfolioChange(range) {
     var changeValue = $(".portfolio-changes-data").data(range);
+    var changeClass = changeValue.startsWith("-") ? "negative-change" : "positive-change";
+    var portfolioChanges = $(".portfolio-changes");
 
-    return $(".portfolio-changes").text(changeValue);
+    portfolioChanges
+      .text(changeValue)
+      .removeClass("negative-change positive-change")
+      .addClass(changeClass);
+
+    return portfolioChanges;
   }
 
   function updateDefaultCurrency(currency) {
@@ -37,6 +44,8 @@ $(document).ready(function () {
       dataType: 'json'
     });
   }
+
+  updatePortfolioChange("weekly");
 
   if (lastSelected) {
     select.value = lastSelected;

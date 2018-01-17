@@ -28,10 +28,7 @@ module Statistics
 
     def call
       context.results = ranges.map do |time|
-        Statistics::CalculatePortfolioTotalChange.call(
-          portfolio_totals: portfolio_totals,
-          time: time
-        )
+        Portfolios::Difference.new(portfolio_totals: portfolio_totals, time: time)
       end
     end
   end
