@@ -64,7 +64,9 @@ module Users
       end
 
       def coin_symbol
-        Coin.pluck(:symbol).find { |symbol| order["symbol"].start_with?(symbol) }
+        symbol = Coin.pluck(:symbol).find { |symbol| order["symbol"].start_with?(symbol) }
+
+        symbol == "BCC" ? "BCH" : symbol
       end
 
       def executed_at
@@ -86,7 +88,9 @@ module Users
       end
 
       def converted_coin_symbol
-        Coin.pluck(:symbol).find { |symbol| order["symbol"].end_with?(symbol) }
+        symbol = Coin.pluck(:symbol).find { |symbol| order["symbol"].end_with?(symbol) }
+
+        symbol == "BCC" ? "BCH" : symbol
       end
 
       def converted_coin_price
