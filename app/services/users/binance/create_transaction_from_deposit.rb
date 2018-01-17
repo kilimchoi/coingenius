@@ -42,7 +42,11 @@ module Users
       end
 
       def coin
-        @coin ||= Coin.find_by(symbol: deposit["asset"])
+        @coin ||= Coin.find_by(symbol: coin_symbol)
+      end
+
+      def coin_symbol
+        deposit["asset"] == "BCC" ? "BCH" : deposit["asset"]
       end
 
       def executed_at
