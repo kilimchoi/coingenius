@@ -12,19 +12,19 @@ module Users
       def call
         latest_order_id = context.skip_existing ? (user.binance_orders.last&.uuid || 0) : 0
 
-        context.orders = applicable_symbol_pairs.map do |symbol_pair|
+        context.orders = applicable_symbol_pairs.flat_map do |symbol_pair|
           Rails.logger.debug("#{[self.class.name]}: Fetching User##{user.id} orders for symbol pair #{symbol_pair}")
 
           client.all_orders(symbol: symbol_pair, orderId: latest_order_id)
-        end.flatten
+        end
       end
 
       private
 
       def applicable_symbol_pairs
-        @applicable_symbol_pairs ||= symbols.map do |symbol|
+        @applicable_symbol_pairs ||= symbols.flat_map do |symbol|
           available_symbol_pairs.select { |symbol_pair| symbol_pair.include?(symbol) }
-        end.flatten.uniq
+        end.uniq
       end
 
       def available_symbol_pairs
