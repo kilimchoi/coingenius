@@ -13,6 +13,7 @@ class User < ApplicationRecord
   has_many :email_subscriptions
   has_many :identities
   has_many :transactions
+  has_many :binance_orders, :class_name => "Binance::Order", through: :transactions
   has_many :weekly_user_transactions_groups
   has_one :user_api_credential, dependent: :destroy
 
