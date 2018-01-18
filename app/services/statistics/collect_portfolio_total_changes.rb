@@ -22,7 +22,7 @@ module Statistics
         1.week.ago,
         1.month.ago,
         1.year.ago
-      ]
+      ].map(&:beginning_of_day)
       context.portfolio_totals = user.portfolio_totals.includes(:coin)
     end
 

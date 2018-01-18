@@ -366,7 +366,7 @@ ActiveRecord::Schema.define(version: 20180114125700) do
       SELECT DISTINCT ON (coins.id) users.id AS user_id,
       coins.id AS coin_id,
       max(transactions.transaction_date) AS last_created_at,
-      sum(transactions.amount) AS total_amount
+      sum(transactions.amount) OVER (PARTITION BY users.id, coins.id) AS total_amount
      FROM ((transactions
        JOIN users ON ((users.id = transactions.user_id)))
        LEFT JOIN coins ON ((coins.id = transactions.coin_id)))
