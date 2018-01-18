@@ -90,9 +90,9 @@
               | Add
             .dropdown-menu.dropdown-menu-right.coin-button
               = link_to "Manually", new_portfolio_transaction_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "dropdown-item"}
-              = link_to "From Coinbase", 
+              = link_to "Import from Coinbase",
               user_coinbase_omniauth_authorize_path,  class:"dropdown-item"
               = link_to "Import from Binance",
                       new_binance_integration_path, { remote: true, "data-toggle": "modal", "data-target": "#binance-modal-window", "data-animation": "false", "data-turbolinks": "false", class: "dropdown-item" }
-              = link_to "From Bittrex", 
+              = link_to "Import from Bittrex",
               new_bittrex_integration_path, {:remote => true, "data-toggle" =>  "modal", "data-target" => "#bittrex-modal-window", "data-animation" => "false", "data-turbolinks": "false", class: "dropdown-item"}
