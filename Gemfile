@@ -23,7 +23,7 @@ gem "mandrill_mailer"
 gem "meta-tags"
 gem "mini_racer", platforms: :ruby
 gem "omniauth-coinbase", git: "https://github.com/kilimchoi/omniauth-coinbase.git"
-gem "puma", "~> 3.10"
+gem "puma", "~> 5.5"
 gem "rails-jquery-autocomplete"
 gem "react_on_rails", "10.0.2"
 gem "redis", "~> 3.2"
